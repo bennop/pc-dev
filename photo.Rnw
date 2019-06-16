@@ -1,0 +1,127 @@
+% -*- LaTeX -*-
+\documentclass[12pt]{scrartcl}
+%\usepackage{geometry} % see geometry.pdf on how to lay out the page. There's lots.
+% \geometry{landscape} % rotated page geometry
+
+% See the ``Article customise'' template for come common customisations
+%% LaTeX - Article customise
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfigure} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+%% LaTeX Preamble - Common packages
+
+\usepackage[utf8]{inputenc} % Any characters can be typed directly from the keyboard, eg éçñ
+\usepackage{textcomp} % provide lots of new symbols
+\usepackage{graphicx}  % Add graphics capabilities
+\usepackage{xcolor}
+
+%\usepackage{epstopdf} % to include .eps graphics files with pdfLaTeX
+\usepackage{flafter}  % Don't place floats before their definition
+%\usepackage{topcapt}   % Define \topcation for placing captions above tables (not in gwTeX)
+\usepackage{natbib} % use author/date bibliographic citations
+
+\usepackage{amsmath,amssymb}  % Better maths support & more symbols
+\usepackage{bm}  % Define \bm{} to use bold math fonts
+\usepackage[pdftex,bookmarks,colorlinks,breaklinks]{hyperref}  % PDF hyperlinks, with coloured links
+\definecolor{dullmagenta}{rgb}{0.4,0,0.4}   % #660066
+\definecolor{darkblue}{rgb}{0,0,0.4}
+\hypersetup{linkcolor=red,citecolor=blue,filecolor=dullmagenta,urlcolor=darkblue} % coloured links
+%\hypersetup{linkcolor=black,citecolor=black,filecolor=black,urlcolor=black} % black links, for printed output
+
+%\usepackage{memhfixc}  % remove conflict between the memoir class & hyperref
+% \usepackage[activate]{pdfcprot}  % Turn on margin kerning (not in gwTeX)
+\usepackage{pdfsync}  % enable tex source and pdf output syncronicity
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letter or a5paper or ... etc
+%\geometry{margins=2in} % for example, change the margins to 2 inches all round
+%\geometry{landscape} % set up the page for landscape
+% read geometry.pdf for detailed page layout information
+
+%%% HEADERS & FOOTERS
+%\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+%\pagestyle{fancy} % options: empty , plain , fancy
+%\renewcommand{\headrulewidth}{0pt} % customise the layout...
+%\lhead{}\chead{}\rhead{}
+%\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC APPEARANCE
+%\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+%\usepackage[titles]{tocloft} % Alter the style of the Table of Contents
+%\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+%\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+%% END Article customise
+
+\newcommand{\COC}{\ensuremath{\mathit{COC}}}
+\newcommand{\Fref}[1]{Fig.~\ref{#1}}
+\title{Photographic Calculations}
+\author{Benno Pütz}
+\date{} % delete this line to display the current date
+
+<<<init, echo = FALSE>>=
+source('photo.R')
+@
+%%% BEGIN DOCUMENT
+\begin{document}
+
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{Focus}
+\label{sec:focus}
+
+
+\subsection{Circle of Confusion}
+\label{sec:coc}
+For the my current cameras the COC is
+\begin{table}[htp]
+\begin{center}
+\begin{tabular}{lr}
+Model & COC [$\mu$m]       \\
+\hline
+5D IV & 30\hphantom{.0000} \\
+6D    & 30\hphantom{.0000} \\
+7D    & 18.5960            \\
+\end{tabular}
+ \caption{Circle of confusion}
+\end{center}
+\label{tab:coc}
+\end{table}%
+
+\section{Depth of Field}
+\label{sec:dof}
+
+
+\section{Hyperfocal Distance}
+\label{sec:hyperfocal-distance}
+
+\begin{equation}
+  \label{eq:HFD}
+  H = \frac{f^2}{F\,\COC}
+\end{equation}
+where $f$ refers to the focal length of the lens, $F$ to the
+aperture, and \COC\ to the acceptable circle of confusion. 
+
+For a full format sensor the hyperfocal distances can be read from
+\Fref{fig:HFDfull}, for (Canon) APC sensors from \Fref{fig:HFDapc}.
+<<HFDfull, echo = FALSE, fig.cap = 'Full format sensor'>>=
+Hyperfocal.plot()
+@
+<<HFDapc, echo = FALSE, fig.cap = 'Canon APC sensor'>>=
+Hyperfocal.plot(COC=0.03/1.6)
+@
+
+\end{document}
