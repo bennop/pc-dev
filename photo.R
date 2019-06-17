@@ -47,7 +47,16 @@ full.nf.plot <- function(f, F0, Fn, ...){
     }
 
 }
-
+f.values <- function(by=1){
+    Fseq <- c(1.0, 1.1,1.2, 1.4, 1.6, 1.8,
+              2, 2.2,2.5, 2.8, 3.2,3.5,
+              4, 4.5, 5, 5.6, 6.3, 7.1,
+              8, 9.0, 10,11,13,14,
+              16, 18,20,22,25,28,
+              32,36,40,44,50,56,
+              64)
+    return(Fseq[seq(1,length(Fseq), by=by)])
+}
 
 HFD.plot <- function(f,
                      F0  = 1,
@@ -81,14 +90,21 @@ HFD.plot <- function(f,
 }
 
 Hyperfocal.plot <- function(...){
-    lenses <- cbind(f=c(400,200,100,85,70,50,24,17),
-                    F=c(5.6,2.8,4,1.2,2.8,2.5,2.8,4))
+    lenses <- cbind(f=c(400,200,100,85,70,50,24,17,8),
+                    F=c(5.6,2.8,4,1.2,2.8,1.4,2.8,4,4))
     n <- nrow(lenses)
     cols <- rainbow(n, end = 0.6)
     for(i in 1:n){
         HFD.plot(lenses[i,1], lenses[i,2], col = cols[i], ..., add = i>1)
     }
-    grid()
+    abline(h=as.vector(outer(c(1,2,5), 10^seq(0, ceiling(log10(par('usr')[4]))))),
+           col = "lightgray",
+           lty = "dotted",
+           lwd = par("lwd"))
+    abline(v=f.values(6),
+           col = "lightgray",
+           lty = "dotted",
+           lwd = par("lwd"))
     legend('bottomleft', legend = rev(lenses[,1]), pch='+', col = rev(cols),
            bg='white', box.col = NA)
     box()
