@@ -86,32 +86,38 @@ source('photo.R')
 
 \subsection{Circle of Confusion}
 \label{sec:coc}
+(see
+\href{https://en.wikipedia.org/wiki/Circle_of_confusion}{Wikipedia})
+
+The CoC describes the blurring of a point source on the sensor. How
+big a CoC is acceptable depends on  the desired resolution.
 For the my current cameras the COC is
 \begin{table}[htp]
 \begin{center}
-\begin{tabular}{lr}
-Model & COC [$\mu$m]       \\
+\begin{tabular}{lrrrrrr}
+Model     & \multicolumn{2}{c}{Sensor size [mm]} & \multicolumn{2}{c}{Pixels} & Pix size [$\mu$m] & COC [$\mu$m] \\
 \hline
-5D IV & 30\hphantom{.0000} \\
-6D    & 30\hphantom{.0000} \\
-7D    & 18.5960            \\
+5D IV  & 24 & 36 & 4420 & 6720 & 5.357 & 30\hphantom{.0000} \\
+6D     & 24 & 36 & 3648 & 5472 & 6.579 & 30\hphantom{.0000}                                     \\
+7D     & 24 & 36 & 3456 & 5184 & 4.34\hphantom{0}  & 18.5960                                                \\
 \end{tabular}
- \caption{Circle of confusion}
+ \caption{Sensor parameters}
 \end{center}
 \label{tab:coc}
 \end{table}%
 
-\section{Depth of Field}
-\label{sec:dof}
 
 
-\section{Hyperfocal Distance}
+\subsection{Hyperfocal Distance}
 \label{sec:hyperfocal-distance}
 
-\begin{equation}
+The hyperfocal distance depends on focal length, aperture, and the
+desired resolution (COC)
+\begin{eqnarray}
   \label{eq:HFD}
-  H = \frac{f^2}{F\,\COC}
-\end{equation}
+  H &=& \frac{f^2}{F\,\COC} + f\\
+   & \stackrel{d>>f}{\approx} &  \frac{f^2}{F\,\COC}
+\end{eqnarray}
 where $f$ refers to the focal length of the lens, $F$ to the
 aperture, and \COC\ to the acceptable circle of confusion. 
 
@@ -123,5 +129,51 @@ Hyperfocal.plot()
 <<HFDapc, echo = FALSE, fig.cap = 'Canon APC sensor'>>=
 Hyperfocal.plot(COC=0.03/1.6)
 @
+\clearpage
+\subsection{Depth of Field}
+\label{sec:dof}
+(see
+\href{https://www.largeformatphotography.info/articles/IntroToDoF.pdf}{DOF.pdf})
+
+Given the set focus distance, near ($d_\mathrm{near}$) and far ($d_\mathrm{far}$) focus limits (being of
+acceptable sharpness) can be calulated by
+\begin{equation}
+  \label{eq:near-far-focus}
+  d_\mathrm{near/far}  = \frac{H \,
+    d}{H \pm (d - f)}
+\end{equation}
+where $d$ is the focussing distance in mm.
+
+<<nearfar85, echo = FALSE, fig.cap = 'Full format sensor',warning=FALSE,results='hide'>>=
+full.nf.plot(85,1.2,max=100, log='xy')
+@
+
+For an 85\,mm lens the two distances are shown with respect to
+focussing distance and aperture in \Fref{fig:nearfar85}. The
+corresponding depth of field ($d_\mathrm{far} - d_\mathrm{near}$) is shown in \Fref{fig:dof85}.
+
+
+<<dof85, echo = FALSE, fig.cap = 'Canon APC sensor',warning=FALSE,results='hide'>>=
+full.dof.plot(85, 1.2, log='xy',  y.e=15)
+@
+
+\subsection{Setting Depth}
+\label{sec:setting-depth}
+
+To achieve DOF between two distances $d_\mathrm{near}$ and
+$d_\mathrm{far}$, adjust focussing distance and aperture to the values
+given by
+\begin{eqnarray}
+  \label{eq:setdof}
+  d & = &
+          \frac{2d_\mathrm{near}d_\mathrm{far}}{d_\mathrm{near}+d_\mathrm{far}}
+  \\
+  F & = & \frac{f^2}{\COC}\frac{d_\mathrm{far} -
+          d_\mathrm{near}}{d_\mathrm{far}(d_\mathrm{near} - f) +
+          d_\mathrm{near}(d_\mathrm{far} - f)}\\
+  & \stackrel{d>>f}{\approx} & \frac{f^2}{\COC}\frac{d_\mathrm{far} -
+          d_\mathrm{near}}{2d_\mathrm{far}d_\mathrm{near}}
+\end{eqnarray}
+
 
 \end{document}

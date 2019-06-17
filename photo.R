@@ -3,36 +3,55 @@
 # d: distance (set on lens)      [m]
 # COC: circle of confusion       [mm]
 
+# Standard F stops
+#
+f.values <- function(by=1){
+    Fseq <- c( 1.0,  1.1,  1.2,  1.4,  1.6,  1.8,
+               2.0,  2.2,  2.5,  2.8,  3.2,  3.5,
+               4.0,  4.5,  5.0,  5.6,  6.3,  7.1,
+               8.0,  9.0, 10.0, 11.0, 13.0, 14.0,
+              16.0, 18.0, 20.0, 22.0, 25.0, 28.0,
+              32.0, 36.0, 40.0, 44.0, 50.0, 56.0,
+              64.0)
+    return(Fseq[seq(1,length(Fseq), by=by)])
+}
+
 # Depth of Field (DOF)
 dof <- function(d,                   # [m]
                 f   = 85,            # [mm]
                 F   = 1.2,
-                COC = 0.03,
-                verbose = getOption('verbose')){         # [mm]
-    H <- f^2/(F*COC)
-    dmm <- d*1000
-    n <- H*dmm
-    dd <- dmm - f
-    near <- n/(H+dd)
+                COC = 0.03,          # [mm]
+                verbose = getOption('verbose')){
+    H <- HFD(f, F, COC) * 1000          # convert to [mm]
+    dmm <- d * 1000                  # convert to [mm]
+    n <- H*d                         #  [m * mm] here
+    dd <- dmm - f                    #  [mm]
+    near <- n/(H+dd)                 # back to [m]
     far <- n/(H-dd)
-    if(far<0) far <- Inf   # beyond hyperfocal distance, -> Inf
+    if(far<0) far <- Inf             # beyond hyperfocal distance, -> Inf
     if(verbose){
         cat(sprintf("%f - %f - %f\n",
-                    round(near/1000,4),
-                    round((far-near)/1000,4),
-                    round(far/1000,4)))
+                    round(near,4),
+                    round((far-near),4),
+                    round(far,4)))
     }
-    return(c(near,far)/1000)
+    return(c(near,far))
 }
 
 # near/far focus
-get.nf <- function(f, F, min=1, max=100, COC = 0.03, ...){
+#
+get.nf <- function(f,
+                   F,
+                   min=1,
+                   max=100,
+                   COC = 0.03,
+                   ...){
     H <- HFD(f, F, COC)
     #x <- as.vector(outer(c(1,1.2,1.5,1.7,2,2.5,3,4,5,6,7,8,9), 10^seq(0, ceiling(log10(max)))))
     x <- min:max
     nf <- data.frame(x, t(sapply(x, FUN=dof, f=f, F=F, COC=COC)))
-    if(max>H/1000){
-        cat(sprintf("HFD(%dmm,%2g): %.2fm\n",f, F, H/1000))
+    if(max>H){
+        cat(sprintf("HFD(%dmm,%2g): %.2fm\n",f, F, H))
     }
     dimnames(nf) <- list(x,
                          c('dist', 'near', 'far'))
@@ -60,19 +79,21 @@ get.all.nf <- function(f, F0, Fn=22, ...){
 
 plot.nf <- function(nf, f=NULL, add = FALSE, ...){
     if (!add){
-        plot(c(0, max(nf[,1])),
-             c(0, min(max(nf[,3]), 4*max(nf[,1]) )),
+        plot(c(min(nf[,1]), max(nf[,1])),
+             c(min(nf[,3]), min(max(nf[,3]), 4*max(nf[,1]) )),
              type = 'n',
              xlab = 'Focus Distance',
              ylab = 'Focus Range',
-             main = sprintf('Near and far focusing limits [f=%dmm]', f))
+             main = sprintf('Near and far focusing limits [f=%dmm]', f),
+             las  = 1,
+             ...)
         lines(nf[,1], nf[,1], lty = 2, col  = 'lightgray')
     }
     lines(nf[,1], nf[,2], ...)
     lines(nf[,1], nf[,3], ...)
 }
 
-full.nf.plot <- function(f, F0, Fn=22, maxfr=NULL, ...){
+full.nf.plot <- function(f, F0, Fn=22, ..., maxfr=NULL){
     #Fseq <- c(1.0, 1.2, 1.4, 1.6, 1.8, 2, 2.5, 2.8, 3.5, 4, 4.5, 5, 5.6, 6.3, 7.1, 8,
     #)
     Fseq <- c(1.0, 1.4,  2,  2.8, 4, 5.6, 8, 11, 16, 22, 32)
@@ -85,8 +106,15 @@ full.nf.plot <- function(f, F0, Fn=22, maxfr=NULL, ...){
     new <- TRUE
     for (i in c(max(sq),sq)){
         plot.nf(all.nf[,,i], f=f, add = !new, ..., col = cols[i])
-        if(new) grid()
-        new <- FALSE
+        if(new) {
+            grid()
+            pu4 <- par('usr')[4]
+            new <- FALSE
+        }
+        H <- HFD(f,Fs[i], ...)
+        #if(max(all.nf[,4,i])>ifelse(par('ylog'),10^pu4, pu4)){
+        rug(H, ticksize = -0.02, side = 3, col = cols[i], lwd = 1)
+        #}
     }
     legend('topleft',
            legend = dimnames(all.nf)[[3]],
@@ -97,26 +125,69 @@ full.nf.plot <- function(f, F0, Fn=22, maxfr=NULL, ...){
     return(invisible(all.nf))
 }
 
-f.values <- function(by=1){
-    Fseq <- c(1.0, 1.1,1.2, 1.4, 1.6, 1.8,
-              2, 2.2,2.5, 2.8, 3.2,3.5,
-              4, 4.5, 5, 5.6, 6.3, 7.1,
-              8, 9.0, 10,11,13,14,
-              16, 18,20,22,25,28,
-              32,36,40,44,50,56,
-              64)
-    return(Fseq[seq(1,length(Fseq), by=by)])
+# DOF plots
+#
+dof.plot <- function(nf, f, add = FALSE, y.ext = 1, ...){
+    if (!add){
+        plot(c(min(nf[,1]), max(nf[,1])),
+             c(min(nf[,4]), min(max(nf[,4])* y.ext, 4* max(nf[,1]))),
+             type = 'n',
+             xlab = 'Focus Distance [m]',
+             ylab = 'Depth [m]',
+             main = sprintf('Depth of Field [f=%dmm]', f),
+             las = 1,
+             ...)
+
+    }
+    lines(nf[,1], nf[,4], ...)
 }
+
+
+full.dof.plot <- function(f, F0, Fn=22, maxfr=NULL, y.ext = 1, ...){
+    #Fseq <- c(1.0, 1.2, 1.4, 1.6, 1.8, 2, 2.5, 2.8, 3.5, 4, 4.5, 5, 5.6, 6.3, 7.1, 8,
+    #)
+    Fseq <- c(1.0, 1.4,  2,  2.8, 4, 5.6, 8, 11, 16, 22, 32)
+    Fs <- unique(sort(c(F0, Fn, Fseq)))
+    Fs <- Fs[Fs >= F0 & Fs <= Fn]
+    sq <- seq_along(Fs)
+    cols <- rainbow(length(sq), end = 0.6)
+    all.nf <- get.all.nf(f, F0, Fn=22, ...)
+
+    new <- TRUE
+    for (i in sq){
+        dof.plot(all.nf[,,i], f=f, add = !new, y.ext = y.ext, ..., col = cols[i])
+        if(new) {
+            grid()
+            pu4 <- par('usr')[4]
+            new <- FALSE
+        }
+        H <- HFD(f,Fs[i], ...)
+        #if(max(all.nf[,4,i])>ifelse(par('ylog'),10^pu4, pu4)){
+        rug(H, ticksize = -0.02, side = 3, col = cols[i], lwd = 1)
+        #}
+    }
+    legend('topleft',
+           legend = dimnames(all.nf)[[3]],
+           title = "F",
+           lwd = 1,
+           col = cols,
+           bg="#FFFFFFa0")
+    return(invisible(all.nf))
+}
+
 
 # Hyperfocal distance
 #
-HFD <- function(f, F, COC = 0.03){
-    return(f^2/(F*COC))  # [mm]!
+HFD <- function(f,
+                F,
+                COC = 0.03,
+                ...){
+    return((f^2/(F*COC) + f)/1000)  # convert to [m] !
 }
 
-HFD.plot <- function(f,
+HFD.plot <- function(f,           # [mm]
                      F0  = 1,
-                     COC = 0.03,
+                     COC = 0.03,  # [mm]
                      add = FALSE,
                      ...){
     Fseq <- c(1.0, 1.1,1.2, 1.4, 1.6, 1.8, 2, 2.2,2.5, 2.8, 3.2,3.5,
@@ -129,13 +200,13 @@ HFD.plot <- function(f,
     H <- HFD(f, useF, COC)
 
     if(add){
-        points(useF, H/1000,
+        points(useF, H,
                pch = pc[use],
                cex = 2,
                ...)
     } else {
-        max.H.m <- max(H)/1000
-        plot(useF, H/1000, log='xy',
+        max.H.m <- max(H)
+        plot(useF, H, log='xy',
              pch = pc[use],
              cex = 2,
              xlim = range(Fseq),
