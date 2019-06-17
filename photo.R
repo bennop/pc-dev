@@ -134,11 +134,12 @@ HFD.plot <- function(f,
                cex = 2,
                ...)
     } else {
+        max.H.m <- max(H)/1000
         plot(useF, H/1000, log='xy',
              pch = pc[use],
              cex = 2,
              xlim = range(Fseq),
-             ylim = c(0.5, max(H)/1000),
+             ylim = c(0.5, max.H.m),
              main = 'Hyperfocal Distance',
              xlab = 'Aperture',
              ylab = 'HD [m]',
@@ -153,7 +154,7 @@ HFD.plot <- function(f,
                col = "lightgray",
                lty = "dotted",
                lwd = par("lwd"))
-        d.lab <- as.vector(outer(c(1,2,5), 10^seq(0, ceiling(log10(par('usr')[4])))))
+        d.lab <- as.vector(outer(c(1,2,5), 10^seq(0, ceiling(log10(max.H.m)))))
         axis(2, at = d.lab, labels = d.lab, las =1)
         abline(h = d.lab,
                col = "lightgray",
