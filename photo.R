@@ -122,7 +122,8 @@ HFD.plot <- function(f,
     Fseq <- c(1.0, 1.1,1.2, 1.4, 1.6, 1.8, 2, 2.2,2.5, 2.8, 3.2,3.5,
               4, 4.5, 5, 5.6, 6.3, 7.1, 8,
               9.0, 10,11,13,14,16,18,20,22,25,28,32)
-    pc <- rep(c('+','.','.'), length = length(Fseq))
+    pc <- rep(c('+','.','.'),
+              length = length(Fseq))
     use <- Fseq>=F0
     useF <- Fseq[use]
     H <- HFD(f, useF, COC)
@@ -137,11 +138,27 @@ HFD.plot <- function(f,
              pch = pc[use],
              cex = 2,
              xlim = range(Fseq),
-             ylim = c(1, max(H)/1000),
+             ylim = c(0.5, max(H)/1000),
              main = 'Hyperfocal Distance',
              xlab = 'Aperture',
              ylab = 'HD [m]',
+             las = 1,
+             axes = FALSE,
              ...)
+        pow.2 <- 2^(0:7)
+        axis(1,at = pow.2, labels = pow.2)
+        axis(1,at = pow.2*1.4, labels = sprintf("%.2g", pow.2*1.4), lwd = 0.5, cex.axis = 0.6)
+
+        abline(v = pow.2,
+               col = "lightgray",
+               lty = "dotted",
+               lwd = par("lwd"))
+        d.lab <- as.vector(outer(c(1,2,5), 10^seq(0, ceiling(log10(par('usr')[4])))))
+        axis(2, at = d.lab, labels = d.lab, las =1)
+        abline(h = d.lab,
+               col = "lightgray",
+               lty = "dotted",
+               lwd = par("lwd"))
     }
 }
 
@@ -149,20 +166,23 @@ Hyperfocal.plot <- function(...){
     lenses <- cbind(f=c(400,200,100,85,70,50,24,17,8),
                     F=c(5.6,2.8,4,1.2,2.8,1.4,2.8,4,4))
     n <- nrow(lenses)
+    f.lengths <- rev(lenses[,1])
+    nfl <- nchar(f.lengths)
+    max.nfl <- max(nfl)
+    fills <- sapply(nfl, function(i)substr('        ', 1, 2*(max.nfl - (i-1))))
+    fl.str <- paste0(fills, f.lengths)
     cols <- rainbow(n, end = 0.6)
     for(i in 1:n){
         HFD.plot(lenses[i,1], lenses[i,2], col = cols[i], ..., add = i>1)
     }
-    abline(h=as.vector(outer(c(1,2,5), 10^seq(0, ceiling(log10(par('usr')[4]))))),
-           col = "lightgray",
-           lty = "dotted",
-           lwd = par("lwd"))
-    abline(v=f.values(6),
-           col = "lightgray",
-           lty = "dotted",
-           lwd = par("lwd"))
-    legend('bottomleft', legend = rev(lenses[,1]), pch='+', col = rev(cols),
-           bg='white', box.col = NA)
+    legend('bottomleft',
+           legend = fl.str,
+           adj=c(0,0.5),
+           title = "f [mm]",
+           pch='+',
+           col = rev(cols),
+           bg='white',
+           box.col = NA)
     box()
 }
 
