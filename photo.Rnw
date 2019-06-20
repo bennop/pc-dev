@@ -116,7 +116,7 @@ desired resolution (COC)
 \begin{eqnarray}
   \label{eq:HFD}
   H &=& \frac{f^2}{F\,\COC} + f\\
-   & \stackrel{d>>f}{\approx} &  \frac{f^2}{F\,\COC}
+   & \stackrel{d\gg f}{\approx} &  \frac{f^2}{F\,\COC}
 \end{eqnarray}
 where $f$ refers to the focal length of the lens, $F$ to the
 aperture, and \COC\ to the acceptable circle of confusion. 
@@ -165,13 +165,14 @@ $d_\mathrm{far}$, adjust focussing distance and aperture to the values
 given by
 \begin{eqnarray}
   \label{eq:setdof}
-  d & = &
-          \frac{2d_\mathrm{near}d_\mathrm{far}}{d_\mathrm{near}+d_\mathrm{far}}
-  \\
-  F & = & \frac{f^2}{\COC}\frac{d_\mathrm{far} -
+  d & = & \frac{1}{2}\cdot\frac{1}{\frac{1}{d_\mathrm{near}} +
+          \frac{1}{d_\mathrm{far}}}            \\
+    & = & \frac{2d_\mathrm{near}d_\mathrm{far}}{d_\mathrm{near}+d_\mathrm{far}}
+                                               \\
+  F & = & \frac{f^2}{\COC}\cdot\frac{d_\mathrm{far} -
           d_\mathrm{near}}{d_\mathrm{far}(d_\mathrm{near} - f) +
-          d_\mathrm{near}(d_\mathrm{far} - f)}\\
-  & \stackrel{d>>f}{\approx} & \frac{f^2}{\COC}\frac{d_\mathrm{far} -
+          d_\mathrm{near}(d_\mathrm{far} - f)} \\
+    & \stackrel{d\gg f}{\approx} & \frac{f^2}{\COC}\cdot\frac{d_\mathrm{far} -
           d_\mathrm{near}}{2d_\mathrm{far}d_\mathrm{near}}
 \end{eqnarray}
 
