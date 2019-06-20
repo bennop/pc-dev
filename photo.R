@@ -5,7 +5,9 @@
 
 # Standard F stops
 #
-f.values <- function(by=1){
+f.values <- function(from = 1.0,
+                     to   = 22,
+                     by   = 1){
     Fseq <- c( 1.0,  1.1,  1.2,  1.4,  1.6,  1.8,
                2.0,  2.2,  2.5,  2.8,  3.2,  3.5,
                4.0,  4.5,  5.0,  5.6,  6.3,  7.1,
@@ -13,7 +15,11 @@ f.values <- function(by=1){
               16.0, 18.0, 20.0, 22.0, 25.0, 28.0,
               32.0, 36.0, 40.0, 44.0, 50.0, 56.0,
               64.0)
-    return(Fseq[seq(1,length(Fseq), by=by)])
+    fs.by <- Fseq[seq(1,length(Fseq), by=by)]
+
+    fss <- unique(sort(c(from, to, fs.by)))
+
+    return(fss[fss >= from & fss <= to])
 }
 
 # Depth of Field (DOF)
@@ -22,12 +28,12 @@ dof <- function(d,                   # [m]
                 F   = 1.2,
                 COC = 0.03,          # [mm]
                 verbose = getOption('verbose')){
-    H <- HFD(f, F, COC) * 1000          # convert to [mm]
+    H <- HFD(f, F, COC) * 1000       # convert to [mm]
     dmm <- d * 1000                  # convert to [mm]
-    n <- H*d                         #  [m * mm] here
+    n <- H * d                       #  [m * mm] here
     dd <- dmm - f                    #  [mm]
     near <- n/(H+dd)                 # back to [m]
-    far <- n/(H-dd)
+    far  <- n/(H-dd)
     if(far<0) far <- Inf             # beyond hyperfocal distance, -> Inf
     if(verbose){
         cat(sprintf("%f - %f - %f\n",
@@ -42,12 +48,11 @@ dof <- function(d,                   # [m]
 #
 get.nf <- function(f,
                    F,
-                   min=1,
-                   max=100,
+                   min = 1,
+                   max = 100,
                    COC = 0.03,
                    ...){
     H <- HFD(f, F, COC)
-    #x <- as.vector(outer(c(1,1.2,1.5,1.7,2,2.5,3,4,5,6,7,8,9), 10^seq(0, ceiling(log10(max)))))
     x <- min:max
     nf <- data.frame(x, t(sapply(x, FUN=dof, f=f, F=F, COC=COC)))
     if(max>H){
@@ -56,16 +61,12 @@ get.nf <- function(f,
     dimnames(nf) <- list(x,
                          c('dist', 'near', 'far'))
     nf <- within(nf,
-                 range <-  far-near)
-    return(nf[nf[,1]<=max,])
+                 range <- far-near)
+    return(nf[nf[,1]<=max, ])
 }
 
 get.all.nf <- function(f, F0, Fn=22, ...){
-    #Fseq <- c(1.0, 1.2, 1.4, 1.6, 1.8, 2, 2.5, 2.8, 3.5, 4, 4.5, 5, 5.6, 6.3, 7.1, 8,
-    #)
-    Fseq <- c(1.0, 1.4,  2,  2.8, 4, 5.6, 8, 11, 16, 22, 32, 44, 64)
-    Fs <- unique(sort(c(F0, Fn, Fseq)))
-    Fs <- Fs[Fs >= F0 & Fs <= Fn]
+    Fs <- f.values(F0, Fn, by=3)
     sq <- seq_along(Fs)
     cols <- rainbow(length(sq), end = 0.6)
     all.nf <- sapply(Fs,
@@ -96,16 +97,19 @@ plot.nf <- function(nf, f=NULL, add = FALSE, ...){
 full.nf.plot <- function(f, F0, Fn=22, ..., maxfr=NULL){
     #Fseq <- c(1.0, 1.2, 1.4, 1.6, 1.8, 2, 2.5, 2.8, 3.5, 4, 4.5, 5, 5.6, 6.3, 7.1, 8,
     #)
-    Fseq <- c(1.0, 1.4,  2,  2.8, 4, 5.6, 8, 11, 16, 22, 32)
-    Fs <- unique(sort(c(F0, Fn, Fseq)))
-    Fs <- Fs[Fs >= F0 & Fs <= Fn]
+    Fs <- f.values(F0, Fn)
     sq <- seq_along(Fs)
-    cols <- rainbow(length(sq), end = 0.6)
+    cols <- rainbow(length(sq),
+                    end = 0.6)
     all.nf <- get.all.nf(f, F0, Fn=22, ...)
 
     new <- TRUE
     for (i in c(max(sq),sq)){
-        plot.nf(all.nf[,,i], f=f, add = !new, ..., col = cols[i])
+        plot.nf(all.nf[,,i],
+                f=f,
+                add = !new,
+                ...,
+                col = cols[i])
         if(new) {
             grid()
             pu4 <- par('usr')[4]
@@ -135,7 +139,7 @@ dof.plot <- function(nf, f, add = FALSE, y.ext = 1, ...){
              xlab = 'Focus Distance [m]',
              ylab = 'Depth [m]',
              main = sprintf('Depth of Field [f=%dmm]', f),
-             las = 1,
+             las  = 1,
              ...)
 
     }
@@ -146,12 +150,10 @@ dof.plot <- function(nf, f, add = FALSE, y.ext = 1, ...){
 full.dof.plot <- function(f, F0, Fn=22, maxfr=NULL, y.ext = 1, ...){
     #Fseq <- c(1.0, 1.2, 1.4, 1.6, 1.8, 2, 2.5, 2.8, 3.5, 4, 4.5, 5, 5.6, 6.3, 7.1, 8,
     #)
-    Fseq <- c(1.0, 1.4,  2,  2.8, 4, 5.6, 8, 11, 16, 22, 32)
-    Fs <- unique(sort(c(F0, Fn, Fseq)))
-    Fs <- Fs[Fs >= F0 & Fs <= Fn]
+    Fs <- f.values(F0, Fn, by=3)
     sq <- seq_along(Fs)
     cols <- rainbow(length(sq), end = 0.6)
-    all.nf <- get.all.nf(f, F0, Fn=22, ...)
+    all.nf <- get.all.nf(f, F0, Fn, ...)
 
     new <- TRUE
     for (i in sq){
@@ -206,27 +208,40 @@ HFD.plot <- function(f,           # [mm]
                ...)
     } else {
         max.H.m <- max(H)
-        plot(useF, H, log='xy',
-             pch = pc[use],
-             cex = 2,
+        plot(useF, H,
+             log  ='xy',
+             pch  = pc[use],
+             cex  = 2,
              xlim = range(Fseq),
              ylim = c(0.5, max.H.m),
              main = 'Hyperfocal Distance',
              xlab = 'Aperture',
              ylab = 'HD [m]',
-             las = 1,
+             las  = 1,
              axes = FALSE,
              ...)
         pow.2 <- 2^(0:7)
-        axis(1,at = pow.2, labels = pow.2)
-        axis(1,at = pow.2*1.4, labels = sprintf("%.2g", pow.2*1.4), lwd = 0.5, cex.axis = 0.6)
+        # main ticks
+        axis(1,
+             at = pow.2,
+             labels = pow.2)
+        # minor ticks
+        axis(1,
+             at = pow.2*1.4,
+             labels = sprintf("%.2g", pow.2*1.4),
+             lwd = 0.5,
+             cex.axis = 0.6)
 
         abline(v = pow.2,
                col = "lightgray",
                lty = "dotted",
                lwd = par("lwd"))
-        d.lab <- as.vector(outer(c(1,2,5), 10^seq(0, ceiling(log10(max.H.m)))))
-        axis(2, at = d.lab, labels = d.lab, las =1)
+        d.lab <- as.vector(outer(c(1,2,5),
+                                 10^seq(0, ceiling(log10(max.H.m)))))
+        axis(2,
+             at = d.lab,
+             labels = d.lab,
+             las =1)
         abline(h = d.lab,
                col = "lightgray",
                lty = "dotted",
