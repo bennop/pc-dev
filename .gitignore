@@ -243,3 +243,5 @@ TSWLatexianTemp*
 figure
 photo.pdf
 photo.tex
+.RData
+.Rhistory
