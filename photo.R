@@ -91,17 +91,17 @@ dof <- function(d,
 
 # near/far focus
 #
-##' .. content for \description{} (no empty lines) ..
+##' Get near and far limits for a single aperture (given focal length and CoC)
 ##'
 ##' .. content for \details{} ..
-##' @title
-##' @param f
-##' @param F
-##' @param min
-##' @param max
-##' @param COC
-##' @param ...
-##' @return
+##' @title get near and far limits
+##' @param f focal length of  lens [mm]
+##' @param F aperture
+##' @param min minimum distance
+##' @param max maximum distance
+##' @param COC circle of confusion
+##' @param ... not used
+##' @return dataframe with columns distance, near, far, range
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
 get.nf <- function(f,
                    F,
@@ -111,7 +111,12 @@ get.nf <- function(f,
                    ...){
     H <- HFD(f, F, COC)
     x <- min:max
-    nf <- data.frame(x, t(sapply(x, FUN=dof, f=f, F=F, COC=COC)))
+    nf <- data.frame(x,
+                     t(sapply(x,
+                              FUN = dof,
+                              f   = f,
+                              F   = F,
+                              COC = COC)))
     if(max>H){
         cat(sprintf("HFD(%dmm,%2g): %.2fm\n",f, F, H))
     }
@@ -119,18 +124,18 @@ get.nf <- function(f,
                          c('dist', 'near', 'far'))
     nf <- within(nf,
                  range <- far-near)
-    return(nf[nf[,1]<=max, ])
+    return(nf)
 }
 
-##' .. content for \description{} (no empty lines) ..
+##' Get near and far limits for a set of apertures (given focal length and CoC)
 ##'
 ##' .. content for \details{} ..
-##' @title
-##' @param f
-##' @param F0
-##' @param Fn
-##' @param ...
-##' @return
+##' @title  Get near and far limits
+##' @param f focal length of  lens [mm]
+##' @param F0 starting (maximum) aperture (smallest F number)
+##' @param Fn final (minimum) aperture (largest F number)
+##' @param ... pass to \code{\link{get.all.nf}}x
+##' @return array with slices for aperture and columns distance, near, far, range for each
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
 get.all.nf <- function(f, F0, Fn=22, ...){
     Fs <- f.values(F0, Fn, by=3)
@@ -145,12 +150,12 @@ get.all.nf <- function(f, F0, Fn=22, ...){
     return(all.nf)
 }
 
-##' .. content for \description{} (no empty lines) ..
+##' Plot near and far limits vs. focussing distance for a single aperture
 ##'
 ##' .. content for \details{} ..
-##' @title
+##' @title Near/far plot
 ##' @param nf
-##' @param f
+##' @param f focal length of  lens [mm]
 ##' @param add
 ##' @param ...
 ##' @return
@@ -171,20 +176,18 @@ plot.nf <- function(nf, f=NULL, add = FALSE, ...){
     lines(nf[,1], nf[,3], ...)
 }
 
-##' .. content for \description{} (no empty lines) ..
+##' Plot near and far limits vs. focussing distance for a set of apertures
 ##'
 ##' .. content for \details{} ..
-##' @title
-##' @param f
-##' @param F0
-##' @param Fn
+##' @title Full near/far plot
+##' @param f   focal length of  lens [mm]
+##' @param F0  starting (maximum) aperture (smallest F number)
+##' @param Fn  final (minimum) aperture (largest F number)
 ##' @param ...
-##' @param maxfr
+##' @param maxfr not used
 ##' @return
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
 full.nf.plot <- function(f, F0, Fn=22, ..., maxfr=NULL){
-    #Fseq <- c(1.0, 1.2, 1.4, 1.6, 1.8, 2, 2.5, 2.8, 3.5, 4, 4.5, 5, 5.6, 6.3, 7.1, 8,
-    #)
     Fs <- f.values(F0, Fn, by=3)
     sq <- seq_along(Fs)
     cols <- rainbow(length(sq),
@@ -194,7 +197,7 @@ full.nf.plot <- function(f, F0, Fn=22, ..., maxfr=NULL){
     new <- TRUE
     for (i in c(max(sq),sq)){
         plot.nf(all.nf[,,i],
-                f=f,
+                f   = f,
                 add = !new,
                 ...,
                 col = cols[i])
@@ -203,17 +206,21 @@ full.nf.plot <- function(f, F0, Fn=22, ..., maxfr=NULL){
             pu4 <- par('usr')[4]
             new <- FALSE
         }
-        H <- HFD(f,Fs[i], ...)
+        H <- HFD(f, Fs[i], ...)
         #if(max(all.nf[,4,i])>ifelse(par('ylog'),10^pu4, pu4)){
-        rug(H, ticksize = -0.02, side = 3, col = cols[i], lwd = 1)
+        rug(H,
+            ticksize = -0.02,
+            side     = 3,
+            col      = cols[i],
+            lwd      = 1)
         #}
     }
     legend('topleft',
            legend = dimnames(all.nf)[[3]],
-           title = "F",
-           lwd = 1,
-           col = cols,
-           bg="#FFFFFFa0")
+           title  = "F",
+           lwd    = 1,
+           col    = cols,
+           bg     = "#FFFFFFa0")
     return(invisible(all.nf))
 }
 
@@ -222,10 +229,10 @@ full.nf.plot <- function(f, F0, Fn=22, ..., maxfr=NULL){
 ##' .. content for \description{} (no empty lines) ..
 ##'
 ##' .. content for \details{} ..
-##' @title
+##' @title Single
 ##' @param nf
-##' @param f
-##' @param add
+##' @param f focal length of  lens [mm]
+##' @param add add to  existing plot? Otherwise  set  up plot
 ##' @param y.ext
 ##' @param ...
 ##' @return
@@ -248,57 +255,72 @@ dof.plot <- function(nf, f, add = FALSE, y.ext = 1, ...){
 ##' .. content for \description{} (no empty lines) ..
 ##'
 ##' .. content for \details{} ..
-##' @title
-##' @param f
-##' @param F0
-##' @param Fn
+##' @title  Full DOF plot
+##' @param f focal length of  lens [mm]
+##' @param F0 starting (maximum) aperture (smallest F number)
+##' @param Fn final (minimum) aperture (largest F number)
 ##' @param maxfr
 ##' @param y.ext
-##' @param ...
-##' @return
+##' @param ...  pass to \code{\link{all.nf}}, \code{\link{HFD}}, \code{\link{dof.plot}}
+##' @return invisibly return \code{nf} array (see \code{\link{get.all.nf}})
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
-full.dof.plot <- function(f, F0, Fn=22, maxfr=NULL, y.ext = 1, ...){
-    #Fseq <- c(1.0, 1.2, 1.4, 1.6, 1.8, 2, 2.5, 2.8, 3.5, 4, 4.5, 5, 5.6, 6.3, 7.1, 8,
-    #)
-    Fs <- f.values(F0, Fn, by=3)
+full.dof.plot <- function(f,
+                          F0,
+                          Fn=22,
+                          maxfr=NULL,
+                          y.ext = 1,
+                          ...){
+    Fs <- f.values(F0, Fn, by = 3)      # in full stops
     sq <- seq_along(Fs)
     cols <- rainbow(length(sq), end = 0.6)
     all.nf <- get.all.nf(f, F0, Fn, ...)
 
     new <- TRUE
     for (i in sq){
-        dof.plot(all.nf[,,i], f=f, add = !new, y.ext = y.ext, ..., col = cols[i])
+        dof.plot(all.nf[,,i],
+                 f     = f,
+                 add   = !new,
+                 y.ext = y.ext,
+                 ...,
+                 col   = cols[i])
         if(new) {
             grid()
             pu4 <- par('usr')[4]
             new <- FALSE
         }
+
+        ## if(max(all.nf[,4,i])>ifelse(par('ylog'),10^pu4, pu4)){
+
+        ## add mark on upper edge to indicate HFD
         H <- HFD(f,Fs[i], ...)
-        #if(max(all.nf[,4,i])>ifelse(par('ylog'),10^pu4, pu4)){
-        rug(H, ticksize = -0.02, side = 3, col = cols[i], lwd = 1)
+        rug(H,
+            ticksize = -0.02,
+            side     = 3,
+            col      = cols[i],
+            lwd      = 1)
         #}
     }
     legend('topleft',
            legend = dimnames(all.nf)[[3]],
-           title = "F",
-           lwd = 1,
-           col = cols,
-           bg="#FFFFFFa0")
+           title  = "F",
+           lwd    = 1,
+           col    = cols,
+           bg     = "#FFFFFFa0")        # semitransparent white
     return(invisible(all.nf))
 }
 
 
 ## Hyperfocal distance
 ##
-##' .. content for \description{} (no empty lines) ..
+##' Calculate the hyperfocal distance
 ##'
-##' .. content for \details{} ..
-##' @title
-##' @param f
-##' @param F
+##' For a given focal length  and aperture the hyperfocal distance is the distance where the far focussing limit reaches \eqn{\infty}{infinity}. In other words, it is the shortest focussing distance where infinitely far objects appear focussed. The corresponding near focussing limit is HFD/2.
+##' @title Hyperfocal distance
+##' @param f focal length of  lens [mm]
+##' @param F aperture
 ##' @param COC
 ##' @param ...
-##' @return
+##' @return HFD in [m]
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
 HFD <- function(f,
                 F,
@@ -311,21 +333,19 @@ HFD <- function(f,
 ##'
 ##' .. content for \details{} ..
 ##' @title
-##' @param f
-##' @param ...
-##' @return
+##' @param f focal length of  lens [mm]
+##' @param ... pass to \code{\link{f.values}}, \code{\link{points}}, \code{\link{plot}}
+##' @return none
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
 HFD.plot <- function(f,           # [mm]
                      F0  = 1,
                      COC = 0.03,  # [mm]
                      add = FALSE,
                      ...){
-    Fseq <- c(1.0, 1.1,1.2, 1.4, 1.6, 1.8, 2, 2.2,2.5, 2.8, 3.2,3.5,
-              4, 4.5, 5, 5.6, 6.3, 7.1, 8,
-              9.0, 10,11,13,14,16,18,20,22,25,28,32)
+    Fseq <- f.values(1, ...)            # start at 1 to have the marks consistent
     pc <- rep(c('+','.','.'),
               length = length(Fseq))
-    use <- Fseq>=F0
+    use <- Fseq>=F0                     # subset here
     useF <- Fseq[use]
     H <- HFD(f, useF, COC)
 
@@ -348,29 +368,30 @@ HFD.plot <- function(f,           # [mm]
              las  = 1,
              axes = FALSE,
              ...)
-        pow.2 <- 2^(0:7)
+        pow.2 <- 2^(0:7)                # powers of 2
         # main ticks
         axis(1,
-             at = pow.2,
+             at     = pow.2,
              labels = pow.2)
-        # minor ticks
+        # minor ticks (adjust position of text?)
         axis(1,
-             at = pow.2*1.4,
-             labels = sprintf("%.2g", pow.2*1.4),
-             lwd = 0.5,
+             at       = pow.2*1.4,
+             labels   = sprintf("%.2g", pow.2*1.4),
+             lwd      = 0.5,
              cex.axis = 0.6)
 
-        abline(v = pow.2,
+        abline(v   = pow.2,
                col = "lightgray",
                lty = "dotted",
                lwd = par("lwd"))
+        #
         d.lab <- as.vector(outer(c(1,2,5),
                                  10^seq(0, ceiling(log10(max.H.m)))))
         axis(2,
-             at = d.lab,
+             at     = d.lab,
              labels = d.lab,
-             las =1)
-        abline(h = d.lab,
+             las    = 1)
+        abline(h   = d.lab,
                col = "lightgray",
                lty = "dotted",
                lwd = par("lwd"))
@@ -380,23 +401,31 @@ HFD.plot <- function(f,           # [mm]
 ##' .. content for \description{} (no empty lines) ..
 ##'
 ##' .. content for \details{} ..
-##' @title
-##' @param ...
-##' @return
+##' @title Hyperfocal plot
+##' @param ... passed to \code{\link{HFD.plot}}
+##' @return none
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
 Hyperfocal.plot <- function(...){
-    lenses <- cbind(f = c(400, 200,100,  85,  70,  50,  24, 17, 8),
-                    F = c(5.6, 2.8,  4, 1.2, 2.8, 1.4, 2.8,  4, 4))
-    n <- nrow(lenses)
-    f.lengths <- rev(lenses[,1])
-    nfl <- nchar(f.lengths)
-    max.nfl <- max(nfl)
+    ## list of focal lengths (f) and corresponding maximum apertures (F)
+    ## for some interesting lenses (zoom lenses are treated as two
+    ## lenses with shortest and longest focal length)
+    ##
+    ## this list could be factored out (similar to f.values) to be
+    ## more flexible
+    lenses <- cbind(f = c(400, 200, 100,  85,  70,  50,  24, 17, 8),
+                    F = c(5.6, 2.8,   4, 1.2, 2.8, 1.4, 2.8,  4, 4))
+
+    n <- nrow(lenses)                   # number of lenses
+    f.lengths <- rev(lenses[,1])        # focal lengths
+    nfl <- nchar(f.lengths)             #
+    max.nfl <- max(nfl)                 # max. number of chars in f.len strings
     fills <- sapply(nfl,
                     function(i)substr('        ',
                                       1,
                                       2*(max.nfl - (i-1))))
-    fl.str <- paste0(fills, f.lengths)
-    cols <- rainbow(n,
+    fl.str <- paste0(fills, f.lengths)  # format so that numbers are right
+                                        # aligned in legend
+    cols <- rainbow(n,                  # rainbow colors for different lenses
                     end = 0.6)
     for(i in 1:n){
         HFD.plot(lenses[i,1],
