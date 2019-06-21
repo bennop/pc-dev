@@ -3,6 +3,14 @@
 # d: distance (set on lens)      [m]
 # COC: circle of confusion       [mm]
 
+go <- function(){
+    require (knitr)
+    od <- setwd('~/Work/git/Photo')
+    on.exit(setwd(od))
+    knit('photo.Rnw')
+    system('pdflatex photo')
+}
+
 # Standard F stops
 #
 f.values <- function(from = 1.0,
@@ -97,7 +105,7 @@ plot.nf <- function(nf, f=NULL, add = FALSE, ...){
 full.nf.plot <- function(f, F0, Fn=22, ..., maxfr=NULL){
     #Fseq <- c(1.0, 1.2, 1.4, 1.6, 1.8, 2, 2.5, 2.8, 3.5, 4, 4.5, 5, 5.6, 6.3, 7.1, 8,
     #)
-    Fs <- f.values(F0, Fn)
+    Fs <- f.values(F0, Fn, by=3)
     sq <- seq_along(Fs)
     cols <- rainbow(length(sq),
                     end = 0.6)
