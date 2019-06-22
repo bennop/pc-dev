@@ -61,11 +61,13 @@ go <- function(n        = 1,
 ##' @param from maximum (starting) aperture
 ##' @param to minimum aperture
 ##' @param by stride  in sequence to return, see details
+##' @param ... not used
 ##' @return vector of F-stops
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
 f.values <- function(from = 1.0,
                      to   = 22,
-                     by   =  1){
+                     by   =  1,
+                     ...){
     Fseq <- c( 1.0,  1.1,  1.2,  1.4,  1.6,  1.8,
                2.0,  2.2,  2.5,  2.8,  3.2,  3.5,
                4.0,  4.5,  5.0,  5.6,  6.3,  7.1,
@@ -74,8 +76,8 @@ f.values <- function(from = 1.0,
               32.0, 36.0, 40.0, 44.0, 50.0, 56.0,
               64.0)
     fs.by <- Fseq[seq(1, length(Fseq), by=by)]
-
-    fss <- unique(sort(c(from, to, fs.by)))
+behind
+    fss <- unique(sort(c(from, to, fs.by))) # adding sort allows switching \code{from} and \code{to}
 
     return(fss[fss >= from & fss <= to])
 }
@@ -83,13 +85,13 @@ f.values <- function(from = 1.0,
 
 ##' Depth of Field (DOF)
 ##'
-##' .. content for \details{} ..
-##' @title dof
-##' @param d focussing distance    x[m]
+##' CoC-based calculation of depth of field
+##' @title Depth of field
+##' @param d focussing distance    [m]
 ##' @param f focal length of  lens [mm]
 ##' @param F aperture
 ##' @param COC circle of confusion [mm]
-##' @param verbose
+##' @param verbose if set print near-depth-far
 ##' @return two-element vector with near and far focussing limits [m]
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
 dof <- function(d,
@@ -102,14 +104,17 @@ dof <- function(d,
     n <- H * d                       #  [m * mm] here
     dd <- dmm - f                    #  [mm]
     near <- n/(H+dd)                 # back to [m]
-    far  <- n/(H-dd)
-    if(far<0) far <- Inf             # beyond hyperfocal distance, -> Inf
-    if(verbose){
+    far  <- ifelse(dd>H,
+                   Inf,              # beyond hyperfocal distance, -> Inf
+                   n/(H-dd))
+
+    if(verbose){                     # feedback
         cat(sprintf("%f - %f - %f\n",
-                    round(near,4),
+close,                    round(near,4),
                     round((far-near),4),
                     round(far,4)))
     }
+
     return(c(near,far))
 }
 
@@ -117,7 +122,8 @@ dof <- function(d,
 #
 ##' Get near and far limits for a single aperture (given focal length and CoC)
 ##'
-##' .. content for \details{} ..
+##' Thhe limits are calculated for distances between \code{min} and \code{max}
+##' and returned with range, before, after, and before/after ratio
 ##' @title get near and far limits
 ##' @param f focal length of  lens [mm]
 ##' @param F aperture
@@ -125,7 +131,8 @@ dof <- function(d,
 ##' @param max maximum distance
 ##' @param COC circle of confusion
 ##' @param ... not used
-##' @return dataframe with columns distance, near, far, range
+##' @return dataframe with columns
+##'                    distance, near, far, range, close, behind, ratio
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
 get.nf <- function(f,
                    F,
@@ -147,7 +154,13 @@ get.nf <- function(f,
     dimnames(nf) <- list(x,
                          c('dist', 'near', 'far'))
     nf <- within(nf,
-                 range <- far-near)
+                 {
+                     range <- far-near
+                     close <- x-near
+                     behind <- far - x,
+                     ratio <- close/behind
+                 }
+                 )
     return(nf)
 }
 
