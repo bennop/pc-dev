@@ -6,23 +6,47 @@
 
 ##' Simple knit and typeset
 ##'
-##' simplify typesetting process outside of RStudiox
+##' simplify typesetting process outside of RStudio
 ##' @title go
 ##' @return none
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
 ##' @param n number of LaTeX runs
-##' @param bib run BibTeX? (not yet implemented)
-##' @param index create index? (not yet implemented)
-go <- function(n=1,
-               bib = FALSE,
-               index = FALSE
-               target = 'photo'){
+##' @param bib run BibTeX?                 (not yet implemented)
+##' @param index create index?             (not yet implemented)
+##' @param indexcmd command to create index file
+##' @param base basename of project files
+go <- function(n        = 1,
+               bib      = FALSE,
+               index    = FALSE,
+               latexcmd = 'pdflatex',
+               bibcmd   = 'bibtex',
+               indexcmd = 'makeidx',
+               base     = 'photo',
+               ltx.opts = ''){
     require (knitr)
+    latex <- function(){
+        system(paste(latexcmd, ltx.opts, base))
+    }
     od <- setwd('~/Work/git/Photo')
     on.exit(setwd(od))
-    knit(paste0(target,'.Rnw'))
-    for (i in 1:n){
-        system(paste('pdflatex', target))
+
+    knit(paste0(base,'.Rnw'))
+    latex()
+
+    if(bib){
+        system(paste(bibcmd, base))
+        latex()
+    }
+
+    if(index){
+        system(paste(indexcmd, base))
+        latex()
+    }
+
+    if(!(bib | index)){
+        for (i in 1:(n-1)){
+            system(paste('pdflatex', target))
+        }
     }
 }
 
