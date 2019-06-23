@@ -65,6 +65,10 @@
 
 \newcommand{\COC}{\ensuremath{\mathit{COC}}}
 \newcommand{\Fref}[1]{Fig.~\ref{#1}}
+\newcommand{\Tref}[1]{Tab.~\ref{#1}}
+\newcommand{\Eref}[1]{Eq.~\ref{#1}}
+\newcommand{\Sref}[1]{Sec.~\ref{#1}}
+\newcommand{\mctc}[1]{\multicolumn{2}{c}{#1}}
 \title{Photographic Calculations}
 \author{Benno Pütz}
 \date{} % delete this line to display the current date
@@ -88,20 +92,40 @@ source('photo.R')
 \label{sec:coc}
 (see
 \href{https://en.wikipedia.org/wiki/Circle_of_confusion}{Wikipedia})
-
 The CoC describes the blurring of a point source on the sensor. How
-big a CoC is acceptable depends on  the desired resolution.
-For the my current cameras the COC is
+big a CoC is acceptable depends on  the desired resolution, not
+necessarily on the sensor but the resulting picture. For standard
+viewing distances approx 30\,$\mu$m is assumed for full-format
+sensors, and appropriately scaled 18.6\,$\mu$m for an APC-sized
+sensor.
+
+<<cam.params, echo = FALSE>>=
+cam.params <- data.frame(Model = c('5D IV', '6D', '7D'),
+size1 = c(24, 23.9, 14.9),        # [mm]
+size2 = c(36, 35.8, 22.3),
+pix1 = c(4420, 3648, 3456),
+pix2 = c(6720, 5472, 5184))
+cam.params <- within(cam.params,
+{
+  COC <- c(30, 30, 18.596)
+  res2 <- size2/pix2 * 1000       # [µm]
+  res1 <- size1/pix1 * 1000       # [µm]
+}
+)
+@
+To utilize the full resolution of a camera a more restrictive view may
+be taken where COC $\approx$ pixelsize. 
+For the my current cameras the relevant numbers are compiled in \Tref{tab:coc}.
 \begin{table}[htp]
 \begin{center}
-\begin{tabular}{lrrrrrr}
-Model     & \multicolumn{2}{c}{Sensor size [mm]} & \multicolumn{2}{c}{Pixels} & Pix size [$\mu$m] & COC [$\mu$m] \\
+\begin{tabular}{lr@{$\,\times\,$}lr@{$\,\times\,$}lr@{$\,\times\,$}lr}
+Model & \mctc{Sensor size [mm]} & \mctc{Pixels} & \mctc{Pix size [$\mu$m]} & COC [$\mu$m]                        \\
 \hline
-5D IV  & 24 & 36 & 4420 & 6720 & 5.357 & 30\hphantom{.0000} \\
-6D     & 24 & 36 & 3648 & 5472 & 6.579 & 30\hphantom{.0000}                                     \\
-7D     & 24 & 36 & 3456 & 5184 & 4.34\hphantom{0}  & 18.5960                                                \\
+5D IV & 24.0                    & 36.0          & 4420                     & 6720 & 5.43 & 5.36 & 30.000 \\
+6D    & 23.9                    & 35.8          & 3648                     & 5472 & 6.55 & 6.54 & 30.000 \\
+7D    & 14.9                    & 22.3          & 3456                     & 5184 & 4.31 & 4.30 & 18.596  
 \end{tabular}
- \caption{Sensor parameters}
+ \caption{Sensor parameters (two-column parameters are short$\,\times\,$long edge)}
 \end{center}
 \label{tab:coc}
 \end{table}%
@@ -115,14 +139,15 @@ The hyperfocal distance depends on focal length, aperture, and the
 desired resolution (COC)
 \begin{eqnarray}
   \label{eq:HFD}
-  H &=& \frac{f^2}{F\,\COC} + f\\
-   & \stackrel{d\gg f}{\approx} &  \frac{f^2}{F\,\COC}
+  H &=& \frac{f^2}{F\,\COC} + f \label{eq:HFDexact}\\
+   & \stackrel{H\gg f}{\approx} &  \frac{f^2}{F\,\COC}\label{eq:HFDapprox}
 \end{eqnarray}
 where $f$ refers to the focal length of the lens, $F$ to the
 aperture, and \COC\ to the acceptable circle of confusion. 
 
 For a full format sensor the hyperfocal distances can be read from
-\Fref{fig:HFDfull}, for (Canon) APC sensors from \Fref{fig:HFDapc}.
+\Fref{fig:HFDfull}, for (Canon) APC sensors from
+\Fref{fig:HFDapc}. Both plots use the exact value from \Eref{eq:HFDexact}.
 <<HFDfull, echo = FALSE, fig.cap = 'Full format sensor'>>=
 Hyperfocal.plot()
 @
@@ -142,7 +167,8 @@ acceptable sharpness) can be calulated by
   d_\mathrm{near/far}  = \frac{H \,
     d}{H \pm (d - f)}
 \end{equation}
-where $d$ is the focussing distance in mm.
+where $d$ is the focussing distance in mm (`+' refers to near, `--' to
+far).
 
 <<nearfar85, echo = FALSE, fig.cap = 'Full format sensor',warning=FALSE,results='hide'>>=
 full.nf.plot(85,1.2,max=100, log='xy')
@@ -150,13 +176,19 @@ full.nf.plot(85,1.2,max=100, log='xy')
 
 For an 85\,mm lens the two distances are shown with respect to
 focussing distance and aperture in \Fref{fig:nearfar85}. The
-corresponding depth of field ($d_\mathrm{far} - d_\mathrm{near}$) is shown in \Fref{fig:dof85}.
+corresponding depth of field ($d_\mathrm{far} - d_\mathrm{near}$) is shown in \Fref{fig:dof85full}.
 
 
-<<dof85, echo = FALSE, fig.cap = 'Canon APC sensor',warning=FALSE,results='hide'>>=
+<<dof85full, echo = FALSE, fig.cap = 'Full format sensor',warning=FALSE,results='hide'>>=
 full.dof.plot(85, 1.2, log='xy',  y.e=15)
 @
 
+The resulting depth of field (DOF) is given by
+\begin{eqnarray}
+  \label{eq:dof}
+  \mathrm{DOF} & = & d_\mathrm{far} - d_\mathrm{near} %\\
+%               & = & Hd \frac{2(d-f)}{H^2 - (d-f)^2}
+\end{eqnarray}
 \subsection{Setting Depth}
 \label{sec:setting-depth}
 
