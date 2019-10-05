@@ -7,6 +7,8 @@
 ##' Simple knit and typeset
 ##'
 ##' simplify typesetting process outside of RStudio
+##'
+##' CAVEAT: if there is a problem in runnning \code{latexcmd}, it is necessary to kill the command from an external shell to regain control on the Console command line.
 ##' @title go
 ##' @return none
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
@@ -45,7 +47,7 @@ go <- function(n        = 1,
 
     if(!(bib | index)){
         for (i in 1:(n-1)){
-            system(paste('pdflatex', target))
+            system(paste('pdflatex', base))
         }
     }
 }
@@ -76,7 +78,7 @@ f.values <- function(from = 1.0,
               32.0, 36.0, 40.0, 44.0, 50.0, 56.0,
               64.0)
     fs.by <- Fseq[seq(1, length(Fseq), by=by)]
-behind
+
     fss <- unique(sort(c(from, to, fs.by))) # adding sort allows switching \code{from} and \code{to}
 
     return(fss[fss >= from & fss <= to])
@@ -136,12 +138,13 @@ close,                    round(near,4),
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
 get.nf <- function(f,
                    F,
-                   min = 1,
-                   max = 100,
-                   COC = 0.03,
+                   min   = 1,
+                   max   = 100,
+                   COC   = 0.03,
+                   quiet = FALSE,
                    ...){
     H <- HFD(f, F, COC)
-    x <- min:max
+    x <- if(min==max) min else unique(c(min,ceiling(min):ceiling(max)))
     nf <- data.frame(x,
                      t(sapply(x,
                               FUN = dof,
@@ -154,11 +157,11 @@ get.nf <- function(f,
     dimnames(nf) <- list(x,
                          c('dist', 'near', 'far'))
     nf <- within(nf,
-                 {
-                     range <- far-near
-                     close <- x-near
-                     behind <- far - x,
-                     ratio <- close/behind
+                 {   # added in reverse order
+                     behind <- far - x
+                     close  <- x - near
+                     ratio  <- close/behind
+                     range  <- far - near
                  }
                  )
     return(nf)
@@ -178,11 +181,12 @@ get.all.nf <- function(f, F0, Fn=22, ...){
     Fs <- f.values(F0, Fn, by=3)
     sq <- seq_along(Fs)
     cols <- rainbow(length(sq), end = 0.6)
+    nf1 <- get.nf(f, F, ...)
     all.nf <- sapply(Fs,
                      function(F) as.matrix(get.nf(f, F, ...)),
                      simplify = 'array')
     dimnames(all.nf) <- list(distance = all.nf[,1,1],
-                             focus    = c('dist', 'near', 'far','range'),
+                             focus    = colnames(nf1),
                              aperture = Fs)
     return(all.nf)
 }
@@ -229,7 +233,7 @@ full.nf.plot <- function(f, F0, Fn=22, ..., maxfr=NULL){
     sq <- seq_along(Fs)
     cols <- rainbow(length(sq),
                     end = 0.6)
-    all.nf <- get.all.nf(f, F0, Fn=22, ...)
+    all.nf <- get.all.nf(f, F0, Fn=Fn, ...)
 
     new <- TRUE
     for (i in c(max(sq),sq)){
@@ -240,17 +244,18 @@ full.nf.plot <- function(f, F0, Fn=22, ..., maxfr=NULL){
                 col = cols[i])
         if(new) {
             grid()
-            pu4 <- par('usr')[4]
+            pu <- par('usr')
             new <- FALSE
         }
         H <- HFD(f, Fs[i], ...)
-        #if(max(all.nf[,4,i])>ifelse(par('ylog'),10^pu4, pu4)){
-        rug(H,
-            ticksize = -0.02,
-            side     = 3,
-            col      = cols[i],
-            lwd      = 1)
-        #}
+        #if(max(all.nf[,4,i])>ifelse(par('ylog'),10^pu[4], pu4[4])){
+        if(H < pu[2]){
+            rug(H,
+                ticksize = -0.02,
+                side     = 3,
+                col      = cols[i],
+                lwd      = 1)
+        }
     }
     legend('topleft',
            legend = dimnames(all.nf)[[3]],
@@ -259,6 +264,47 @@ full.nf.plot <- function(f, F0, Fn=22, ..., maxfr=NULL){
            col    = cols,
            bg     = "#FFFFFFa0")
     return(invisible(all.nf))
+}
+
+cb.plot <- function(nf, add = FALSE, max.d = 1e4, ...){
+    if(!add){
+        plot(0:1, 0:1,
+             xlim = c(0, max(nf[, 'dist'])),
+             ylim = c(-max(nf[, 'close']),
+                      min(max(nf[is.finite(nf[,'behind']), 'behind']),  max.d)),
+             type = 'n',
+             main = 'Before / behind',
+             xlab = 'Distance  [m]',
+             ylab = ' Focus spread [m]')
+        lines(range(nf[, 'dist']),
+              rep(0,2),
+              lty = 3,
+              col = 'lightgrey')
+    }
+    lines(nf[, 'dist'],  nf[, 'behind'],
+          ...)
+    lines(nf[, 'dist'], -nf[, 'close'],
+          ...)
+
+}
+
+ratio.plot <- function(nf, add = FALSE,  ...){
+    if(!add){
+        plot(0:1, 0:1,
+             xlim = c(0, max(nf[, 'dist'])),
+             type = 'n',
+             main = 'Before / behind - Ratio',
+             xlab = 'Distance  [m]',
+             ylab = 'Ratio',
+             las  = 1)
+        abline(h=0:10/10,
+              lty = 3,
+              col = 'lightgrey')
+    }
+    finite.rat <- is.finite(nf[, 'ratio'])
+    lines(nf[finite.rat, 'dist'],  nf[finite.rat, 'ratio'],
+          ...)
+
 }
 
 ## DOF plots
@@ -355,7 +401,7 @@ full.dof.plot <- function(f,
 ##' @title Hyperfocal distance
 ##' @param f focal length of  lens [mm]
 ##' @param F aperture
-##' @param COC
+##' @param COC                     [mm]
 ##' @param ...
 ##' @return HFD in [m]
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
@@ -482,3 +528,25 @@ Hyperfocal.plot <- function(...){
     box()
 }
 
+ddd <- function(d, f, F, COC = 0.03){
+    dmm <- d*1000
+    nf <- get.nf(f, F, d, d, COC)
+    H <- HFD(f, F, COC)*1000
+    dmf <- dmm-f
+    hh <- (f^2/F/COC)
+    my.dof1 <- (2*H*dmm *dmf / (H^2 -dmf^2))/1000
+    my.dof2 <- (H*dmm*(1/(H-dmf) - 1/(H+dmf)))/1e3
+    my.dof3 <- hh*dmm*2*dmf/(hh^2 - dmf^2)/1000
+    cat(((1-(my.dof3-my.dof2)/my.dof2)*100), '\n')
+    return(c(nf$range, my.dof1, my.dof2, my.dof3))
+}
+
+portraits <- function(lenses = c(50,70,85,90,100, 135),
+                      ...){
+    for (f in lenses){
+        cat(paste0('\\subsection{',f,'mm}\\label{sec:',f,'}\n'))
+        cat(paste0("<<portrait",f,", echo=FALSE, fig.height=9, fig.cap = paste0(",f,",'mm'), warning=FALSE,results='hide'>>=\n"))
+        cat(paste0('full.dof.plot(',f,', 1.2, xlim=c(1,3), , ylim = c(0.01,10),, log="xy",  y.e=15)\n'))
+        cat('@\n\n')
+    }
+}
