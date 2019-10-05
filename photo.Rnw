@@ -207,6 +207,35 @@ given by
     & \stackrel{d\gg f}{\approx} & \frac{f^2}{\COC}\cdot\frac{d_\mathrm{far} -
           d_\mathrm{near}}{2d_\mathrm{far}d_\mathrm{near}}
 \end{eqnarray}
+\cleardoublepage
+\section{Portrait}
+\subsection{50mm}\label{sec:50}
+<<portrait50, echo=FALSE, fig.height=9, fig.cap = paste0(50,'mm'), warning=FALSE,results='hide'>>=
+full.dof.plot(50, 1.2, xlim=c(1,3), , ylim = c(0.01,10),, log="xy",  y.e=15)
+@
 
+\subsection{70mm}\label{sec:70}
+<<portrait70, echo=FALSE, fig.height=9, fig.cap = paste0(70,'mm'), warning=FALSE,results='hide'>>=
+full.dof.plot(70, 1.2, xlim=c(1,3), , ylim = c(0.01,10),, log="xy",  y.e=15)
+@
 
+\subsection{85mm}\label{sec:85}
+<<portrait85, echo=FALSE, fig.height=9, fig.cap = paste0(85,'mm'), warning=FALSE,results='hide'>>=
+full.dof.plot(85, 1.2, xlim=c(1,3), , ylim = c(0.01,10),, log="xy",  y.e=15)
+@
+
+\subsection{90mm}\label{sec:90}
+<<portrait90, echo=FALSE, fig.height=9, fig.cap = paste0(90,'mm'), warning=FALSE,results='hide'>>=
+full.dof.plot(90, 1.2, xlim=c(1,3), , ylim = c(0.01,10),, log="xy",  y.e=15)
+@
+
+\subsection{100mm}\label{sec:100}
+<<portrait100, echo=FALSE, fig.height=9, fig.cap = paste0(100,'mm'), warning=FALSE,results='hide'>>=
+full.dof.plot(100, 1.2, xlim=c(1,3), , ylim = c(0.01,10),, log="xy",  y.e=15)
+@
+
+\subsection{135mm}\label{sec:135}
+<<portrait135, echo=FALSE, fig.height=9, fig.cap = paste0(135,'mm'), warning=FALSE,results='hide'>>=
+full.dof.plot(135, 1.2, xlim=c(1,3), , ylim = c(0.01,10),, log="xy",  y.e=15)
+@
 \end{document}
