@@ -93,7 +93,7 @@ source('photo.R')
 (see
 \href{https://en.wikipedia.org/wiki/Circle_of_confusion}{Wikipedia})
 The CoC describes the blurring of a point source on the sensor. How
-big a CoC is acceptable depends on  the desired resolution, not
+big a CoC is acceptable depends onthe desired resolution, not
 necessarily on the sensor but the resulting picture. For standard
 viewing distances approx 30\,$\mu$m is assumed for full-format
 sensors, and appropriately scaled 18.6\,$\mu$m for an APC-sized
@@ -114,8 +114,8 @@ cam.params <- within(cam.params,
 )
 @
 To utilize the full resolution of a camera a more restrictive view may
-be taken where COC $\approx$ pixelsize. 
-For the my current cameras the relevant numbers are compiled in \Tref{tab:coc}.
+be taken where COC $\approx$ pixelsize.
+For the listed cameras the relevant numbers are compiled in \Tref{tab:coc}.
 \begin{table}[htp]
 \begin{center}
 \begin{tabular}{lr@{$\,\times\,$}lr@{$\,\times\,$}lr@{$\,\times\,$}lr}
@@ -123,7 +123,7 @@ Model & \mctc{Sensor size [mm]} & \mctc{Pixels} & \mctc{Pix size [$\mu$m]} & COC
 \hline
 5D IV & 24.0                    & 36.0          & 4420                     & 6720 & 5.43 & 5.36 & 30.000 \\
 6D    & 23.9                    & 35.8          & 3648                     & 5472 & 6.55 & 6.54 & 30.000 \\
-7D    & 14.9                    & 22.3          & 3456                     & 5184 & 4.31 & 4.30 & 18.596  
+7D    & 14.9                    & 22.3          & 3456                     & 5184 & 4.31 & 4.30 & 18.596
 \end{tabular}
  \caption{Sensor parameters (two-column parameters are short$\,\times\,$long edge)}
 \end{center}
@@ -135,7 +135,10 @@ Model & \mctc{Sensor size [mm]} & \mctc{Pixels} & \mctc{Pix size [$\mu$m]} & COC
 \subsection{Hyperfocal Distance}
 \label{sec:hyperfocal-distance}
 
-The hyperfocal distance depends on focal length, aperture, and the
+
+The hyperfocal distance (HFD) is the distance that when set on a lens results in the largest possible depth of field for a given focal length/aperture combination: everything between a minumum distance of $\mathrm{HFD}/2$ to $\infty$ is \emph{in focus}.
+
+The HFD depends on focal length, aperture, and the
 desired resolution (COC)
 \begin{eqnarray}
   \label{eq:HFD}
@@ -143,7 +146,7 @@ desired resolution (COC)
    & \stackrel{H\gg f}{\approx} &  \frac{f^2}{F\,\COC}\label{eq:HFDapprox}
 \end{eqnarray}
 where $f$ refers to the focal length of the lens, $F$ to the
-aperture, and \COC\ to the acceptable circle of confusion. 
+aperture, and \COC\ to the acceptable circle of confusion.
 
 For a full format sensor the hyperfocal distances can be read from
 \Fref{fig:HFDfull}, for (Canon) APC sensors from
@@ -208,34 +211,44 @@ given by
           d_\mathrm{near}}{2d_\mathrm{far}d_\mathrm{near}}
 \end{eqnarray}
 \cleardoublepage
-\section{Portrait}
+\section{DOF full format}
+\subsection{24mm}\label{sec:24}
+<<portrait24, echo=FALSE, fig.height=9, fig.cap = paste0(24,'mm'), warning=FALSE,results='hide'>>=
+full.dof.plot(24, 1.4, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
+@
+
+\subsection{35mm}\label{sec:35}
+<<portrait35, echo=FALSE, fig.height=9, fig.cap = paste0(35,'mm'), warning=FALSE,results='hide'>>=
+full.dof.plot(35, 1.4, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
+@
+
 \subsection{50mm}\label{sec:50}
 <<portrait50, echo=FALSE, fig.height=9, fig.cap = paste0(50,'mm'), warning=FALSE,results='hide'>>=
-full.dof.plot(50, 1.2, xlim=c(1,3), , ylim = c(0.01,10),, log="xy",  y.e=15)
+full.dof.plot(50, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
 
 \subsection{70mm}\label{sec:70}
 <<portrait70, echo=FALSE, fig.height=9, fig.cap = paste0(70,'mm'), warning=FALSE,results='hide'>>=
-full.dof.plot(70, 1.2, xlim=c(1,3), , ylim = c(0.01,10),, log="xy",  y.e=15)
+full.dof.plot(70, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
 
 \subsection{85mm}\label{sec:85}
 <<portrait85, echo=FALSE, fig.height=9, fig.cap = paste0(85,'mm'), warning=FALSE,results='hide'>>=
-full.dof.plot(85, 1.2, xlim=c(1,3), , ylim = c(0.01,10),, log="xy",  y.e=15)
+full.dof.plot(85, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
 
 \subsection{90mm}\label{sec:90}
 <<portrait90, echo=FALSE, fig.height=9, fig.cap = paste0(90,'mm'), warning=FALSE,results='hide'>>=
-full.dof.plot(90, 1.2, xlim=c(1,3), , ylim = c(0.01,10),, log="xy",  y.e=15)
+full.dof.plot(90, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
 
 \subsection{100mm}\label{sec:100}
 <<portrait100, echo=FALSE, fig.height=9, fig.cap = paste0(100,'mm'), warning=FALSE,results='hide'>>=
-full.dof.plot(100, 1.2, xlim=c(1,3), , ylim = c(0.01,10),, log="xy",  y.e=15)
+full.dof.plot(100, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
 
 \subsection{135mm}\label{sec:135}
 <<portrait135, echo=FALSE, fig.height=9, fig.cap = paste0(135,'mm'), warning=FALSE,results='hide'>>=
-full.dof.plot(135, 1.2, xlim=c(1,3), , ylim = c(0.01,10),, log="xy",  y.e=15)
+full.dof.plot(135, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
 \end{document}
