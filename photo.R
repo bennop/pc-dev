@@ -77,7 +77,7 @@ f.values <- function(from = 1.0,
               16.0, 18.0, 20.0, 22.0, 25.0, 28.0,
               32.0, 36.0, 40.0, 44.0, 50.0, 56.0,
               64.0)
-    fs.by <- Fseq[seq(1, length(Fseq), by=by)]
+    fs.by <- Fseq[seq(1, to = length(Fseq), by = by)]
 
     fss <- unique(sort(c(from, to, fs.by))) # adding sort allows switching \code{from} and \code{to}
 
@@ -177,8 +177,8 @@ get.nf <- function(f,
 ##' @param ... pass to \code{\link{get.all.nf}}x
 ##' @return array with slices for aperture and columns distance, near, far, range for each
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
-get.all.nf <- function(f, F0, Fn=22, ...){
-    Fs <- f.values(F0, Fn, by=3)
+get.all.nf <- function(f, F0, Fn = 22, ...){
+    Fs <- f.values(F0, Fn, by = 3)
     sq <- seq_along(Fs)
     cols <- rainbow(length(sq), end = 0.6)
     nf1 <- get.nf(f, F, ...)
@@ -427,7 +427,7 @@ HFD.plot <- function(f,           # [mm]
                      ...){
     Fseq <- f.values(1, ...)            # start at 1 to have the marks consistent
     pc <- rep(c('+','.','.'),
-              length = length(Fseq))
+              length.out = length(Fseq))
     use <- Fseq>=F0                     # subset here
     useF <- Fseq[use]
     H <- HFD(f, useF, COC)
