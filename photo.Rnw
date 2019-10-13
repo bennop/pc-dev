@@ -1,5 +1,5 @@
 % -*- LaTeX -*-
-\documentclass[12pt]{scrartcl}
+\documentclass[12pt,twoside]{scrartcl}
 %\usepackage{geometry} % see geometry.pdf on how to lay out the page. There's lots.
 % \geometry{landscape} % rotated page geometry
 
@@ -7,6 +7,7 @@
 %% LaTeX - Article customise
 
 %%% PACKAGES
+\usepackage{scrpage2}
 \usepackage{booktabs} % for much better looking tables
 \usepackage{array} % for better arrays (eg matrices) in maths
 \usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
@@ -27,7 +28,7 @@
 
 \usepackage{amsmath,amssymb}  % Better maths support & more symbols
 \usepackage{bm}  % Define \bm{} to use bold math fonts
-\usepackage[pdftex,bookmarks,colorlinks,breaklinks]{hyperref}  % PDF hyperlinks, with coloured links
+\usepackage[bookmarks,colorlinks,breaklinks]{hyperref}  % PDF hyperlinks, with coloured links
 \definecolor{dullmagenta}{rgb}{0.4,0,0.4}   % #660066
 \definecolor{darkblue}{rgb}{0,0,0.4}
 \hypersetup{linkcolor=red,citecolor=blue,filecolor=dullmagenta,urlcolor=darkblue} % coloured links
@@ -37,7 +38,7 @@
 % \usepackage[activate]{pdfcprot}  % Turn on margin kerning (not in gwTeX)
 \usepackage{pdfsync}  % enable tex source and pdf output syncronicity
 %%% PAGE DIMENSIONS
-\usepackage{geometry} % to change the page dimensions
+\usepackage[left=2.5cm,right=2.0cm, top=2.5cm, bottom=3cm]{geometry} % to change the page dimensions
 \geometry{a4paper} % or letter or a5paper or ... etc
 %\geometry{margins=2in} % for example, change the margins to 2 inches all round
 %\geometry{landscape} % set up the page for landscape
@@ -48,7 +49,11 @@
 %\pagestyle{fancy} % options: empty , plain , fancy
 %\renewcommand{\headrulewidth}{0pt} % customise the layout...
 %\lhead{}\chead{}\rhead{}
-%\lfoot{}\cfoot{\thepage}\rfoot{}
+%\lfoot{\tiny{Benno Pütz}}\cfoot{\thepage}\rfoot{}
+%\ifoot{\authorname}
+%\ofoot{\pagemark}%\versiondate}
+%\ihead{\rightbotmark}
+%\ohead{}
 
 %%% SECTION TITLE APPEARANCE
 \usepackage{sectsty}
@@ -69,20 +74,33 @@
 \newcommand{\Eref}[1]{Eq.~\ref{#1}}
 \newcommand{\Sref}[1]{Sec.~\ref{#1}}
 \newcommand{\mctc}[1]{\multicolumn{2}{c}{#1}}
-\title{Photographic Calculations}
-\author{Benno Pütz}
-\date{} % delete this line to display the current date
+\newcommand{\inv}[1]{\ensuremath{\frac{1}{#1}}}
 
-<<<init, echo = FALSE>>=
-source('photo.R')
-@
+\title{Photographic Calculations}
+\author{compiled by \\[5mm]Benno Pütz\\\email{bpfoto@online.de}}
+\date{\today} % delete this line to display the current date
+
+\renewcommand\textfraction{.1}
+\setcounter{totalnumber}{5}
+\renewcommand{\floatpagefraction}{.8}
+
 %%% BEGIN DOCUMENT
 \begin{document}
+\pagestyle{scrheadings}
+\clearscrheadfoot
+\ifoot{\tiny{Benno Pütz}}
+\ofoot{\pagemark}%\versiondate}
+%\ihead{\rightbotmark}
+%\ohead{}
 
 \maketitle
 \newpage
 \tableofcontents
 \newpage
+
+<<init, echo = FALSE>>=
+source('photo.R')
+@
 
 \section{Focus}
 \label{sec:focus}
@@ -93,10 +111,10 @@ source('photo.R')
 (see
 \href{https://en.wikipedia.org/wiki/Circle_of_confusion}{Wikipedia})
 The CoC describes the blurring of a point source on the sensor. How
-big a CoC is acceptable depends onthe desired resolution, not
+big a CoC is acceptable depends on the desired resolution, not
 necessarily on the sensor but the resulting picture. For standard
 viewing distances approx 30\,$\mu$m is assumed for full-format
-sensors, and appropriately scaled 18.6\,$\mu$m for an APC-sized
+sensors, and appropriately scaled 18.6\,$\mu$m for an APS-C-sized
 sensor.
 
 <<cam.params, echo = FALSE>>=
@@ -130,13 +148,114 @@ Model & \mctc{Sensor size [mm]} & \mctc{Pixels} & \mctc{Pix size [$\mu$m]} & COC
 \label{tab:coc}
 \end{table}%
 
+\subsection{Imaging equation}
+\label{sec:im-eq}
+The basic equation underlying the imaging with an ideal lens states
+\begin{equation}
+\inv{f} = \inv{g}+\inv{b}
+\label{eq:im-eq}
+\end{equation}
+Here the notation is based on the German terms \emph{Gegenstand} (object) and \emph{Bild} (image) the lower case $g$ and $b$ refer to the respective distances from the lens. The focal length of the lens is denoted by $f$.
 
+From this the dependence of image distance $b$  on $g$  (and $f$) is given by
+\begin{equation}
+b=\frac{gf}{g-f}
+\label{eq:b}
+\end{equation}
+<<bdist, echo = FALSE, fig.cap = 'Imaging distance $b$ for a 50\\,mm and a 400\\,mm lens'>>=
+opar <- par(mfrow=c(1,2), mar = c(5,4,3,1) + .1)
+curve(b(x,50),
+      .15, 20,
+      log  = 'x',
+      main = '50mm',
+      xlab = expression(paste("object distance ", italic(g), " [m]")),
+      ylab = expression(paste("image distance ", italic(b), " [m]")),
+      las  = 1)
+grid()
+curve(b(x,400),
+      1, 200,
+      log  = 'x',
+      main = '400mm',
+      xlab = expression(paste("object distance ", italic(g), " [m]")),
+      ylab = '',
+      las  = 1)
+grid()
+par(opar)
+@
+
+That relation is shown in \Fref{fig:bdist} for an $f=50$\,mm and an $f=400$\,mm lens.
+
+\subsection{Magnification}
+\label{sec:opt-mag}
+The magnification factor $M = \frac{B}{G}$ achieved by  a lens can be derived from basic geometry
+\begin{equation}
+M = \frac{B}{G} = \frac{b}{g}
+\label{eq:bg-geom}
+\end{equation}
+where $G$ and $B$ stand  for object and image size, respectively. Combining Eqs.~\ref{eq:bg-geom} and \ref{eq:b} yields
+\begin{equation}
+M = \frac{f}{g-f} \stackrel{g\gg f}{\simeq} \frac{f}{g}
+\label{eq:bg}
+\end{equation}
+which is maximal for the shortest possible focussing distance and shrinks to zero as $g$ approaches $\infty$.
+
+\Fref{fig:mag} shows this relation  for a 50\,mm and a 400\,mm lens. The approximate inverse proportionality for large $g$ is seen  in the linear parts of the curves in the log-log-plot.
+<<mag, echo = FALSE, fig.cap = 'Lens magnification'>>=
+opar <- par(mfrow=c(2,1), mar = c(5,4,3,5) + .1)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+f <- 50
+curve(mag(x,f),
+      f/500, 100,
+      xlim = c(.1,200),
+      log  = 'x',
+      main = 'Magnification',
+      xlab = expression(paste("object distance ", italic(g), " [m]")),
+      ylab = 'factor',
+      las  = 1)
+grid()
+f <- 400
+curve(mag(x,f),
+      f/500, f/2,
+      log  = 'x',
+      add  = TRUE,
+      lty  = 2
+      )
+ats <- c(1:10,20,50,100,200,500)
+atc <- as.character(ats)
+atc[c(6:9,11,12,14,15)] <- ''
+axis(4, at = 1/ats, paste0(ifelse(atc=='','','1:'),atc), las = 1)
+mtext('ratio',4,3)
+legend('topright',legend = paste(c('  50','400'),'mm'), lty=1:2, lwd=1)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+f <- 50
+curve(mag(x,f),
+      f/500, f/2,
+      xlim = c(.1,200),
+      log  = 'xy',
+      main = 'Magnification',
+      xlab = expression(paste("object distance ", italic(g), " [m]")),
+      ylab = 'factor',
+      las  = 1)
+grid()
+f <- 400
+curve(mag(x,f),
+      f/500, f/2,
+      log  = 'x',
+      add  = TRUE,
+      lty  = 2
+      )
+axis(4, at = 1/ats, paste0('1:',ats), las = 1)
+mtext('ratio',4,3)
+legend('topright',legend = paste(c('  50','400'),'mm'), lty=1:2, lwd=1)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+par(opar)
+@
 
 \subsection{Hyperfocal Distance}
 \label{sec:hyperfocal-distance}
 
 
-The hyperfocal distance (HFD) is the distance that when set on a lens results in the largest possible depth of field for a given focal length/aperture combination: everything between a minumum distance of $\mathrm{HFD}/2$ to $\infty$ is \emph{in focus}.
+The hyperfocal distance (HFD) is the distance that when set on a lens results in the largest possible depth of field (DOF) for a given focal length/aperture combination: everything between a minumum distance of $\mathrm{HFD}/2$ to $\infty$ is \emph{in focus} (i.\,e., not more blurred than \COC).
 
 The HFD depends on focal length, aperture, and the
 desired resolution (COC)
@@ -149,12 +268,12 @@ where $f$ refers to the focal length of the lens, $F$ to the
 aperture, and \COC\ to the acceptable circle of confusion.
 
 For a full format sensor the hyperfocal distances can be read from
-\Fref{fig:HFDfull}, for (Canon) APC sensors from
-\Fref{fig:HFDapc}. Both plots use the exact value from \Eref{eq:HFDexact}.
+\Fref{fig:HFDfull}, for (Canon) APS-C sensors from
+\Fref{fig:HFDAPS-C}. Both plots use the exact value from \Eref{eq:HFDexact}.
 <<HFDfull, echo = FALSE, fig.cap = 'Full format sensor'>>=
 Hyperfocal.plot()
 @
-<<HFDapc, echo = FALSE, fig.cap = 'Canon APC sensor'>>=
+<<HFDAPS-C, echo = FALSE, fig.cap = 'Canon APS-C sensor'>>=
 Hyperfocal.plot(COC=0.03/1.6)
 @
 \clearpage
@@ -163,6 +282,28 @@ Hyperfocal.plot(COC=0.03/1.6)
 (see
 \href{https://www.largeformatphotography.info/articles/IntroToDoF.pdf}{DOF.pdf})
 
+\subsubsection{Basics}
+\label{sec:opt-basics}
+To illustrate what causes blurring first some basic ideal imaging concepts\footnote{Among the aspects being ignored are\begin{itemize}
+\item approximation by  single lens \item lens imperfections (spherical and chromatic aberration)\end{itemize}} consider an object at infinity ($g\rightarrow\infty$): the rays enter the lens in parallel and are focussed in a plane with distance $b=f$ behind the lens.
+
+\includegraphics[width=\maxwidth]{lens-infty.pdf}
+As the object gets \emph{closer}, the imaging plane moves away from the lens. The symmetric case is reached for an  object at a distance of $d=2f$ in front of the lens the image of which is formed in  a plane $2f$ behind the lens.
+
+\includegraphics[width=\maxwidth]{lens-2f.pdf}
+It follows from symmetry that  for this distance the image is as big as the object, the lens operates at a magnification factor of 1 ($\rightarrow$ macro, see Section~\ref{sec:opt-mag}).
+
+Getting the object even closer to the lens will move the image plane further out, but only dedicated macro lenses operate in that regime.
+
+At $g=f$ the limit is reached where the image plane is pushed out to infinity, for $g<f$ no image can be formed.
+
+Most lenses have a minimum focussing distance $g>2f$, given  by constructive constraints to how far the lens can be moved from the imaging plane (film or sensor). Macro lenses allow $2f\le g>f$.
+
+For an arbitrary object distance $g>2f$
+
+
+\subsubsection{Near and far limits}
+\label{sec:near-far}
 Given the set focus distance, near ($d_\mathrm{near}$) and far ($d_\mathrm{far}$) focus limits (being of
 acceptable sharpness) can be calulated by
 \begin{equation}
@@ -211,44 +352,97 @@ given by
           d_\mathrm{near}}{2d_\mathrm{far}d_\mathrm{near}}
 \end{eqnarray}
 \cleardoublepage
-\section{DOF full format}
-\subsection{24mm}\label{sec:24}
-<<portrait24, echo=FALSE, fig.height=9, fig.cap = paste0(24,'mm'), warning=FALSE,results='hide'>>=
+
+\subsection{DOF full format}
+\subsubsection{24mm}\label{sec:24}
+<<portrait24, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(24,'mm on full format sensor'), warning=FALSE,results='hide'>>=
 full.dof.plot(24, 1.4, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
-
-\subsection{35mm}\label{sec:35}
-<<portrait35, echo=FALSE, fig.height=9, fig.cap = paste0(35,'mm'), warning=FALSE,results='hide'>>=
+\clearpage
+\subsubsection{35mm}\label{sec:35}
+<<portrait35, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(35,'mm on full format sensor'), warning=FALSE,results='hide'>>=
 full.dof.plot(35, 1.4, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
-
-\subsection{50mm}\label{sec:50}
-<<portrait50, echo=FALSE, fig.height=9, fig.cap = paste0(50,'mm'), warning=FALSE,results='hide'>>=
+\clearpage
+\subsubsection{50mm}\label{sec:50}
+<<portrait50, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(50,'mm on full format sensor'), warning=FALSE,results='hide'>>=
 full.dof.plot(50, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
+\clearpage
 
-\subsection{70mm}\label{sec:70}
-<<portrait70, echo=FALSE, fig.height=9, fig.cap = paste0(70,'mm'), warning=FALSE,results='hide'>>=
+\subsubsection{70mm}\label{sec:70}
+<<portrait70, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(70,'mm on full format sensor'), warning=FALSE,results='hide'>>=
 full.dof.plot(70, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
+\clearpage
 
-\subsection{85mm}\label{sec:85}
-<<portrait85, echo=FALSE, fig.height=9, fig.cap = paste0(85,'mm'), warning=FALSE,results='hide'>>=
+\subsubsection{85mm}\label{sec:85}
+<<portrait85, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(85,'mm on full format sensor'), warning=FALSE,results='hide'>>=
 full.dof.plot(85, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
-
-\subsection{90mm}\label{sec:90}
-<<portrait90, echo=FALSE, fig.height=9, fig.cap = paste0(90,'mm'), warning=FALSE,results='hide'>>=
+\clearpage
+\subsubsection{90mm}\label{sec:90}
+<<portrait90, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(90,'mm on full format sensor'), warning=FALSE,results='hide'>>=
 full.dof.plot(90, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
+\clearpage
 
-\subsection{100mm}\label{sec:100}
-<<portrait100, echo=FALSE, fig.height=9, fig.cap = paste0(100,'mm'), warning=FALSE,results='hide'>>=
+\subsubsection{100mm}\label{sec:100}
+<<portrait100, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(100,'mm on full format sensor'), warning=FALSE,results='hide'>>=
 full.dof.plot(100, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
+\clearpage
 
-\subsection{135mm}\label{sec:135}
-<<portrait135, echo=FALSE, fig.height=9, fig.cap = paste0(135,'mm'), warning=FALSE,results='hide'>>=
+\subsubsection{135mm}\label{sec:135}
+<<portrait135, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(135,'mm on full format sensor'), warning=FALSE,results='hide'>>=
 full.dof.plot(135, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
+@
+\clearpage
+\subsection{DOF APS-C}
+\subsubsection{24mm APS-C}\label{secAPS-C24}
+<<APS-Cportrait24, echo=FALSE, fig.height=7, fig.width=6, fig.cap = paste0(24,'mm on APS-C format sensor'), warning=FALSE,results='hide'>>=
+full.dof.plot(24, 1.4, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15, COC=0.018596)
+@
+\clearpage
+
+\subsubsection{35mm APS-C}\label{secAPS-C35}
+<<APS-Cportrait35, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(35,'mm on APS-C format sensor'), warning=FALSE,results='hide'>>=
+full.dof.plot(35, 1.4, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15, COC=0.018596)
+@
+\clearpage
+
+\subsubsection{50mm APS-C}\label{secAPS-C50}
+<<APS-Cportrait50, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(50,'mm on APS-C format sensor'), warning=FALSE,results='hide'>>=
+full.dof.plot(50, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15, COC=0.018596)
+@
+\clearpage
+
+\subsubsection{70mm APS-C}\label{secAPS-C70}
+<<APS-Cportrait70, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(70,'mm on APS-C format sensor'), warning=FALSE,results='hide'>>=
+full.dof.plot(70, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15, COC=0.018596)
+@
+\clearpage
+
+\subsubsection{85mm APS-C}\label{secAPS-C85}
+<<APS-Cportrait85, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(85,'mm on APS-C format sensor'), warning=FALSE,results='hide'>>=
+full.dof.plot(85, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15, COC=0.018596)
+@
+\clearpage
+
+\subsubsection{90mm APS-C}\label{secAPS-C90}
+<<APS-Cportrait90, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(90,'mm on APS-C format sensor'), warning=FALSE,results='hide'>>=
+full.dof.plot(90, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15, COC=0.018596)
+@
+\clearpage
+
+\subsubsection{100mm APS-C}\label{secAPS-C100}
+<<APS-Cportrait100, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(100,'mm on APS-C format sensor'), warning=FALSE,results='hide'>>=
+full.dof.plot(100, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15, COC=0.018596)
+@
+\clearpage
+
+\subsubsection{135mm APS-C}\label{secAPS-C135}
+<<APS-Cportrait135, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(135,'mm on APS-C format sensor'), warning=FALSE,results='hide'>>=
+full.dof.plot(135, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15, COC=0.018596)
 @
 \end{document}
