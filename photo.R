@@ -112,12 +112,41 @@ dof <- function(d,
 
     if(verbose){                     # feedback
         cat(sprintf("%f - %f - %f\n",
-close,                    round(near,4),
+                    round(near,4),
                     round((far-near),4),
                     round(far,4)))
     }
 
     return(c(near,far))
+}
+
+#' image distance
+#'
+#' @param g object distance [m]
+#' @param f focal length [mm]
+#' @param ... not used
+#'
+#' @return image distance [mm]
+#' @export
+#'
+#' @examples
+b <- function(g, f, ...){
+    gmm <- g*1000
+    return(gmm*f/(gmm-f))
+}
+
+#' magnification factor
+#'
+#' @param g object distance [m]
+#' @param f focal length [mm]
+#' @param ... not used
+#'
+#' @return image distance [mm]
+#' @export
+#'
+#' @examples
+mag <- function(g, f, ...){
+    return(f/(g*1000-f))
 }
 
 # near/far focus
@@ -333,9 +362,15 @@ dof.plot <- function(nf, f, add = FALSE, y.ext = 1, ...){
 
     }
     lines(nf[,1], nf[,4], ...)
+    pu <- par('usr')
+    text(10^pu[2], 10^(pu[3]+(pu[4]-pu[3])/200),
+         "Benno Pütz, bpfoto@online.de ",
+         adj = c(1, 0),
+         cex = 0.6,
+         col = grey(0.95))
 }
 
-##' .. content for \description{} (no empty lines) ..
+##' DOF plot for all f stops
 ##'
 ##' .. content for \details{} ..
 ##' @title  Full DOF plot
@@ -349,8 +384,8 @@ dof.plot <- function(nf, f, add = FALSE, y.ext = 1, ...){
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
 full.dof.plot <- function(f,
                           F0,
-                          Fn=22,
-                          maxfr=NULL,
+                          Fn    = 22,
+                          maxfr = NULL,
                           y.ext = 1,
                           ...){
     Fs <- f.values(F0, Fn, by = 3)      # in full stops
@@ -367,7 +402,7 @@ full.dof.plot <- function(f,
                  ...,
                  col   = cols[i])
         if(new) {
-            grid()
+            grid( )
             pu4 <- par('usr')[4]
             new <- FALSE
         }
@@ -375,7 +410,7 @@ full.dof.plot <- function(f,
         ## if(max(all.nf[,4,i])>ifelse(par('ylog'),10^pu4, pu4)){
 
         ## add mark on upper edge to indicate HFD
-        H <- HFD(f,Fs[i], ...)
+        H <- HFD(f, Fs[i], ...)
         rug(H,
             ticksize = -0.02,
             side     = 3,
@@ -428,7 +463,7 @@ HFD.plot <- function(f,           # [mm]
     Fseq <- f.values(1, ...)            # start at 1 to have the marks consistent
     pc <- rep(c('+','.','.'),
               length.out = length(Fseq))
-    use <- Fseq>=F0                     # subset here
+    use <- Fseq >= F0                     # subset here
     useF <- Fseq[use]
     H <- HFD(f, useF, COC)
 
