@@ -169,7 +169,7 @@ curve(b(x,50),
       log  = 'x',
       main = '50mm',
       xlab = expression(paste("object distance ", italic(g), " [m]")),
-      ylab = expression(paste("image distance ", italic(b), " [m]")),
+      ylab = expression(paste("image distance ", italic(b), " [mm]")),
       las  = 1)
 grid()
 curve(b(x,400),
@@ -251,14 +251,44 @@ legend('topright',legend = paste(c('  50','400'),'mm'), lty=1:2, lwd=1)
 par(opar)
 @
 
+\subsection{Depth of Field}
+\label{sec:dof}
+(see
+\href{https://www.largeformatphotography.info/articles/IntroToDoF.pdf}{DOF.pdf})
+
+\subsubsection{Basics}
+\label{sec:opt-basics}
+To illustrate what causes blurring first some basic ideal imaging concepts\footnote{Among the aspects being ignored are\begin{itemize}
+\item approximation by  single lens (for a compound lens the effective lens plane need not lie inside the lens housing)\item lens imperfections (spherical and chromatic aberration)\end{itemize}} consider an object at infinity ($g\rightarrow\infty$): the rays enter the lens in parallel and are focussed in a plane with distance $b=f$ behind the lens.
+
+\includegraphics[width=\maxwidth]{lens-infty.pdf}
+As the object gets \emph{closer}, the imaging plane moves away from the lens. The symmetric case is reached for an  object at a distance of $d=2f$ in front of the lens the image of which is formed in  a plane $2f$ behind the lens.
+
+\includegraphics[width=\maxwidth]{lens-2f.pdf}
+It follows from symmetry that  for this distance the image is as big as the object, the lens operates at a magnification factor of 1 ($\rightarrow$ macro, see Section~\ref{sec:opt-mag}).
+
+Getting the object even closer to the lens will move the image plane further out, but only dedicated macro lenses operate in that regime.
+
+At $g=f$ the limit is reached where the image plane is pushed out to infinity, for $g<f$ no image can be formed.
+
+Most lenses have a minimum focussing distance $g>2f$, given  by constructive constraints to how far the lens can be moved from the imaging plane (film or sensor). Macro lenses allow $2f\le g>f$.
+
+For an arbitrary object distance $g>2f$ the image distance is given by \Eref{eq:b}:
+
+\includegraphics[width=\maxwidth]{lens-focus.pdf}
+
+Since for objects at distances $d \neq g$ the images will be formed either before or after the imaging plane, they appear out of focus due to blurring. As long as the blurring is less than the CoC, the respective image will still appear sharp, though.
+From this consideration a certain distance range will be imaged focussed, the \emph{depth of field} (DOF).
+
+\includegraphics[width=\maxwidth]{lens-dof.pdf}
+
 \subsection{Hyperfocal Distance}
 \label{sec:hyperfocal-distance}
 
-
-The hyperfocal distance (HFD) is the distance that when set on a lens results in the largest possible depth of field (DOF) for a given focal length/aperture combination: everything between a minumum distance of $\mathrm{HFD}/2$ to $\infty$ is \emph{in focus} (i.\,e., not more blurred than \COC).
+Setting $g$ to the so-called \emph{hyperfocal distance} (HFD, simply $H$ in the formulas) the focus of the far limit is at a distance $f$ behind the lens, i.\,e., the far limit is just approaching $\infty$. This results in the largest possible depth of field (DOF): everything between a minimum distance of $\mathrm{HFD}/2$ to $\infty$ is \emph{in focus} (i.\,e., not more blurred than CoC).
 
 The HFD depends on focal length, aperture, and the
-desired resolution (COC)
+desired resolution (COC) and is expressed by
 \begin{eqnarray}
   \label{eq:HFD}
   H &=& \frac{f^2}{F\,\COC} + f \label{eq:HFDexact}\\
@@ -277,30 +307,6 @@ Hyperfocal.plot()
 Hyperfocal.plot(COC=0.03/1.6)
 @
 \clearpage
-\subsection{Depth of Field}
-\label{sec:dof}
-(see
-\href{https://www.largeformatphotography.info/articles/IntroToDoF.pdf}{DOF.pdf})
-
-\subsubsection{Basics}
-\label{sec:opt-basics}
-To illustrate what causes blurring first some basic ideal imaging concepts\footnote{Among the aspects being ignored are\begin{itemize}
-\item approximation by  single lens \item lens imperfections (spherical and chromatic aberration)\end{itemize}} consider an object at infinity ($g\rightarrow\infty$): the rays enter the lens in parallel and are focussed in a plane with distance $b=f$ behind the lens.
-
-\includegraphics[width=\maxwidth]{lens-infty.pdf}
-As the object gets \emph{closer}, the imaging plane moves away from the lens. The symmetric case is reached for an  object at a distance of $d=2f$ in front of the lens the image of which is formed in  a plane $2f$ behind the lens.
-
-\includegraphics[width=\maxwidth]{lens-2f.pdf}
-It follows from symmetry that  for this distance the image is as big as the object, the lens operates at a magnification factor of 1 ($\rightarrow$ macro, see Section~\ref{sec:opt-mag}).
-
-Getting the object even closer to the lens will move the image plane further out, but only dedicated macro lenses operate in that regime.
-
-At $g=f$ the limit is reached where the image plane is pushed out to infinity, for $g<f$ no image can be formed.
-
-Most lenses have a minimum focussing distance $g>2f$, given  by constructive constraints to how far the lens can be moved from the imaging plane (film or sensor). Macro lenses allow $2f\le g>f$.
-
-For an arbitrary object distance $g>2f$
-
 
 \subsubsection{Near and far limits}
 \label{sec:near-far}
@@ -351,8 +357,13 @@ given by
     & \stackrel{d\gg f}{\approx} & \frac{f^2}{\COC}\cdot\frac{d_\mathrm{far} -
           d_\mathrm{near}}{2d_\mathrm{far}d_\mathrm{near}}
 \end{eqnarray}
+\section{Viewing angle}
+\label{sec:angle}
+The viewing angle is determined by  the folcal length $f$ and
 \cleardoublepage
-
+\appendix
+\section{DOF plots}
+\label{apdx:DOFplots}
 \subsection{DOF full format}
 \subsubsection{24mm}\label{sec:24}
 <<portrait24, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(24,'mm on full format sensor'), warning=FALSE,results='hide'>>=
