@@ -109,7 +109,7 @@ source('photo.R')
 \subsection{Sensor sizes}
 \label{sec:sensor}
 
-Various sensor sizes are in use for digital cameras (and smartphones), ann overview is given in \Tref{tab:sensor}.
+Various sensor sizes are in use for digital cameras (and smartphones), an overview is given in \Tref{tab:sensor}.
 
 \begin{sidewaystable}[htp]
 \begin{center}
