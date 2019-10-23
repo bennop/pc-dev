@@ -530,8 +530,8 @@ Hyperfocal.plot <- function(...){
     ##
     ## this list could be factored out (similar to f.values) to be
     ## more flexible
-    lenses <- cbind(f = c(400, 200, 100,  85,  70,  50,  24, 17, 8),
-                    F = c(5.6, 2.8,   4, 1.2, 2.8, 1.4, 2.8,  4, 4))
+    lenses <- cbind(f = c(400, 200, 100,  85,  70,  50,  24, 17, 11, 8),
+                    F = c(5.6, 2.8,   4, 1.2, 2.8, 1.4, 2.8,  4,  4, 4))
 
     n <- nrow(lenses)                   # number of lenses
     f.lengths <- rev(lenses[,1])        # focal lengths
@@ -540,7 +540,7 @@ Hyperfocal.plot <- function(...){
     fills <- sapply(nfl,
                     function(i)substr('        ',
                                       1,
-                                      2*(max.nfl - (i-1))))
+                                      2*(max.nfl - (i-1)))) # two SPACEs have width of one digit
     fl.str <- paste0(fills, f.lengths)  # format so that numbers are right
                                         # aligned in legend
     cols <- rainbow(n,                  # rainbow colors for different lenses
