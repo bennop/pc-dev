@@ -240,10 +240,13 @@ TSWLatexianTemp*
 
 # generated if using elsarticle.cls
 *.spl
-figure
+
 photo.pdf
 photo.tex
 .RData
 .Rhistory
 
 _region_.tex
+.Rproj.user
+*.ipynb
+lens.afdesign
