@@ -155,7 +155,7 @@ It usually is more convenient to work with the lens $f$-number than the aperture
   \label{eq:vn}
 \end{equation}
 \begin{equation}
-    v_f=\frac{fv}{f + Nc}
+    v_f=\frac{fv}{f + N\!c}
    % #4
   \label{eq:vf}
 \end{equation}
@@ -172,10 +172,10 @@ v=\frac{uf}{u-f}\quad,
 \end{equation}
 substituting into Eqs.~\ref{eq:vn} and \ref{eq:vf}, and rearranging yields the corresponding relations in object space:
 %% uf 2 uf 2
-%%  uf &f2−Nc(u−f) (7) 
+%%  uf &f2−N\!c(u−f) (7) 
 \begin{eqnarray}
-u_n&=&\frac{uf^2}{f^2 + Nc(u-f)}\label{eq:un}\\
-u_f&=&\frac{uf^2}{f^2 - Nc(u-f)}\label{eq:uf}
+u_n&=&\frac{uf^2}{f^2 + N\!c(u-f)}\label{eq:un}\\
+u_f&=&\frac{uf^2}{f^2 - N\!c(u-f)}\label{eq:uf}
    %. # 6,7
    \label{eq:unf}
 \end{eqnarray}
@@ -208,18 +208,18 @@ and
 
 Setting the far limit of DoF in Eq. (7) to infinity and solving for object distance gives
 %% uh & f 2 + f (11)
-%%  Nc
+%%  N\!c
 The distance $u_h$ is called the hyperfocal distance. At the hyperfocal distance, a difference of
 one focal length is insignificant, so Eq. (11) often is given simply as
 %% 1 
 %% f2
-%% uh ≈ Nc (12)
+%% uh ≈ N\!c (12)
 %%  When the object distance is the hyperfocal distance, the near limit of DoF, from Eq. (6), is f2+fu
-%%  un & Nc   & h (13) 22
+%%  un & N\!c   & h (13) 22
 %%  so the depth of field extends from half the hyperfocal distance to infinity. From Eq. (11) and the relationship
 %% m&f, u−f
 %% the magnification at uh is
-%% mh & Nc (14)
+%% mh & N\!c (14)
 %% f
 %% If the near limit of DoF is fixed, focus is set to
 %% u & 2un , (15)
@@ -227,36 +227,36 @@ one focal length is insignificant, so Eq. (11) often is given simply as
 %% N ≈ 2cu (16) n
 %%  Front and Rear Depth of Field
 %% The DoF in front of the focused object is
-%% u−u& Ncu(u−f) (17)
-%% n f 2 + Nc (u − f )
+%% u−u& N\!cu(u−f) (17)
+%% n f 2 + N\!c (u − f )
 %% The DoF beyond the focused object is
-%%  u−u& Ncu(u−f) (18) f f 2 − Nc(u − f )
+%%  u−u& N\!cu(u−f) (18) f f 2 − N\!c(u − f )
 %%  The front and rear DoF can be expressed in terms of the magnification by making the substitution
 %% u−f&f m
 %% into the equations for front and rear DoF and rearranging, the near DoF is
-%% u−un & Nc(1+m) ,
+%% u−un & N\!c(1+m) ,
 %% (19)
 %%   and the far DoF is
-%% m2 ⎛1+ Nc ⎞
+%% m2 ⎛1+ N\!c ⎞
 %% ⎜ fm⎟ ⎝⎠
 
-%% uf −u& Nc(1+m) m2 ⎛1− Nc ⎞
+%% uf −u& N\!c(1+m) m2 ⎛1− N\!c ⎞
 %% (20)
-%%  The front:rear DoF ratio is u − u f 2 − Nc (u − f )
+%%  The front:rear DoF ratio is u − u f 2 − N\!c (u − f )
 %% ⎜ fm⎟ ⎝⎠
-%%  fm − Nc u−u f2+Nc(u−f) fm+Nc
+%%  fm − N\!c u−u f2+N\!c(u−f) fm+N\!c
 %% n& &
 %% It often is stated that approximately 1⁄3 of the DoF is in front of the point of focus, and 2⁄3 of
 %% the DoF is behind it. However, this is true only at one object distance: u&f2+f,
-%% 3Nc
+%% 3N\!c
 %% or slightly greater than 1⁄3 the hyperfocal distance. The front:rear DoF ratio is zero at the hyperfocal distance and beyond (the rear DoF is infinite); at high magnification, front and rear DoF are nearly equal.
 \subsection{Total Depth of Field}
 
 The total depth of field between the near and far limits is
 %% (21)
 \begin{equation}
-     u_f-u_n = \frac{uf^2 \left[f^2 +Nc(u- f)- f^2 +Nc(u-f)\right]}{\left[f^2 -Nc(u-f)\right]\left[f^2 +Nc(u-f)\right]} = 
-     \frac{ 2uNcf^2 (u- f)}{f^4 -N^2c^2(u-f)^2}
+     u_f-u_n = \frac{uf^2 \left[f^2 +N\!c(u- f)- f^2 +N\!c(u-f)\right]}{\left[f^2 -N\!c(u-f)\right]\left[f^2 +N\!c(u-f)\right]} = 
+     \frac{ 2uN\!cf^2 (u- f)}{f^4 -N^2c^2(u-f)^2}
    % #22
    \label{eq:uf-n1}
 \end{equation}
@@ -271,39 +271,33 @@ and
 \end{equation}
 total depth of field in terms of magnification is
 \begin{equation}
-u_f-u_n = \frac{2f\left(\frac{m+1}m\right)Ncf^2\left(\frac f m\right)}{f^4 -N^2c^2\left(\frac f m\right)^2} = \frac{2f\left(\frac{m+1}m\right)}{\frac{fm}{Nc}-\frac{Nc}{fm}}
+u_f-u_n = \frac{2f\left(\frac{m+1}m\right)N\!cf^2\left(\frac f m\right)}{f^4 -N^2c^2\left(\frac f m\right)^2} = \frac{2f\left(\frac{m+1}m\right)}{\frac{fm}{N\!c}-\frac{N\!c}{fm}}
 % #23
 \label{eq:uf-n2}
 \end{equation}
 
-%% 2f⎛m+1⎞Ncf2⎛f⎞ 2f⎛m+1⎞ ⎜m⎟ ⎜m⎟ ⎜m⎟ u−u&⎝ ⎠ ⎝⎠&⎝ ⎠
 At the hyperfocal distance, the two terms in the denominator are equal, and the DoF is infinite, although only objects at or beyond the near limit of DoF are rendered acceptably sharp. At distances beyond the hyperfocal distance, the calculated DoF is negative, but this has no physical significance. When the DoF is infinite, the only quantity of interest would seem to be the near limit of DoF, which, as can be seen from Eq. (9), is closer with a lens of shorter focal length.
 
-Multiplying the numerator and denominator of Eq.~\ref{eq:uf-n2} by $Ncm/f$
-%%        fn 2fmNc
-%% (23)
-%% f4 −N2c2⎛ f ⎞ ⎜m⎟ ⎝⎠
-%% Nc − fm
-%% Ncm f
+Multiplying the numerator and denominator of Eq.~\ref{eq:uf-n2} by $\frac{N\!cm}f$
 gives
 \begin{equation}
-   u_f-u_n = \frac{2Nc(m+1)}{m^2-\left(\frac(Nc)f\right)^2}
+   u_f-u_n = \frac{2N\!c(m+1)}{m^2-\left(\frac{N\!c}f\right)^2}
    % #24
       \label{eq:uf-n3}
 \end{equation}
-%% u −u & 2Nc(m+1)
-%% f n ⎛ Nc ⎞2 m2 −⎜ f ⎟
+%% u −u & 2N\!c(m+1)
+%% f n ⎛ N\!c ⎞2 m2 −⎜ f ⎟
 It can be seen from Eq.~\ref{eq:uf-n3} that a shorter focal length
 gives a greater DoF. When $u \ll u_h$, the second term in the denominator is small compared with the first, so that
 \begin{equation}
-   u_f-u_n \approx 2Nc\frac{m+1}{m^2}
+   u_f-u_n \approx 2N\!c\frac{m+1}{m^2}
    % #25
    \label{eq:uf-n4}
 \end{equation}
 and the DoF is independent of focal length.
 
 Note that for constant DoF in Eq.~\ref{eq:uf-n4}, there is a reciprocal relationship between $N$ and
-$c$: using a greater $f$-number is equivalent to specifying a smaller circle of confusion, and vice versa. This can be useful when using lens DoF scales that assume a final-image enlargement different from that actually intended. For example, if the lens DoF scales assume a 5× enlargement, and the image actually requires 7× enlargement, using an $f$-number one step greater (e.\,g., f/8 rather than f/5.6) will effectively reduce the CoC by a factor of $\sqrt 2$ , sufficient to compensate for the greater enlargement.
+$c$: using a greater $f$-number is equivalent to specifying a smaller circle of confusion, and vice versa. This can be useful when using lens DoF scales that assume a final-image enlargement different from that actually intended. For example, if the lens DoF scales assume a 5× enlargement, and the image actually requires 7× enlargement, using an $f$-number one step greater (e.\,g., $f$/8 rather than $f/$5.6) will effectively reduce the CoC by a factor of $\sqrt 2$ , sufficient to compensate for the greater enlargement.
 \subsection{Focus and Minimum $f$-Number for Given Depth of Field}
 
 If the depth of field is to extend to infinity, the minimum $f$-number
@@ -437,7 +431,7 @@ If lens DoF scales are not available, and it is impractical to measure image dis
 
 Substituting Eq. (5) into Eq. (11) and rearranging gives the image distance $v_h$ corresponding to the hyperfocal distance $u_h$:
 \begin{equation}
-   v_h = f + Nc
+   v_h = f + N\!c
    % # (41)
    \label{eq:vh} 
 \end{equation}
@@ -492,9 +486,9 @@ Eqs. (1) and (2) assumed identical CoCs for the near and far limits of DoF; usin
 %% v−vf &cf (47)
 %% vf d
 Replacing $d$ with the focal length and $f$-number gives
-%% vn −v & Ncn (48) vn f
+%% vn −v & N\!cn (48) vn f
 %% and
-%% v−vf &Ncf (49)
+%% v−vf &N\!cf (49)
 %% vf f
 combining Eqs. (48) and (49) and solving for $v$ gives
 %% v&(cn +cf )vnvf (50) cnvn +cfvf
@@ -575,20 +569,20 @@ The near and far limits of DoF are obtained by substituting  into
 Eqs. (48) and (49), giving
 \begin{equation}
   \label{eq:61}
-  u_n=\frac{uf^2}{f^2+Nc_n(u-f)}
+  u_n=\frac{uf^2}{f^2+N\!c_n(u-f)}
   % #61
 \end{equation}
 and
 \begin{equation}
   \label{eq:62}
-  u_f=\frac{uf^2}{f^2-Nc_f(u-f)}\quad.
+  u_f=\frac{uf^2}{f^2-N\!c_f(u-f)}\quad.
   % #61
 \end{equation}
 Setting the far limit of DoF to infinity and solving for object
 distance gives
 \begin{equation}
   \label{eq:uh}
-  u_h=\frac{f^2}{Nc_f}+f
+  u_h=\frac{f^2}{N\!c_f}+f
   % #63
 \end{equation}
 the hyperfocal distance for different near- and far-limit CoCs. When
@@ -596,7 +590,7 @@ the object distance is the hyperfocal distance, the near limit of DoF,
 from Eq. (61), is
 \begin{equation}
   \label{eq:un}
-  u_n = \frac{c_f}{c_n+c_f}\left(\frac{f^2}{Nc_f}+f\right)
+  u_n = \frac{c_f}{c_n+c_f}\left(\frac{f^2}{N\!c_f}+f\right)
   % #64
 \end{equation}
 
@@ -622,7 +616,7 @@ Sometimes the recognizability of objects may be more important than a specified 
 %% cn vf vn−f
 %% The expressions for focus distance and $f$-number do not lend themselves to easily used simplifications, except when the far limit of DoF extends to infinity: then vf & f, and cf & 0. From Eq. (54), the focus is set to infinity; from Eq. (6), the near limit of DoF then is
 %% f2
-%% un & Nc , (69)
+%% un & N\!c , (69)
 %% n
 %% essentially the hyperfocal distance. From Eq. (57), the $f$-number is
 %% N ≈ vn − f , (70) cn
@@ -730,13 +724,13 @@ When recognizability of objects is the most important consideration, as usually 
 %% Making the substitution
 %% d & pf N
 %% into Eq. (82) gives
-%% Nc& vn −v & v−vf (83)
+%% N\!c& vn −v & v−vf (83)
 %% pf v −x' v −x' n ap f ap
 \subsection{Image Space}
 
 %% Substituting Eq. (80) into Eq. (83) and rearranging, one arrives at several relations in image space. The image distances corresponding to the near and far limits of DoF are
-%% v & fv−Ncf(1p−1) (84) n f −Nc(1p)
-%% v & fv+Ncf(1p−1) (85) f f +Nc(1p)
+%% v & fv−N\!cf(1p−1) (84) n f −N\!c(1p)
+%% v & fv+N\!cf(1p−1) (85) f f +N\!c(1p)
 %% The required focus point and $f$-number to have the DoF extend from un to uf are
 %% v&2vnvf −(vn+vf)f(1−p) (86)
 %% vn +vf −2f(1−p)
@@ -760,20 +754,20 @@ substituting into Eqs. (84) through (88), and again rearranging, one
 arrives at the corresponding relations in object space. The near and
 far limits of DoF are
 \begin{eqnarray}
-     u_n & = & \frac{uf^2-Ncf\left(\frac1p-1\right)(u-f)}{f^2 + Nc(u-f)}\label{eq:89}\\
-     u_f & = & \frac{uf^2-Ncf\left(\frac1p-1\right)(u-f)}{f^2 - Nc(u-f)}\label{eq:90}
+     u_n & = & \frac{uf^2-N\!cf\left(\frac1p-1\right)(u-f)}{f^2 + N\!c(u-f)}\label{eq:89}\\
+     u_f & = & \frac{uf^2-N\!cf\left(\frac1p-1\right)(u-f)}{f^2 - N\!c(u-f)}\label{eq:90}
 \end{eqnarray}
 When $u_f = \infty$, the focus distance is the hyperfocal distance
 $u_h$, where
 \begin{equation}
   \label{eq:uh2}
-  u_h = \frac{f^2}{Nc} + f
+  u_h = \frac{f^2}{N\!c} + f
 \end{equation}
 the same as for a symmetrical lens. Solving for the near limit of DoF
 gives
 \begin{equation}
   \label{eq:3un}
-  u_n = \frac{\frac{f^2}{Nc} + f - f\left(\frac1p-1\right)}2\quad,
+  u_n = \frac{\frac{f^2}{N\!c} + f - f\left(\frac1p-1\right)}2\quad,
   % #92
 \end{equation}
 or slightly less than half the hyperfocal distance.
@@ -822,14 +816,14 @@ the same as Eq. (45) for a symmetrical lens.
 The DoF in front of the focused object is
 \begin{equation}
   \label{eq:98}
-  u-u_n=\frac{\left[Ncf\left(\frac 1p-1\right) + Ncu\right](u-f)}{f^2
-    + Nc(u-f)}
+  u-u_n=\frac{\left[N\!cf\left(\frac 1p-1\right) + N\!cu\right](u-f)}{f^2
+    + N\!c(u-f)}
   % #98
 \end{equation}
 %% Page 24 
 The DoF beyond the focused object is
 \begin{equation}
-u_f-u=\frac{\left[Ncf\left(\frac 1 p -1\right) + Ncu\right](u-f)}{f^2-Nc(u-f)}
+u_f-u=\frac{\left[N\!cf\left(\frac 1 p -1\right) + N\!cu\right](u-f)}{f^2-N\!c(u-f)}
    %% #(99)
    \label{eq:dofbfo}
 \end{equation}
@@ -855,20 +849,20 @@ the same as for a symmetrical lens.
 
 The total DoF is
 \begin{equation}
-   u_f - u_n = \frac{2Ncf^2\left[u+f\left(\frac 1 p -1 \right)\right](u-f)}{f^4-N^2c^2(u-f)^2}
+   u_f - u_n = \frac{2N\!cf^2\left[u+f\left(\frac 1 p -1 \right)\right](u-f)}{f^4-N^2c^2(u-f)^2}
    % #103
    \label{eq:totdof}
 \end{equation}
 or, in terms of the magnification,
 \begin{equation}
-   u_f - u_n = \frac{2f\left(\frac 1 m + \frac 1 p\right)}{\frac{fm}{Nc}-\frac{Nc}{fm}}
+   u_f - u_n = \frac{2f\left(\frac 1 m + \frac 1 p\right)}{\frac{fm}{N\!c}-\frac{N\!c}{fm}}
    % #104
    \label{eq:magdof}
 \end{equation}
 At the hyperfocal distance, the two terms in the denominator are equal, and the DoF is
  infinite. When $u\ll u_h$, the second term in the denominator is small, and
 \begin{equation}
-   u_f - u_n = \frac{2NC}{m}\left(\frac 1 m + \frac 1 p\right)
+   u_f - u_n = \frac{2N\!c}{m}\left(\frac 1 m + \frac 1 p\right)
    % #105
    \label{eq:DOFapprox}
 \end{equation}
@@ -877,9 +871,10 @@ At the hyperfocal distance, the two terms in the denominator are equal, and the 
 
 \subsection{Effect of Lens Asymmetry}
 
-The effect of asymmetry is greatest when a lens for which p differs substantially from unity is used at high magnification. Accordingly, large-format photographers usually can neglect the pupillary magnification: most medium- and short-focus large-format lenses have $p$ close to 1, and telephoto large-format lenses seldom are used at high magnification; for example, at $m = 0.1$, a telephoto lens with $p  0.75$ has 3\% greater DoF than a lens with $p = 1$. This is fortunate, because the asymmetrical-lens DoF formulae are sufficiently complex that their use in the field is impractical without a programmable calculator or handheld computer; moreover, the image-side formulae for setting focus and $f$-number require absolute image distances, which can be difficult to measure.
+The effect of asymmetry is greatest when a lens for which $p$ differs substantially from unity is used at high magnification. Accordingly, large-format photographers usually can neglect the pupillary magnification: most medium- and short-focus large-format lenses have $p$ close to 1, and telephoto large-format lenses seldom are used at high magnification; for example, at $m = 0.1$, a telephoto lens with $p  0.75$ has 3\% greater DoF than a lens with $p = 1$. This is fortunate, because the asymmetrical-lens DoF formulae are sufficiently complex that their use in the field is impractical without a programmable calculator or handheld computer; moreover, the image-side formulae for setting focus and $f$-number require absolute image distances, which can be difficult to measure.
 
 The effect of asymmetry can be significant for telephoto macro lenses for hand cameras: at $m = 1$, a lens with $p = 0.4$ has 75\% greater DoF than a lens with $p = 1$. Again, the application of the asymmetrical-lens DoF formulae to practical situations can be difficult, albeit for different reasons than with large-format lenses. Distance scales on hand-camera lenses usually indicate object-to-image distance rather than object distance, and the difference is significant at close distances. Conversion between the two distances is not always simple, because many close-focusing hand-camera lenses use internal focusing, so that pupillary magnification as well as focal length change with focus distance. Lens manufacturers have this information readily available; consequently, lens DoF scales or charts provided by the lens manufacturer usually provide the most accurate estimates of DoF. In any event, it is obvious from Eq. (105) that Eq. (25) should not be used to estimate closeup DoF for highly asymmetrical lenses.
+
 \subsection{Symmetrical Lens}
 
 In the case of a symmetrical lens for which $p = 1$, the relations in image and in object space reduce to the simpler ones given at the beginning of this paper and in most other treatments of depth of field. Except for closeup work with substantially asymmetrical lenses, the error resulting from use of the symmetrical-lens formulae usually is minimal.
