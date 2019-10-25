@@ -524,7 +524,7 @@ For constant magnification of the focused object, the diameter of the blur spot 
 %% 
 If the “relative blur” $k_r$ is the ratio of blur spot diameter to magnification, then
 \begin{equation}
-    \frac k{m_\mathrm{d}} = \frac m{m+1}\frac{|x_\mathrm{d}|}N
+    \frac{k}{m_\mathrm{d}} = \frac m{m+1}\frac{|x_\mathrm{d}|}N
     % #45
     \label{eq:km}
 \end{equation}
@@ -912,7 +912,7 @@ of this document for the correct value.} and (95), the “relative blur”
 is
 \begin{equation}
   \label{eq:96}
-  k_r=\\frac k {m_\mathrm{d}} = \frac m{m+1} \frac p N
+  k_r=\frac k {m_\mathrm{d}} = \frac m{m+1} \frac p N
   \frac{u_\mathrm{d}|u_\mathrm{d}-u|}{u_\mathrm{d}+(u_\mathrm{d}-f)(p-1)}
   % #96
 \end{equation}
@@ -1052,20 +1052,19 @@ Diffraction by the aperture stop places an absolute limit on the resolution of e
 or in terms of resolving power,
 \begin{equation}
   \label{eq:RP}
-  RP = \frac{1500}{N(1+m)\,\mathrm{lp/mm}}\quad,
+  \mathrm{RP} = \frac{1500}{N(1+m)}\,[\mathrm{lp/mm}]\quad,
 \end{equation}
 which leads the commonly cited
 \begin{equation}
   \label{eq:RPmax}
-  \mathrm{RP_{max}}  = \frac{1500}N\,\mathrm{lp/mm}
+  \mathrm{RP_\mathrm{max}}  = \frac{1500}N\,[\mathrm{lp/mm}]
 \end{equation}
 at infinity focus. For a given resolution, there is a maximum $f$-number. If it is required that the resolution not exceed the CoC, then $R_\mathrm{diff} = c$, and from Eq. \ref{eq:Rdiff},
 \begin{equation}
    \label{eq:Nmax}
-   N_\mathrm{max}=\frac{1500c}{(1+m) \mathrm{mm}}
+   N_\mathrm{max}=\frac{1500c}{(1+m)\,[\mathrm{mm}]}
 \end{equation}
-%% N & 1500c max (1+m) mm
-For example, if 0.025\,mm were the acceptable circle of confusion for a 35\,mm image, the maximum usable $f$-number at infinity focus (m = 0) would be 37.5; at m = 1, the maximum $f$-number would be 18.75. The effects of diffraction obviously become more important in closeup photography.
+For example, if 0.025\,mm were the acceptable circle of confusion for a 35\,mm image, the maximum usable $f$-number at infinity focus ($m = 0$) would be 37.5; at $m = 1$, the maximum $f$-number would be 18.75. The effects of diffraction obviously become more important in closeup photography.
 
 Recall from Eq. (76) that for a given DoF, when perspective and
 image framing are held constant by suitable lens selection, the
@@ -1124,9 +1123,9 @@ C = \frac{L_\mathrm{max} - L_\mathrm{min}}{L_\mathrm{max} + L_\mathrm{min}}
 \end{equation}
 where $L_\mathrm{max}$ and $ L_\mathrm{min}$ are the maximum and minimum luminances of the object or image. Because of the similarity to amplitude modulation in communications, the contrast commonly is referred to as modulation. Modulation transfer is
 \begin{equation}
-\mathrm{MTF} = \frac{M_i}{M_o}\quad,
+\mathrm{MTF} = \frac{M_\mathrm i}{M_\mathrm o}\quad,
 \end{equation}
-where $M_i$ is the modulation of the image and $M_o$ is the modulation of the target. The modulation transfer function gives the modulation transfer as a function of defocus, $f$-number, and spatial frequency. In the discussion that follows, a sinusoidal target is assumed in all cases.
+where $M_\mathrm i$ is the modulation of the image and $M_\mathrm o$ is the modulation of the target. The modulation transfer function gives the modulation transfer as a function of defocus, $f$-number, and spatial frequency. In the discussion that follows, a sinusoidal target is assumed in all cases.
 
 For a diffraction-limited lens with no defocus, 
 MTF is 
@@ -1148,13 +1147,15 @@ The MTFs for a diffraction-limited lens at various $f$-numbers are shown in Figu
 \end{figure}
 %% Figure 6. MTF for Diffraction-Limited Lens, 4×5, at Various $f$-Numbers
 Diffraction acts as a low-pass filter, leading to blurring of fine detail. As the $f$-number is increased by stopping down, the blurring occurs at progressively lower spatial frequencies. The spatial frequency corresponding to the Rayleigh criterion is given by Eq. (109); at that frequency, the MTF given by Eq. (115) is approximately 0.09. Eq. (115) is zero when $\phi = 0$, corresponding to
-%% ν& 1 , (116) 0 λN(1+m)
-sometimes called the cutoff spatial frequency because it is the maximum spatial frequency that a lens will transmit. This frequency is the same as that corresponding to the Dawes resolution criterion. For λ = 546\,nm, at infinity focus,
+\begin{equation}
+   v_0 = \frac1{\lambda N(1+m)}
+   \label{eq:v0}
+   % #116
+\end{equation}
+sometimes called the cutoff spatial frequency because it is the maximum spatial frequency that a lens will transmit. This frequency is the same as that corresponding to the Dawes resolution criterion. For $λ = 546$\,nm, at infinity focus,
 \begin{equation}
 v_0 \approx \frac{1830}N\,\mathrm{lp/mm}\quad.
-\end{equation}
-  
-                                                               
+\end{equation}                                
 A method for determining the MTF for a diffraction-limited lens with defocus was developed by Hopkins (1955):
 \begin{equation}
    \mathrm{MTF}(k,N,v) = \frac4{\pi a}\int_0^{\sqrt{1-s^2}}\sin \left[a\left(\sqrt{1-y^2} - s \right) \right] dy \quad,
@@ -1501,7 +1502,7 @@ The standard CoCs used in DoF calculations assume certain conditions of image en
 \begin{center}
 {\small
 \begin{tabular}{r@{~=~}l}
-$delta$ & Lens defocus     \\
+$\delta$ & Lens defocus     \\
 $\lambda$ & Wavelength of light     \\
 $v$ & Spatial frequency of object or image pattern     \\
 $v_0$ & Cutoff spatial frequency for which MTF = 0      \\
@@ -1509,8 +1510,8 @@ $c$ & Acceptable circle of confusion     \\
 $c_\mathrm{f}$ & Acceptable circle of confusion for objects at far limit of DoF     \\
 $c_\mathrm{n}$ & Acceptable circle of confusion for objects at near limit of
         DoF     \\
-$c_{mkd}$ & Circle of confusion used to determine lens DoF scale     \\
-$c_T$ & Total acceptable circle of confusion for defocus and
+$c_\mathrm{mkd}$ & Circle of confusion used to determine lens DoF scale     \\
+$c_\mathrm{T}$ & Total acceptable circle of confusion for defocus and
         diffraction     \\
 $D$ & Diameter of lens entrance pupil      \\
 $d$ & Diameter of lens exit pupil     \\
@@ -1522,19 +1523,19 @@ $k$ & Diameter of blur spot for defocused point at object distance
 $k_\mathrm{def}$ & Diameter of defocus blur spot     \\
 $k_\mathrm{diff}$ & Diameter of diffraction blur spot     \\
 $k_\mathrm{r}$ & “Relative blur” of defocused object     \\
-$L_{max}$ & Maximum luminance of test pattern or its image      \\
-$L_{min}$ & Minimum luminance of test pattern or its image     \\
-l & Camera format characteristic dimension\\
+$L_\mathrm{max}$ & Maximum luminance of test pattern or its image      \\
+$L_\mathrm{min}$ & Minimum luminance of test pattern or its image     \\
+$l$ & Camera format characteristic dimension\\
 $m$ & Image magnification at  focused distance     \\
 $m_\mathrm{d}$ & Image magnification of object at distance $x_\mathrm{d}$ from plane of
      focus      \\
 $m_\mathrm{h}$ & Image magnification at hyperfocal distance     \\
-N & Relative aperture ($f$-number) of lens, $f/D$     \\
+$N$ & Relative aperture ($f$-number) of lens, $f/D$     \\
 $N_\mathrm{ap}$ & Approximate $f$-number for large object distance     \\
 $N_\mathrm{mkd}$ & Marked $f$-number on lens     \\
 $N_\mathrm{opt}$ & Optimum $f$-number determined from MTF or Hansma’s method     \\
-p & Pupillary magnification of lens, $d/D$     \\
-S & Diameter of smallest object feature to be resolved      \\
+$p$ & Pupillary magnification of lens, $d/D$     \\
+$S$ & Diameter of smallest object feature to be resolved      \\
 $s_\mathrm{ep}$ & Distance of entrance pupil behind object vertex     \\
 $s_\mathrm{H}$ & Distance of object principal plane behind object vertex      \\
 $s'_\mathrm{ap}$ & Distance of exit pupil behind image vertex     \\
