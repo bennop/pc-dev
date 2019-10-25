@@ -126,22 +126,18 @@ The $f$-number determined from the CoC is the minimum that will give acceptable 
 \end{figure}
 %%% Figure 1. DoF for Symmetrical Lens
 
-A symmetrical lens is illustrated in Figure~\ref{fig:symlens}. The object at distance $u$ is in focus at image distance $v$. The objects at distances $u_f$ and $u_n$ would be in focus at image distances $v_f$ and $v_n$, respectively; at image distance $v$, they are imaged as blur spots. The depth of field is controlled by the aperture stop diameter $d$. When the blur spot diameter is equal to the acceptable circle of confusion $c$, the near and far limits of DoF are at $u_n$ and $u_f$. From similar triangles,
+A symmetrical lens is illustrated in Figure~\ref{fig:symlens}. The object at distance $u$ is in focus at image distance $v$. The objects at distances $u_\mathrm{f}$ and $u_\mathrm{n}$ would be in focus at image distances $v_\mathrm{f}$ and $v_\mathrm{n}$, respectively; at image distance $v$, they are imaged as blur spots. The depth of field is controlled by the aperture stop diameter $d$. When the blur spot diameter is equal to the acceptable circle of confusion $c$, the near and far limits of DoF are at $u_\mathrm{n}$ and $u_\mathrm{f}$. From similar triangles,
 \begin{equation}
-  \frac{v_n - v}{v_n} = \frac c d
+  \frac{v_\mathrm{n} - v}{v_\mathrm{n}} = \frac c d
   % #1
   \label{eq:vni}
 \end{equation}
 and
 \begin{equation}
-  \frac{v - v_f}{v_f} = \frac c d
+  \frac{v - v_\mathrm{f}}{v_\mathrm{f}} = \frac c d
   % #2
   \label{eq:vfi}
 \end{equation}
-%% vn −v & c (1) vn d
-%% and
-%% v−vf &c (2)
-%% vf d
 It usually is more convenient to work with the lens $f$-number than the aperture diameter; the
  $f$-number $N$ is related to the lens focal length $f$ and the aperture diameter $d$ by 
  \begin{equation}
@@ -150,12 +146,12 @@ It usually is more convenient to work with the lens $f$-number than the aperture
 \end{equation}
   substituting into Eqs.~\ref{eq:vni} and \ref{eq:vfi} and rearranging gives
 \begin{equation}
-    v_n=\frac{fv}{f -N c}
+    v_\mathrm{n}=\frac{fv}{f -N c}
    % #3
   \label{eq:vn}
 \end{equation}
 \begin{equation}
-    v_f=\frac{fv}{f + N\!c}
+    v_\mathrm{f}=\frac{fv}{f + N\!c}
    % #4
   \label{eq:vf}
 \end{equation}
@@ -165,18 +161,16 @@ The image distance $v$ is related to the object distance $u$ by the thin-lens eq
    % #5
    \label{eq:thinlens}
 \end{equation}
-%% 1+1&1 uvf
 Rearranging into the form 
  \begin{equation}
 v=\frac{uf}{u-f}\quad,
 \end{equation}
 substituting into Eqs.~\ref{eq:vn} and \ref{eq:vf}, and rearranging yields the corresponding relations in object space:
-%% uf 2 uf 2
-%%  uf &f2−N\!c(u−f) (7) 
+
 \begin{eqnarray}
-u_n&=&\frac{uf^2}{f^2 + N\!c(u-f)}\label{eq:un}\\
-u_f&=&\frac{uf^2}{f^2 - N\!c(u-f)}\label{eq:uf}
-   %. # 6,7
+u_\mathrm{n}&=&\frac{uf^2}{f^2 + N\!c(u-f)}\label{eq:un:os}\\
+u_\mathrm{f}&=&\frac{uf^2}{f^2 - N\!c(u-f)}\label{eq:uf:os}
+   % # 6,7
    \label{eq:unf}
 \end{eqnarray}
 
@@ -188,78 +182,114 @@ Image magnification is given by\footnote{Following optical convention, this quan
 \end{equation}
 Combining with Eq.~\ref{eq:thinlens} and rearranging gives
 \begin{equation}
+   \label{eq:m-rel1}
    u-f = \frac f m
 \end{equation}
- Using that substitution and rearranging, Eqs.~\ref{eq:un} and \ref{eq:uf} can be expressed in terms of magnification as
+ Using that substitution and rearranging, Eqs.~\ref{eq:un:os} and \ref{eq:uf:os} can be expressed in terms of magnification as
 \begin{equation}
-      u_n=\frac u{1+\frac{NC}{fm}}
+      u_\mathrm{n}=\frac u{1+\frac{NC}{fm}}
    % # 9
    \label{eq:un2}
 \end{equation}
 and
 \begin{equation}
-      u_f=\frac u{1-\frac{NC}{fm}}
+      u_\mathrm{f}=\frac u{1-\frac{NC}{fm}}
          % # 10
    \label{eq:uf2}
 \end{equation}
 
 \subsection{Hyperfocal Distance}
 
+Setting the far limit of DoF in Eq.~\ref{eq:uf:os} to infinity and solving for object distance gives
+\begin{equation}
+   u_\mathrm{h} = \frac{f^2}{N\!c}+f
+   \label{eq:uhx}
+   % #11
+\end{equation}
+The distance $u_\mathrm{h}$ is called the \emph{hyperfocal distance}. At the hyperfocal distance, a difference of
+one focal length is insignificant, so Eq.~\ref{eq:uhx} often is given simply as
+\begin{equation}
+  u_\mathrm{h} \approx \frac{f^2}{N\!c}
+  \label{eq:uhapprox}
+  % #12
+\end{equation}
+When the object distance is the hyperfocal distance, the near limit of DoF, from Eq.~\ref{eq:un:os}, is 
+\begin{equation}
+u_\mathrm{n} = \frac{\frac{f^2}{N\!c}+f}2 = \frac{u_\mathrm{h}}2
+\end{equation}
+so the depth of field extends from half the hyperfocal distance to infinity. From Eq.~\ref{eq:uhx}  and the relationship (see Eq.~\ref{eq:m-rel1})
+\begin{equation}
+   m = \frac f{u-f}\quad,
+   \label{eq:m-rel2}
+\end{equation}
+the magnification at $u_\mathrm{h}$ is
+\begin{equation}
+   m_\mathrm{h} = \frac{N\!c}f\quad.
+\end{equation}
+If the near limit $u_\mathrm{n}$ of DoF is fixed,  set focus to
+\begin{equation}
+   u = 2 u_\mathrm{n}\quad ,
+   \label{eq:unearfix}
+   % #15
+\end{equation}
+and the $f$-number to
+\begin{equation}
+  N\approx \frac{f^2}{2cu_\mathrm{n}}\quad .
+   \label{eq:unearfix}
+   % #16
+\end{equation}
 
-Setting the far limit of DoF in Eq. (7) to infinity and solving for object distance gives
-%% uh & f 2 + f (11)
-%%  N\!c
-The distance $u_h$ is called the hyperfocal distance. At the hyperfocal distance, a difference of
-one focal length is insignificant, so Eq. (11) often is given simply as
-%% 1 
-%% f2
-%% uh ≈ N\!c (12)
-%%  When the object distance is the hyperfocal distance, the near limit of DoF, from Eq. (6), is f2+fu
-%%  un & N\!c   & h (13) 22
-%%  so the depth of field extends from half the hyperfocal distance to infinity. From Eq. (11) and the relationship
-%% m&f, u−f
-%% the magnification at uh is
-%% mh & N\!c (14)
-%% f
-%% If the near limit of DoF is fixed, focus is set to
-%% u & 2un , (15)
-%%   and the $f$-number is f2
-%% N ≈ 2cu (16) n
-%%  Front and Rear Depth of Field
-%% The DoF in front of the focused object is
-%% u−u& N\!cu(u−f) (17)
-%% n f 2 + N\!c (u − f )
-%% The DoF beyond the focused object is
-%%  u−u& N\!cu(u−f) (18) f f 2 − N\!c(u − f )
-%%  The front and rear DoF can be expressed in terms of the magnification by making the substitution
+\subsection{Front and Rear Depth of Field}
+
+The DoF in front of the focused object is
+\begin{equation}
+   u-u_\mathrm{n} = \frac{N\!cu(u-f)}{f^2 +N\!c(u-f)}
+   \label{eq:17}
+   % #17
+\end{equation}
+The DoF beyond the focused object is
+\begin{equation}
+u_\mathrm{f} - u = \frac{N\!cu(u-f)}{f^2 - N\!c(u-f)}
+\end{equation}
+The front and rear DoF can be expressed in terms of the magnification by making the substitution Eq.~\ref{eq:m-rel1}
 %% u−f&f m
-%% into the equations for front and rear DoF and rearranging, the near DoF is
-%% u−un & N\!c(1+m) ,
-%% (19)
-%%   and the far DoF is
-%% m2 ⎛1+ N\!c ⎞
-%% ⎜ fm⎟ ⎝⎠
+into the equations for front and rear DoF and rearranging, the near DoF is
+\begin{equation}
+   u-u_\mathrm{n} = \frac{N\!c(1+m)}{m^2\left(1+\frac{N\!c}{fm}\right)}
+   \label{eq:19}
+   % #19
+\end{equation}
+and the far DoF is
+\begin{equation}
+u_\mathrm{f} - u = \frac{N\!c(1+m)}{m^2\left(1-\frac{N\!c}{fm}\right)}
+   \label{eq:20}
+   % #20
+\end{equation}
+The front:rear DoF ratio is
+\begin{equation}
+   \frac{u-u_\mathrm{n}}{u_\mathrm{f}-u}=\frac{f^2-N\!c(u-f)}{f^2+N\!c(u-f)} = \frac{fm-N\!c}{fm+N\!c}
+   \label{eq:frrat}
+   % #21
+\end{equation}
 
-%% uf −u& N\!c(1+m) m2 ⎛1− N\!c ⎞
-%% (20)
-%%  The front:rear DoF ratio is u − u f 2 − N\!c (u − f )
-%% ⎜ fm⎟ ⎝⎠
-%%  fm − N\!c u−u f2+N\!c(u−f) fm+N\!c
-%% n& &
-%% It often is stated that approximately 1⁄3 of the DoF is in front of the point of focus, and 2⁄3 of
-%% the DoF is behind it. However, this is true only at one object distance: u&f2+f,
-%% 3N\!c
-%% or slightly greater than 1⁄3 the hyperfocal distance. The front:rear DoF ratio is zero at the hyperfocal distance and beyond (the rear DoF is infinite); at high magnification, front and rear DoF are nearly equal.
+It often is stated that approximately 1⁄3 of the DoF is in front of the point of focus, and 2⁄3 of
+the DoF is behind it. However, this is true only at one object distance: 
+\begin{equation}
+u=\frac{f^2}{3N\!c} + f
+\end{equation}
+or slightly greater than 1⁄3 the hyperfocal distance. The front:rear DoF ratio is zero at the hyperfocal distance and beyond (the rear DoF is infinite); at high magnification, front and rear DoF are nearly equal.
+
 \subsection{Total Depth of Field}
 
 The total depth of field between the near and far limits is
 %% (21)
-\begin{equation}
-     u_f-u_n = \frac{uf^2 \left[f^2 +N\!c(u- f)- f^2 +N\!c(u-f)\right]}{\left[f^2 -N\!c(u-f)\right]\left[f^2 +N\!c(u-f)\right]} = 
+\begin{eqnarray}
+     u_\mathrm{f}-u_\mathrm{n} &=& \frac{uf^2 \left[f^2 +N\!c(u- f)- f^2 +N\!c(u-f)\right]}{\left[f^2 -N\!c(u-f)\right]\left[f^2 +N\!c(u-f)\right]}\nonumber\\
+     & =& 
      \frac{ 2uN\!cf^2 (u- f)}{f^4 -N^2c^2(u-f)^2}
    % #22
    \label{eq:uf-n1}
-\end{equation}
+\end{eqnarray}
 Eliminating the terms in $u$ and $u - f$ by noting that 
 \begin{equation}
 u = \frac{m+1}m f\quad ,
@@ -270,27 +300,28 @@ and
     u-f = \frac f m\quad,
 \end{equation}
 total depth of field in terms of magnification is
-\begin{equation}
-u_f-u_n = \frac{2f\left(\frac{m+1}m\right)N\!cf^2\left(\frac f m\right)}{f^4 -N^2c^2\left(\frac f m\right)^2} = \frac{2f\left(\frac{m+1}m\right)}{\frac{fm}{N\!c}-\frac{N\!c}{fm}}
+\begin{eqnarray}
+u_\mathrm{f}-u_\mathrm{n} &=& \frac{2f\left(\frac{m+1}m\right)N\!cf^2\left(\frac f m\right)}{f^4 -N^2c^2\left(\frac f m\right)^2} \nonumber\\
+&=& \frac{2f\left(\frac{m+1}m\right)}{\frac{fm}{N\!c}-\frac{N\!c}{fm}}
 % #23
 \label{eq:uf-n2}
-\end{equation}
+\end{eqnarray}
 
-At the hyperfocal distance, the two terms in the denominator are equal, and the DoF is infinite, although only objects at or beyond the near limit of DoF are rendered acceptably sharp. At distances beyond the hyperfocal distance, the calculated DoF is negative, but this has no physical significance. When the DoF is infinite, the only quantity of interest would seem to be the near limit of DoF, which, as can be seen from Eq. (9), is closer with a lens of shorter focal length.
+At the hyperfocal distance, the two terms in the denominator are equal, and the DoF is infinite, although only objects at or beyond the near limit of DoF are rendered acceptably sharp. At distances beyond the hyperfocal distance, the calculated DoF is negative, but this has no physical significance. When the DoF is infinite, the only quantity of interest would seem to be the near limit of DoF, which, as can be seen from Eq.~\ref{eq:un2}, is closer with a lens of shorter focal length.
 
 Multiplying the numerator and denominator of Eq.~\ref{eq:uf-n2} by $\frac{N\!cm}f$
 gives
 \begin{equation}
-   u_f-u_n = \frac{2N\!c(m+1)}{m^2-\left(\frac{N\!c}f\right)^2}
+   u_\mathrm{f}-u_\mathrm{n} = \frac{2N\!c(m+1)}{m^2-\left(\frac{N\!c}f\right)^2}
    % #24
       \label{eq:uf-n3}
 \end{equation}
 %% u −u & 2N\!c(m+1)
 %% f n ⎛ N\!c ⎞2 m2 −⎜ f ⎟
 It can be seen from Eq.~\ref{eq:uf-n3} that a shorter focal length
-gives a greater DoF. When $u \ll u_h$, the second term in the denominator is small compared with the first, so that
+gives a greater DoF. When $u \ll u_\mathrm{h}$, the second term in the denominator is small compared with the first, so that
 \begin{equation}
-   u_f-u_n \approx 2N\!c\frac{m+1}{m^2}
+   u_\mathrm{f}-u_\mathrm{n} \approx 2N\!c\frac{m+1}{m^2}
    % #25
    \label{eq:uf-n4}
 \end{equation}
@@ -303,12 +334,12 @@ $c$: using a greater $f$-number is equivalent to specifying a smaller circle of 
 If the depth of field is to extend to infinity, the minimum $f$-number
 is obtained by setting the focus to the hyperfocal distance. Many
 images, however, do not require that the DoF extend to infinity. To
-have the DoF between two arbitrary distances $u_n$ and $u_f$, Eqs. (6)
+have the DoF between two arbitrary distances $u_\mathrm{n}$ and $u_\mathrm{f}$, Eqs. (6)
 and (7) can be solved for $N$, combined, and solved for the object
 distance $u$ to give
 \begin{equation}
   \label{eq:u}
-  u = \frac{2u_fu_n}{u_f+u_n}
+  u = \frac{2u_\mathrm{f}u_\mathrm{n}}{u_\mathrm{f}+u_\mathrm{n}}
   % #26
 \end{equation}
 %% u&2ufun , (26) uf +un
@@ -318,7 +349,7 @@ The required $f$-number is obtained by solving Eqs. (6) and (7) for
 $u$, combining, and solving for $N$, giving
 \begin{equation}
   \label{eq:N}
-  N = \frac{f^2}c\frac{u_f - u_n}{u_f(u_n-f)+u_n(u_f-f)}
+  N = \frac{f^2}c\frac{u_\mathrm{f} - u_\mathrm{n}}{u_\mathrm{f}(u_\mathrm{n}-f)+u_\mathrm{n}(u_\mathrm{f}-f)}
 \end{equation}
 %% f2 u−u
 %% N& fn (27)
@@ -329,7 +360,7 @@ $u$, combining, and solving for $N$, giving
 If the near and far limits of DoF are large in comparison with the lens focal length,
 \begin{equation}
   \label{eq:Napprox}
-  N\approx \frac{f^2}c\frac{u_f - u_n}{2u_fu_n}
+  N\approx \frac{f^2}c\frac{u_\mathrm{f} - u_\mathrm{n}}{2u_\mathrm{f}u_\mathrm{n}}
   % #28
 \end{equation}
 %% f2u−u N≈ f n
@@ -338,90 +369,119 @@ If the focus is set using Eq.~(\ref{eq:u}), the DoF in front of the
 focus point is
 \begin{equation}
   \label{eq:DOFf}
-  u-u_n=\frac{2u_nu_f-u_nu_f-u_n^2}{u_n + u_f} = frac{u_n(u_f - u_n)}{u_n + u_f}
+  u-u_\mathrm{n}=\frac{2u_\mathrm{n}u_\mathrm{f}-u_\mathrm{n}u_\mathrm{f}-u_\mathrm{n}^2}{u_\mathrm{n} + u_\mathrm{f}} = \frac{u_\mathrm{n}(u_\mathrm{f} - u_\mathrm{n})}{u_\mathrm{n} + u_\mathrm{f}}
 \end{equation}
 %% u−u &2uu −uu −u2 &u (u −u ) nfnfnnfn
 %% n un +uf un +uf
 and the DoF beyond the focus point is
 \begin{equation}
   \label{eq:DOFb}
-  u_f - u = \frac{u_f^2 +u_nu_f-2u_nu_f}{u_n + u_f} = frac{u_f(u_f - u_n)}{u_n + u_f}
+  u_\mathrm{f} - u = \frac{u_\mathrm{f}^2 +u_\mathrm{n}u_\mathrm{f}-2u_\mathrm{n}u_\mathrm{f}}{u_\mathrm{n} + u_\mathrm{f}} = \frac{u_\mathrm{f}(u_\mathrm{f} - u_\mathrm{n})}{u_\mathrm{n} + u_\mathrm{f}}
 \end{equation}
 %% u−u&u2+uu−2uu &u(u−u) fnfnfffn
 %% f un +uf un +uf
 The front:rear DoF ratio then is
 \begin{equation}
   \label{eq:frrat}
-  \frac{u - u_n}{u_f - u} = \frac{u_n}{u_f}
+  \frac{u - u_\mathrm{n}}{u_\mathrm{f} - u} = \frac{u_\mathrm{n}}{u_\mathrm{f}}
   % #29
 \end{equation}
 Except when the near and far limits of DoF coincide, the focus point always is closer to the
-near limit. The near-to-total ratio is 1⁄3 only when $u_f = 2u_n$.
+near limit. The near-to-total ratio is 1⁄3 only when $u_\mathrm{f} = 2u_\mathrm{n}$.
+
 \subsection{Image-Side Relationships}
-Most discussions of depth of field concentrate on the object side of the lens; in practice, however, camera settings usually are determined using image distances, whether directly in the case of a view camera, or by using distance and DoF scales on hand-camera lenses. With a view camera, the image distances are obtained by focusing on objects at the desired near and far limits of DoF, and noting the lens extension in each case. The image distances $v_n$ and $v_f$ correspond to object distances $u_n$ and $u_f$; the difference $v_n-v_f$ between the near and far image distances is the \emph{focus spread} $\Dv$.
+Most discussions of depth of field concentrate on the object side of the lens; in practice, however, camera settings usually are determined using image distances, whether directly in the case of a view camera, or by using distance and DoF scales on hand-camera lenses. With a view camera, the image distances are obtained by focusing on objects at the desired near and far limits of DoF, and noting the lens extension in each case. The image distances $v_\mathrm{n}$ and $v_\mathrm{f}$ correspond to object distances $u_\mathrm{n}$ and $u_\mathrm{f}$; the difference $v_\mathrm{n}-v_\mathrm{f}$ between the near and far image distances is the \emph{focus spread} $\Dv$.
 
 Combining Eqs. (1) and (2) gives the image distance $v$ that will set
-the DoF between object distances $u_n$ and $u_f$:
+the DoF between object distances $u_\mathrm{n}$ and $u_\mathrm{f}$:
 \begin{equation}
   \label{eq:v}
-  v =  \frac{2v_nv_f}{v_n+v_f}
+  v =  \frac{2v_\mathrm{n}v_\mathrm{f}}{v_\mathrm{n}+v_\mathrm{f}}
   % #30
 \end{equation}
 the harmonic mean of the near and far image distances. The harmonic mean always is less than the arithmetic mean, but when the focus spread is small, the harmonic mean and arithmetic mean are nearly equal, so that
 \begin{equation}
   \label{eq:vapprox1}
-  v\approx\frac{v_n+v_f}2
+  v\approx\frac{v_\mathrm{n}+v_\mathrm{f}}2
   % #31
 \end{equation}
 %% v≈vn +vf (31) 2
 or
 \begin{equation}
   \label{eq:vapprox2}
-  v \approx v_f + \frac \Dv 2
+  v \approx v_\mathrm{f} + \frac \Dv 2
   % #32
 \end{equation}
 Again combining Eqs. (1) and (2), the far:near distribution of the focus spread is
-%% v−vf &vf (33)
-%% vn−v vn
-%% Using Eq. (5) to substitute for vn and vf, and then rearranging, the focus spread in terms of
-%%   v≈vf +Δv (32) 2
-%%    the object distances is
-%% (u −u )f2
-%% v−v&fn,
-%%  nf or
-%% (u − f )(u − f ) fn
-%% Δv≈(uf −un)mnmf (34)
+\begin{equation}
+   \frac{v-v_\mathrm{f}}{v_\mathrm{n}-v} = \frac{v_\mathrm{f}}{v_\mathrm{n}}\quad.
+   \label{eq:33}
+   % #33
+\end{equation}
+Using Eq. (5) to substitute for $v_\mathrm{n}$ and $v_\mathrm{f}$, and then rearranging, the focus spread in terms   the object distances is
+\begin{equation}
+   v_\mathrm{n}-v_\mathrm{f} = \frac{(u_\mathrm{f}-u_\mathrm{n})f^2}{(u_\mathrm{f}-f)(u_\mathrm{n}-f)}
+\end{equation}
+or
+\begin{equation}
+   \Dv \approx (u_\mathrm{f} - u_\mathrm{n})m_\mathrm{n}m_\mathrm{f} \quad.
+   \label{eq:34}
+   % #34
+\end{equation}
 
 For different camera formats, if the perspective and framing are held constant by suitable choice of lenses, the magnifications of the near and far objects are proportional to the format size. Consequently, the focus spread is proportional to the square of the format size, so that a focus spread of 0.5\,mm in 35\,mm format corresponds to focus spreads of 8\,mm in 4$\times$5 and 32\,mm in 8$\times$10.
 
 Except when the focus spread is zero, the exact focus distance v always will be slightly closer to the far image distance. In most cases, the approximate focus setting is close to the exact value; the difference is given by
-%% v +v 2v v v2 +2v v +v2 −4v v (v −v )2
-%% v −v& n f − n f & n n f f n f & n f (35)
-%%     ap
-%% 2 v +v 2(v +v ) 2(v +v ) nfnfnf
-%% The difference between the approximate and exact values is proportional to the square of the focus spread, and for a given focus spread, is greatest at distant focus. In all cases,
-%% v −v≤(vn−vf)2
-%% ap
-%% This difference always is a positive quantity, so that the image distance determined with the approximate formula always will be slightly greater than that determined with the exact formula, and accordingly, focus will be slightly closer than optimum. Evens (2003) describes this relationship in a slightly different but equivalent form.
-%%  4f
-%% With focus set by Eq. (30), the required $f$-number is
-%% N & f vn −vf (36)
-%%   c vn +vf
-%% When the focus spread is small, vn + vf ≈ 2v, and
-%% N ≈ f Δv (37) v 2c
-%% It sometimes is more convenient to express Eq. (37) in terms of the magnification; substituting the relation
-%% v & (1 + m ) f into Eq. (37), giving
-%% N≈ 1 Δv (38) 1+m 2c
-%%     Except at close working distances, m is small, and Eq. (38) often can be simplified to N ≈ Δv
-%% (39)
-%% (40)
-%%  2c
-%% When this is done, the ratio of approximate to exact $f$-number is
-%% Nap&vn−vf cvn+vf&vn+vf≈v&1+m N2cfvn−vf 2ff
+\begin{equation}
+v_\mathrm{ap} - v =  \frac{v_\mathrm{n}+v_\mathrm{f}}2 - \frac{2v_\mathrm{n}v_\mathrm{f}}{v_\mathrm{n} + v_\mathrm{f}} = \frac{v_\mathrm{n}^2+2v_\mathrm{n}v_\mathrm{f}+v_\mathrm{f}^2-4v_\mathrm{n}v_\mathrm{f}}{2(v_\mathrm{n}+v_\mathrm{f})} = \frac{(v_\mathrm{n} - v_\mathrm{f})^2}{2(v_\mathrm{n}+v_\mathrm{f})} 
+   \label{eq:35}
+   % #35
+\end{equation}
+The difference between the approximate and exact values is proportional to the square of the focus spread, and for a given focus spread, is greatest at distant focus. In all cases,
+\begin{equation}
+v_\mathrm{ap} - v \leq \frac{(v_\mathrm{n} - v_\mathrm{f})^2}{4f} 
+\end{equation}
+This difference always is a positive quantity, so that the image distance determined with the approximate formula always will be slightly greater than that determined with the exact formula, and accordingly, focus will be slightly closer than optimum. Evens (2003) describes this relationship in a slightly different but equivalent form.
+
+With focus set by Eq. (30), the required $f$-number is
+\begin{equation}
+    N = \frac f c\frac{v_\mathrm{n}-v_\mathrm{f}}{v_\mathrm{n}+v_\mathrm{f}}
+    \label{eq:36}
+    % #36
+\end{equation}
+When the focus spread is small, $v_\mathrm{n} + v_\mathrm{f} \approx 2v$, and
+\begin{equation}
+   N \approx \frac f v \frac\Dv{2c}
+   \label{eq:37}
+   % #37
+\end{equation}
+It sometimes is more convenient to express Eq. (37) in terms of the magnification; substituting the relation
+\begin{equation}
+   v=(1+m)f
+\end{equation}
+into Eq. (37), giving
+\begin{equation}
+   N\approx\frac1{1+m}\frac\Dv{2c}
+   \label{eq:38}
+   % #38
+\end{equation}
+
+Except at close working distances, $m$ is small, and Eq. (38) often can be simplified to 
+\begin{equation}
+N\approx\frac\Dv{2c}
+   \label{eq:39}
+   % #39
+\end{equation}
+When this is done, the ratio of approximate to exact $f$-number is
+\begin{equation}
+    \frac{N_\mathrm{ap}}N = \frac{v_\mathrm{n}-v_\mathrm{f}}{2c}\frac c f\frac{v_\mathrm{n}+v_\mathrm{f}}{v_\mathrm{n}-v_\mathrm{f}} = \frac{v_\mathrm{n}+v_\mathrm{f}}{2f}\approx\frac v f = 1+m
+    \label{eq:40}
+    %. #40
+\end{equation}
 
 The error increases with image distance, or equivalently, with magnification. Eq. (39) gives a greater $f$-number than actually required, so to use it is to err on the conservative side. If this error is unacceptable, Eq. (37) or (38) can be used for closeup work.
 
-Equations (32) and (39) are well known to many view camera users; the rear standard is set to a position halfway between the points of focus for the near and far objects, and the lens $f$-number is calculated from the focus spread. Although Eqs. (30) and (36) are simple enough, especially if the calculations are done with a programmable calculator or handheld computer, they require the absolute image distances $v_n$ and $v_f$, which often are not easy to determine, especially if camera movements are employed. Eqs. (32) and (39) require only the difference between the near and far image distances, which usually is easily measured; consequently, these equations are the ones most commonly used on hand-camera lens DoF scales and on DoF calculators for view cameras. Eqs (37) and (38) require the absolute image distance, but a reasonable estimate of image distance or of the magnification often will suffice. It can be shown that Eqs. (32) and (39) are valid even if swings and tilts are employed.
+Equations (32) and (39) are well known to many view camera users; the rear standard is set to a position halfway between the points of focus for the near and far objects, and the lens $f$-number is calculated from the focus spread. Although Eqs. (30) and (36) are simple enough, especially if the calculations are done with a programmable calculator or handheld computer, they require the absolute image distances $v_\mathrm{n}$ and $v_\mathrm{f}$, which often are not easy to determine, especially if camera movements are employed. Eqs. (32) and (39) require only the difference between the near and far image distances, which usually is easily measured; consequently, these equations are the ones most commonly used on hand-camera lens DoF scales and on DoF calculators for view cameras. Eqs (37) and (38) require the absolute image distance, but a reasonable estimate of image distance or of the magnification often will suffice. It can be shown that Eqs. (32) and (39) are valid even if swings and tilts are employed.
 
 If the camera does not include a DoF calculator, measurement of focus spread is much easier if the bed or focusing rail includes a scale, and measurements can be more precise if the focusing knob includes an additional scale. See Hayashi for a description of adding a Sinar-type DoF scale to the focusing knob, and Evens (2003) for a discussion of adding scales to both the rail and the knob.
 
@@ -429,41 +489,42 @@ On a hand camera, the lens DoF scales usually implement these same formulae. Wit
 
 If lens DoF scales are not available, and it is impractical to measure image distances, Eqs. (26) and (28) can be used if there is a convenient way to measure object distances. With a suitable external rangefinder, these formulae could provide a means of controlling DoF with autofocus lenses.
 
-Substituting Eq. (5) into Eq. (11) and rearranging gives the image distance $v_h$ corresponding to the hyperfocal distance $u_h$:
+Substituting Eq. (5) into Eq. (11) and rearranging gives the image distance $v_\mathrm{h}$ corresponding to the hyperfocal distance $u_\mathrm{h}$:
 \begin{equation}
-   v_h = f + N\!c
+   v_\mathrm{h} = f + N\!c
    % # (41)
    \label{eq:vh} 
 \end{equation}
 %% 
 This image distance will put the DoF between half the hyperfocal distance and infinity, and
 can be useful when designing a fixed-focus camera.
+
 \subsection{Depth of Field and Background Blur vs. Focal Length}
 
-Recall that the CoC is the diameter of the blur spot at the near and far limits of DoF; the diameter of the blur spot for a point on a defocused object at an arbitrary distance is obtained by solving Eqs. (6) and (7) for $c$, and replacing the near and far distances by $u_d$, leading to
+Recall that the CoC is the diameter of the blur spot at the near and far limits of DoF; the diameter of the blur spot for a point on a defocused object at an arbitrary distance is obtained by solving Eqs. (6) and (7) for $c$, and replacing the near and far distances by $u_\mathrm{d}$, leading to
 \begin{equation}
-   k = \frac1N \frac{f^2}{u-f}  \frac{|u_d - u|}{u_d} = \frac{fm}N \frac{|u_d - u|}{u_d}
+   k = \frac1N \frac{f^2}{u-f}  \frac{|u_\mathrm{d} - u|}{u_\mathrm{d}} = \frac{fm}N \frac{|u_\mathrm{d} - u|}{u_\mathrm{d}}
    % # 42
    \label{eq:k1}
 \end{equation}
-Equivalently, for a point at a distance $x_d$ from the plane of focus, 
+Equivalently, for a point at a distance $x_\mathrm{d}$ from the plane of focus, 
 \begin{equation}
-   k = \frac{fm}N \frac{x_d}{u\pm x_d}
+   k = \frac{fm}N \frac{x_\mathrm{d}}{u\pm x_\mathrm{d}}
    % # 43
    \label{eq:k2}
 \end{equation}
  The sign in the denominator is negative when the defocused object is in front of the focused object.
 
- For constant magnification of the focused object, the diameter of the blur spot increases with lens focal length; however, the magnification of the defocused object also increases with focal length. The most appropriate measure of “background blur” may be the diameter of the blur spot relative to the image size of the defocused object. Image size is proportional to the magnification; the magnification $m_d$ of an object at a distance xd from the plane of focus is
+For constant magnification of the focused object, the diameter of the blur spot increases with lens focal length; however, the magnification of the defocused object also increases with focal length. The most appropriate measure of “background blur” may be the diameter of the blur spot relative to the image size of the defocused object. Image size is proportional to the magnification; the magnification $m_\mathrm{d}$ of an object at a distance xd from the plane of focus is
 \begin{equation}
-   m_d = \frac v {u_d} = \frac{(m+1)f}{u_d} 
+   m_\mathrm{d} = \frac v {u_\mathrm{d}} = \frac{(m+1)f}{u_\mathrm{d}} 
    % # (44) 
    \label{eq:md}
 \end{equation}
 %% 
 If the “relative blur” $k_r$ is the ratio of blur spot diameter to magnification, then
 \begin{equation}
-    \frac k{m_d} = \frac m{m+1}\frac{|x_d|}N
+    \frac k{m_\mathrm{d}} = \frac m{m+1}\frac{|x_\mathrm{d}|}N
     % #45
     \label{eq:km}
 \end{equation}
@@ -480,7 +541,7 @@ The conventional approach to DoF is based on distinguishing a point from a blur 
 
 \subsection{Image-Side Relationships}
 
-Eqs. (1) and (2) assumed identical CoCs for the near and far limits of DoF; using different near and far values $c_n$ and $c_f$, we have
+Eqs. (1) and (2) assumed identical CoCs for the near and far limits of DoF; using different near and far values $c_\mathrm{n}$ and $c_\mathrm{f}$, we have
 %% vn −v&cn (46) vn d
 %% and
 %% v−vf &cf (47)
@@ -495,26 +556,45 @@ combining Eqs. (48) and (49) and solving for $v$ gives
 Again combining Eqs. (48) and (49), the far:near distribution of the focus spread is
 %% v−vf &cfvf (51)
 %% vn −v cnvn
-Unless the focus spread is large, we usually can take $v_f \approx v_n$ on the right-hand side of
+Unless the focus spread is large, we usually can take $v_\mathrm{f} \approx v_\mathrm{n}$ on the right-hand side of
 %% Eq. (51), so that
 %% v−vf ≈cf (52)
 %% vn−v cn
 Rearranging and solving for v gives
-%% v≈cfvn +cnvf (53) cn +cf
-%%               or
-%% v≈vf+cf Δv, (54)
-%%  cn +cf
-where $Δv$ is the focus spread $v_n - v_f$. Combining Eqs. (48) and (49) and solving for $N$ gives
+\begin{equation}
+   v\approx{c_\mathrm{f}v_\mathrm{n}+c_\mathrm{n}v_\mathrm{f}}{c_\mathrm{n}+c_\mathrm{f}}
+   \label{eq:53}
+   % #53
+\end{equation}
+or
+\begin{equation}
+   v\approx v_\mathrm{f}+\frac{c_\mathrm{f}}{c_\mathrm{n}+c_\mathrm{f}}\Dv
+   \label{eq:54}
+   % #54
+\end{equation}
+where $Δv$ is the focus spread $v_\mathrm{n} - v_\mathrm{f}$. Combining Eqs. (48) and (49) and solving for $N$ gives
+\begin{equation}
+   N=\frac{(v_\mathrm{n}-v_\mathrm{f})f}{c_\mathrm{n}v_\mathrm{n}+c_\mathrm{f}v_\mathrm{f}}
+   \label{eq:55}
+   % #55
+\end{equation}
+
 %% N & (vn - vf ) f (55) cnvn +cfvf
-To within sufficient accuracy for determining $N$, we usually can take $v_n \approx v_f \approx v$ in the denominator, so that
-
-%% N ≈ f vn −vf v cn +cf
+To within sufficient accuracy for determining $N$, we usually can take $v_\mathrm{n} \approx v_\mathrm{f} \approx v$ in the denominator, so that
+\begin{equation}
+   N\approx\frac f v \frac{v_\mathrm{n}-v_\mathrm{f}}{c_\mathrm{n}+c_\mathrm{f}}
+   \label{eq:56}
+   % #56
+\end{equation}
 Except for closeup work, it usually is acceptable to take $v \approx f$, so that Eq. (56) further simplifies to
-%% (56)
-%%   N≈ Δv (57) cn +cf
-Assuming that $c_f < c_n$, Eq. (54) gives an image distance closer to the far image distance than does Eq. (32), and Eq. (57) gives a greater $f$-number than does Eq. (39).
+\begin{equation}
+   N\approx\frac \Dv{c_\mathrm{n}+c_\mathrm{f}}
+   \label{eq:57}
+   % #57
+\end{equation}
+Assuming that $c_\mathrm{f} < c_\mathrm{n}$, Eq. (54) gives an image distance closer to the far image distance than does Eq. (32), and Eq. (57) gives a greater $f$-number than does Eq. (39).
 
-Englander (1994) suggested, in effect, that when the DoF extends to infinity, $c_f$ should be $1⁄2 c_n$. From Eq. (54), focus then would be set to
+Englander (1994) suggested, in effect, that when the DoF extends to infinity, $c_\mathrm{f}$ should be $1⁄2 c_\mathrm{n}$. From Eq. (54), focus then would be set to
 %% v&vf +13Δv,
 and from Eq. (57), the $f$-number would be
 %% N& Δv , 1.5cn
@@ -523,17 +603,17 @@ and far CoCs. Merklinger (1992) desired greater sharpness in distant
 objects, and suggested\footnote{Merklinger actually suggested 1⁄30\,mm
   for the near-limit CoC; 0.025\,mm is used here for consistency with
   the other examples.} a far-limit CoC of 1⁄150\,mm for 35\,mm film;
-using 0.025\,mm for the near-limit CoC, $c_f \approx 1⁄4 c_n$. From
+using 0.025\,mm for the near-limit CoC, $c_\mathrm{f} \approx 1⁄4 c_\mathrm{n}$. From
 Eq. (54), focus would be set to
 \begin{equation}
   \label{eq:57+++}
-  v=v_f+\frac15\Dv\quad,
+  v=v_\mathrm{f}+\frac15\Dv\quad,
 \end{equation}
 %% v&vf +15Δv,
 and from Eq. (57), the $f$-number would be
 \begin{equation}
   \label{eq:57++++}
-  N=\frac \Dv{1.25c_n}\quad
+  N=\frac \Dv{1.25c_\mathrm{n}}\quad
 \end{equation}
 %% N& Δv , 1.25cn
 or approximately 1\,1⁄3 steps greater than would result from equal near and far CoCs. If the CoC were to be reduced by a factor of four simply by stopping down without refocusing, the $f$-number would need to increase by a factor of four, or four steps. Of course, the latter approach would decrease the CoC for both near and far objects; in some situations, this might be of value, in others it might not.
@@ -551,38 +631,38 @@ substituting the conjugate relationship
 into Eqs. (50) and (55), giving
 \begin{equation}
   \label{eq:58}
-  u = \frac{(c_n+c_f)u_nu_f}{c_nu_n+c_fu_f}
+  u = \frac{(c_\mathrm{n}+c_\mathrm{f})u_\mathrm{n}u_\mathrm{f}}{c_\mathrm{n}u_\mathrm{n}+c_\mathrm{f}u_\mathrm{f}}
 \end{equation}
 and
 \begin{equation}
   \label{eq:59}
-  N=\frac{(u_f-u_n)f^2}{c_nu_n(u_f-f)+c_fu_f(u_n-f)}
+  N=\frac{(u_\mathrm{f}-u_\mathrm{n})f^2}{c_\mathrm{n}u_\mathrm{n}(u_\mathrm{f}-f)+c_\mathrm{f}u_\mathrm{f}(u_\mathrm{n}-f)}
   %  #59
 \end{equation}
 If the near and far distances are large in comparison with the lens
 focal length,
 \begin{equation}
   \label{eq:1}
-  N\approx\frac{(u_f-u_n)f^2}{(c_n+c_f)u_nu_f}
+  N\approx\frac{(u_\mathrm{f}-u_\mathrm{n})f^2}{(c_\mathrm{n}+c_\mathrm{f})u_\mathrm{n}u_\mathrm{f}}
 \end{equation}
 The near and far limits of DoF are obtained by substituting  into
 Eqs. (48) and (49), giving
 \begin{equation}
   \label{eq:61}
-  u_n=\frac{uf^2}{f^2+N\!c_n(u-f)}
+  u_\mathrm{n}=\frac{uf^2}{f^2+N\!c_\mathrm{n}(u-f)}
   % #61
 \end{equation}
 and
 \begin{equation}
   \label{eq:62}
-  u_f=\frac{uf^2}{f^2-N\!c_f(u-f)}\quad.
+  u_\mathrm{f}=\frac{uf^2}{f^2-N\!c_\mathrm{f}(u-f)}\quad.
   % #61
 \end{equation}
 Setting the far limit of DoF to infinity and solving for object
 distance gives
 \begin{equation}
   \label{eq:uh}
-  u_h=\frac{f^2}{N\!c_f}+f
+  u_\mathrm{h}=\frac{f^2}{N\!c_\mathrm{f}}+f
   % #63
 \end{equation}
 the hyperfocal distance for different near- and far-limit CoCs. When
@@ -590,7 +670,7 @@ the object distance is the hyperfocal distance, the near limit of DoF,
 from Eq. (61), is
 \begin{equation}
   \label{eq:un}
-  u_n = \frac{c_f}{c_n+c_f}\left(\frac{f^2}{N\!c_f}+f\right)
+  u_\mathrm{n} = \frac{c_\mathrm{f}}{c_\mathrm{n}+c_\mathrm{f}}\left(\frac{f^2}{N\!c_\mathrm{f}}+f\right)
   % #64
 \end{equation}
 
@@ -671,38 +751,69 @@ When recognizability of objects is the most important consideration, as usually 
 %% 
 %% Depth of Field in Depth
 %% Page 20
-%% H H'
-%% Dd
-%% sep     s'ap
-%%                                                                                     sH
-%% xep
-%% s'H' x' ap
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=\linewidth]{figure/fig_dofd_2} 
+   \caption{Asymmetrical Lens}
+   \label{fig:asymlens}
+\end{figure}
+
 %%         Figure 2. Asymmetrical Lens
 %% The entrance pupil is the image of the aperture stop as seen from the object side of the lens; it is the center of perspective for the lens. The exit pupil is the image of the aperture stop as seen from the image side of the lens; it is the center of projection onto the image plane. The entrance and exit pupils may be regarded as images of each other.
 %% Consider the lens in Figure 2 whose object and image principal planes H and H'are at distances sH and s'H' behind the object and image vertices, and whose entrance and exit pupils are at sep and s'ap behind the same vertices (by convention, left-to-right distances are positive). The entrance pupil then is at a distance xep behind H and the exit pupil is at x'ap behind H'.
-%% H H'
-%% Dd
-%% f - x' ap xep x'ap
-%% f
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=\linewidth]{figure/fig_dofd_3} 
+   \caption{Asymmetrical Lens—Entrance and Exit Pupils}
+   \label{fig:asympup}
+\end{figure}
+
 %% Figure 3. Asymmetrical Lens—Entrance and Exit Pupils
 %%                                                                                                   © 2004, 2006 Jeff Conrad
 %% 
-%% Depth of Field in Depth Page 21 The entrance and exit pupil diameters are related by the pupillary magnification
-%% p&d (78) D
-%% In Figure 3, at infinity focus, the extension to H'of the cone of light from the exit pupil has diameter D; from similar triangles,
-%% D& d & pD (79)
-%%  f f − x' ap
-%% f − x' ap
-%%    and
-%% ap
-%% x' & f (1− p)
-%% The distances xep and x'ap are conjugate, so they are related by the lateral magnification m. In
-%% this case, the lateral magnification is the pupillary magnification p, so that x' & px
-%% xep &f(1p−1)
-%% H H'
-%% Dcd
-%% xep     x'ap
-%% uf v
+%%                                                                                                   Depth of Field in Depth Page 21
+The entrance and exit pupil diameters are related by the pupillary magnification
+\begin{equation}
+  p = \frac d D
+  \label{eq:p}
+  % #78
+\end{equation}
+%% 
+In Figure~\ref{fig:asympup}, at infinity focus, the extension to H' of
+the cone of light from the exit pupil has diameter $D$; from similar
+triangles,
+\begin{equation}
+  \label{eq:79}
+  \frac D f = \frac d{f-x_\mathrm{ap}'}=\frac{pD}{f-x_\mathrm{ap}'}
+  %  #79
+\end{equation}
+and
+\begin{equation}
+  \label{eq:80}
+  x_\mathrm{ap}'=f(1-p)
+  %  #80
+\end{equation}
+
+The distances $x_\mathrm{ep}$ and $x'_\mathrm{ap}$ are conjugate, so they are related by the lateral magnification $m$. In
+this case, the lateral magnification is the pupillary magnification
+$p$, so that
+\begin{equation}
+  \label{eq:xapp}
+  x'_\mathrm{ap} = p x_\mathrm{ep}
+\end{equation}
+and
+\begin{equation}
+  \label{eq:xep}
+  x_\mathrm{ep} = f\left(\frac1p-1\right)
+  % #81
+\end{equation}
+
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=\linewidth]{figure/fig_dofd_4} 
+   \caption{DoF for Asymmetrical Lens}
+   \label{fig:DOFasymlens}
+\end{figure}
 %% Figure 4. DoF for Asymmetrical Lens
 %% DoF is controlled by the diameter of the lens exit pupil. In Figure 4, the near and far limits of DoF are at object distances un and uf, corresponding to image distances vn and vf; at the focused image distance v, they form circular images of diameter c, the acceptable circle of confusion. From similar triangles,
 %% c &(v −x' )−(v−x' )& v −v &(v−x' )−(v −x' )& v−v (82) n ap ap n ap f ap f
@@ -754,43 +865,43 @@ substituting into Eqs. (84) through (88), and again rearranging, one
 arrives at the corresponding relations in object space. The near and
 far limits of DoF are
 \begin{eqnarray}
-     u_n & = & \frac{uf^2-N\!cf\left(\frac1p-1\right)(u-f)}{f^2 + N\!c(u-f)}\label{eq:89}\\
-     u_f & = & \frac{uf^2-N\!cf\left(\frac1p-1\right)(u-f)}{f^2 - N\!c(u-f)}\label{eq:90}
+     u_\mathrm{n} & = & \frac{uf^2-N\!cf\left(\frac1p-1\right)(u-f)}{f^2 + N\!c(u-f)}\label{eq:89}\\
+     u_\mathrm{f} & = & \frac{uf^2-N\!cf\left(\frac1p-1\right)(u-f)}{f^2 - N\!c(u-f)}\label{eq:90}
 \end{eqnarray}
-When $u_f = \infty$, the focus distance is the hyperfocal distance
-$u_h$, where
+When $u_\mathrm{f} = \infty$, the focus distance is the hyperfocal distance
+$u_\mathrm{h}$, where
 \begin{equation}
   \label{eq:uh2}
-  u_h = \frac{f^2}{N\!c} + f
+  u_\mathrm{h} = \frac{f^2}{N\!c} + f
 \end{equation}
 the same as for a symmetrical lens. Solving for the near limit of DoF
 gives
 \begin{equation}
   \label{eq:3un}
-  u_n = \frac{\frac{f^2}{N\!c} + f - f\left(\frac1p-1\right)}2\quad,
+  u_\mathrm{n} = \frac{\frac{f^2}{N\!c} + f - f\left(\frac1p-1\right)}2\quad,
   % #92
 \end{equation}
 or slightly less than half the hyperfocal distance.
 
 The required focus distance and $f$-number to have the DoF extend from
-$u_n$ to $u_f$ are
+$u_\mathrm{n}$ to $u_\mathrm{f}$ are
 \begin{equation}
   \label{eq:93}
-  u = \frac{2u_nu_f +
-    (u_n+u_f)f\left(\frac1p-1\right)}{u_n+u_f+2f\left(\frac1p-1\right)}
+  u = \frac{2u_\mathrm{n}u_\mathrm{f} +
+    (u_\mathrm{n}+u_\mathrm{f})f\left(\frac1p-1\right)}{u_\mathrm{n}+u_\mathrm{f}+2f\left(\frac1p-1\right)}
   % #93
 \end{equation}
 and
 \begin{equation}
   \label{eq:94}
-  N=\frac{f^2}c\frac{u_f-u_n}{(u_n-f)\left[u_f+f\left(\frac1p-1\right)\right]+(u_f-f)\left[u_n+f\left(\frac1p-1\right)\right]}
+  N=\frac{f^2}c\frac{u_\mathrm{f}-u_\mathrm{n}}{(u_\mathrm{n}-f)\left[u_\mathrm{f}+f\left(\frac1p-1\right)\right]+(u_\mathrm{f}-f)\left[u_\mathrm{n}+f\left(\frac1p-1\right)\right]}
   % #94
 \end{equation}
-For a defocused point object at object distance $u_d$, the diameter of
+For a defocused point object at object distance $u_\mathrm{d}$, the diameter of
 the blur spot is
 \begin{equation}
   \label{eq:95}
-  k  = \frac{pfm}N\frac{|u_d-u|}{u_d+(u_d-f)(p-1)}
+  k  = \frac{pfm}N\frac{|u_\mathrm{d}-u|}{u_\mathrm{d}+(u_\mathrm{d}-f)(p-1)}
   % #95
 \end{equation}
 %% k & pfm ud −u
@@ -801,14 +912,14 @@ of this document for the correct value.} and (95), the “relative blur”
 is
 \begin{equation}
   \label{eq:96}
-  k_r=\\frac k {m_d} = \frac m{m+1} \frac p N
-  \frac{u_d|u_d-u|}{u_d+(u_d-f)(p-1)}
+  k_r=\\frac k {m_\mathrm{d}} = \frac m{m+1} \frac p N
+  \frac{u_\mathrm{d}|u_\mathrm{d}-u|}{u_\mathrm{d}+(u_\mathrm{d}-f)(p-1)}
   % #96
 \end{equation}
-For $u_d \gg f$,
+For $u_\mathrm{d} \gg f$,
 \begin{equation}
   \label{eq:97}
-  k_r\approx \frac m{m+1} \frac{|x_d|}N\quad,
+  k_r\approx \frac m{m+1} \frac{|x_\mathrm{d}|}N\quad,
   % #97
 \end{equation}
 the same as Eq. (45) for a symmetrical lens.
@@ -816,14 +927,14 @@ the same as Eq. (45) for a symmetrical lens.
 The DoF in front of the focused object is
 \begin{equation}
   \label{eq:98}
-  u-u_n=\frac{\left[N\!cf\left(\frac 1p-1\right) + N\!cu\right](u-f)}{f^2
+  u-u_\mathrm{n}=\frac{\left[N\!cf\left(\frac 1p-1\right) + N\!cu\right](u-f)}{f^2
     + N\!c(u-f)}
   % #98
 \end{equation}
 %% Page 24 
 The DoF beyond the focused object is
 \begin{equation}
-u_f-u=\frac{\left[N\!cf\left(\frac 1 p -1\right) + N\!cu\right](u-f)}{f^2-N\!c(u-f)}
+u_\mathrm{f}-u=\frac{\left[N\!cf\left(\frac 1 p -1\right) + N\!cu\right](u-f)}{f^2-N\!c(u-f)}
    %% #(99)
    \label{eq:dofbfo}
 \end{equation}
@@ -833,15 +944,15 @@ u-f = \frac f m
 \end{equation}
  into the equations for front and rear DoF and rearranging:
 \begin{equation}
-u-u_n = \frac{NC\left(1+ \frac m p\right)}{m^2\left(1+\frac{NC}{fm}\right)}
+u-u_\mathrm{n} = \frac{NC\left(1+ \frac m p\right)}{m^2\left(1+\frac{NC}{fm}\right)}
 \end{equation}
 and
 \begin{equation}
-u_f-u = \frac{NC\left(1+ \frac m p\right)}{m^2\left(1-\frac{NC}{fm}\right)}
+u_\mathrm{f}-u = \frac{NC\left(1+ \frac m p\right)}{m^2\left(1-\frac{NC}{fm}\right)}
 \end{equation}
 The front:rear DoF ratio is 
 \begin{equation}
-   \frac{u - u_n}{u_f-u} =  \frac{f^2 - NC(u-f)}{f^2 + NC(u-f)} = \frac{fm - NC}{fm + NC}
+   \frac{u - u_\mathrm{n}}{u_\mathrm{f}-u} =  \frac{f^2 - NC(u-f)}{f^2 + NC(u-f)} = \frac{fm - NC}{fm + NC}
    % #102
    \label{eq:frdofratio}
 \end{equation}
@@ -849,20 +960,20 @@ the same as for a symmetrical lens.
 
 The total DoF is
 \begin{equation}
-   u_f - u_n = \frac{2N\!cf^2\left[u+f\left(\frac 1 p -1 \right)\right](u-f)}{f^4-N^2c^2(u-f)^2}
+   u_\mathrm{f} - u_\mathrm{n} = \frac{2N\!cf^2\left[u+f\left(\frac 1 p -1 \right)\right](u-f)}{f^4-N^2c^2(u-f)^2}
    % #103
    \label{eq:totdof}
 \end{equation}
 or, in terms of the magnification,
 \begin{equation}
-   u_f - u_n = \frac{2f\left(\frac 1 m + \frac 1 p\right)}{\frac{fm}{N\!c}-\frac{N\!c}{fm}}
+   u_\mathrm{f} - u_\mathrm{n} = \frac{2f\left(\frac 1 m + \frac 1 p\right)}{\frac{fm}{N\!c}-\frac{N\!c}{fm}}
    % #104
    \label{eq:magdof}
 \end{equation}
 At the hyperfocal distance, the two terms in the denominator are equal, and the DoF is
- infinite. When $u\ll u_h$, the second term in the denominator is small, and
+ infinite. When $u\ll u_\mathrm{h}$, the second term in the denominator is small, and
 \begin{equation}
-   u_f - u_n = \frac{2N\!c}{m}\left(\frac 1 m + \frac 1 p\right)
+   u_\mathrm{f} - u_\mathrm{n} = \frac{2N\!c}{m}\left(\frac 1 m + \frac 1 p\right)
    % #105
    \label{eq:DOFapprox}
 \end{equation}
@@ -961,8 +1072,12 @@ image framing are held constant by suitable lens selection, the
 required $f$-number is proportional to the camera format. From
 Eq. (109), the diffraction-limited resolving power is inversely
 proportional to the $f$-number, so that the blur spot is inversely proportional to the camera format. Because the required enlargement also is inversely proportional to the camera format, the diffraction- limited resolution is largely independent of camera format. This is less true when no DoF is required and only the plane of focus is of interest, so that the lens can be used at its optimum $f$-number. Most large-format lenses are sharpest between approximately $f$/16 and $f$/22, while most 35\,mm lenses are best at between $f$/8 and $f$/11. Consequently, although a 4$\times$5 image has half the diffraction-limited resolution of a 35\,mm image, it requires only 1⁄4 the enlargement. Of course, both cases consider only the optically determined resolving power and not the structure of the imaging medium. Considerable image degradation results from enlargement of small-format images, giving the larger formats an advantage.
-%% Combined Defocus and Diffraction
-%% The effects of defocus and diffraction combine at all $f$-numbers. There is no simple numerical expression for the combination; however, common empirical rules for combination of resolutions of different components of optical systems have been
+
+\subsection{Combined Defocus and Diffraction}
+\label{sec:comb-defoc-diffr}
+
+
+The effects of defocus and diffraction combine at all $f$-numbers. There is no simple numerical expression for the combination; however, common empirical rules for combination of resolutions of different components of optical systems have been
 %% R &R +R +...+R T12 n
 %% or sometimes
 %% Rx &Rx +Rx +...+Rx ,
@@ -973,7 +1088,7 @@ proportional to the $f$-number, so that the blur spot is inversely proportional 
 %% or
 %% where Δv is the focus spread vn − vf and Kλ is a constant related to the effective size of the diffraction blur spot.
 %% Optimum $f$-Number
-%% At any given focus spread, as $f$-number is increased, the size of the defocus blur spot decreases while the size of the diffraction blur spot increases, suggesting that there may be an optimum $f$-number that minimizes the combined effect of defocus and diffraction, resulting in the sharpest possible image. Hansma determined such a minimum by differentiating Eq. (113) with respect to N and setting the result equal to zero; the result is
+At any given focus spread, as $f$-number is increased, the size of the defocus blur spot decreases while the size of the diffraction blur spot increases, suggesting that there may be an optimum $f$-number that minimizes the combined effect of defocus and diffraction, resulting in the sharpest possible image. Hansma determined such a minimum by differentiating Eq. (113) with respect to N and setting the result equal to zero; the result is
 %% Nmin & 1 Kλ Δv (114) 1+m 2
 %% Substitution of Eq. (114) into Eq. (113) and rearranging shows that
 %%  ⎡ Δv ⎤2 ⎡N ⎤2 cT & ⎢2N(1+m)⎥ +⎢K (1+m)⎥
@@ -983,9 +1098,10 @@ proportional to the $f$-number, so that the blur spot is inversely proportional 
 
 
 %% kdef & kdiff & Δv , 2Kλ
-%% so that the total blur spot is minimized when the contributions of defocus and diffraction are equal. A combination of defocus and diffraction using Eq. (111) with any value of x leads to the same result as Eq. (114).
-%% Hansma used Kλ & 750\,mm−1, corresponding to the diameter of the Airy disk at
-%% λ & 546 nm, for the size of the diffraction blur spot; however, he based resolving power on the radius of the combined blur spot, using
+so that the total blur spot is minimized when the contributions of defocus and diffraction are equal. A combination of defocus and diffraction using Eq. (111) with any value of $x$ leads to the same result as Eq. (114).
+
+Hansma used $K_λ = 750\,\mathrm{mm}^{-1}$, corresponding to the diameter of the Airy disk at
+$λ = 546\,\mathrm{nm}$, for the size of the diffraction blur spot; however, he based resolving power on the radius of the combined blur spot, using
 \begin{equation}
 \mathrm{RP}= \frac2 {cT}
 \end{equation}
@@ -1278,11 +1394,11 @@ For example, if measurements indicated a required $f$-number of 5.6 on the lens 
 
 If the lens manufacturer’s CoC is not known, it often can be estimated from the lens distance and DoF scales by setting the infinity mark on the distance scale opposite the greatest marked $f$-number on the DoF scale; the focus index then is the hyperfocal distance. Solving Eq. (11) for $c$ gives
 \begin{equation}
-c=\frac{f^2}{N(u_h-f)}
+c=\frac{f^2}{N(u_\mathrm{h}-f)}
 \end{equation}
-Lens distance scales usually indicate object-to-image distance; if $x_h$ is the indicated hyperfocal distance, it suffices to take $x_h ≈ u_h + f$, so that
+Lens distance scales usually indicate object-to-image distance; if $x_\mathrm{h}$ is the indicated hyperfocal distance, it suffices to take $x_\mathrm{h} ≈ u_\mathrm{h} + f$, so that
 \begin{equation}
-c\approx \frac{f^2}{N(x_h-2f)}
+c\approx \frac{f^2}{N(x_\mathrm{h}-2f)}
     % # 123
     \label{eq:capprox}
 \end{equation}
@@ -1358,9 +1474,9 @@ It should be obvious that the optically determined sharpness of the final image 
 
 \section{Summary}
 
-Practical control of DoF is achieved by setting the focus and $f$-number. The key variable for both settings is the focus spread $\Dv$, the difference $v_n - v_f$ between the near and far image distances. With a view camera, focus usually can be determined from Eq. (32), and the range of acceptable $f$-numbers can be determined from Eq. (121), so that
+Practical control of DoF is achieved by setting the focus and $f$-number. The key variable for both settings is the focus spread $\Dv$, the difference $v_\mathrm{n} - v_\mathrm{f}$ between the near and far image distances. With a view camera, focus usually can be determined from Eq. (32), and the range of acceptable $f$-numbers can be determined from Eq. (121), so that
 \begin{equation}
-v = v_f +\frac{\Dv}2
+v = v_\mathrm{f} +\frac{\Dv}2
 % v&vf +Δv 2
 \end{equation}
 and
@@ -1390,8 +1506,8 @@ $\lambda$ & Wavelength of light     \\
 $v$ & Spatial frequency of object or image pattern     \\
 $v_0$ & Cutoff spatial frequency for which MTF = 0      \\
 $c$ & Acceptable circle of confusion     \\
-$c_f$ & Acceptable circle of confusion for objects at far limit of DoF     \\
-$c_n$ & Acceptable circle of confusion for objects at near limit of
+$c_\mathrm{f}$ & Acceptable circle of confusion for objects at far limit of DoF     \\
+$c_\mathrm{n}$ & Acceptable circle of confusion for objects at near limit of
         DoF     \\
 $c_{mkd}$ & Circle of confusion used to determine lens DoF scale     \\
 $c_T$ & Total acceptable circle of confusion for defocus and
@@ -1402,43 +1518,43 @@ $f$ & Lens focal length     \\
 $K_\lambda$ & Constant relating diffraction blur spot size to
               wavelength of light     \\
 $k$ & Diameter of blur spot for defocused point at object distance
-      $u_d$     \\
-$k_{def}$ & Diameter of defocus blur spot     \\
-$k_{diff}$ & Diameter of diffraction blur spot     \\
-$k_{r}$ & “Relative blur” of defocused object     \\
+      $u_\mathrm{d}$     \\
+$k_\mathrm{def}$ & Diameter of defocus blur spot     \\
+$k_\mathrm{diff}$ & Diameter of diffraction blur spot     \\
+$k_\mathrm{r}$ & “Relative blur” of defocused object     \\
 $L_{max}$ & Maximum luminance of test pattern or its image      \\
 $L_{min}$ & Minimum luminance of test pattern or its image     \\
 l & Camera format characteristic dimension\\
 $m$ & Image magnification at  focused distance     \\
-$m_{d}$ & Image magnification of object at distance $x_d$ from plane of
+$m_\mathrm{d}$ & Image magnification of object at distance $x_\mathrm{d}$ from plane of
      focus      \\
-$m_{h}$ & Image magnification at hyperfocal distance     \\
+$m_\mathrm{h}$ & Image magnification at hyperfocal distance     \\
 N & Relative aperture ($f$-number) of lens, $f/D$     \\
-$N_{ap}$ & Approximate $f$-number for large object distance     \\
-$N_{mkd}$ & Marked $f$-number on lens     \\
-$N_{opt}$ & Optimum $f$-number determined from MTF or Hansma’s method     \\
+$N_\mathrm{ap}$ & Approximate $f$-number for large object distance     \\
+$N_\mathrm{mkd}$ & Marked $f$-number on lens     \\
+$N_\mathrm{opt}$ & Optimum $f$-number determined from MTF or Hansma’s method     \\
 p & Pupillary magnification of lens, $d/D$     \\
 S & Diameter of smallest object feature to be resolved      \\
-$s_{ep}$ & Distance of entrance pupil behind object vertex     \\
-$s_{H}$ & Distance of object principal plane behind object vertex      \\
-$s'_{ap}$ & Distance of exit pupil behind image vertex     \\
-$s'_{H'}$ & Distance of image principal plane behind image vertex     \\
-$x_{ep }$& Distance of entrance pupil behind object principal plane      \\
-$x'_{ap}$ & Distance of exit pupil behind image principal plane     \\
+$s_\mathrm{ep}$ & Distance of entrance pupil behind object vertex     \\
+$s_\mathrm{H}$ & Distance of object principal plane behind object vertex      \\
+$s'_\mathrm{ap}$ & Distance of exit pupil behind image vertex     \\
+$s'_\mathrm{H'}$ & Distance of image principal plane behind image vertex     \\
+$x_\mathrm{ep}$& Distance of entrance pupil behind object principal plane      \\
+$x'_\mathrm{ap}$ & Distance of exit pupil behind image principal plane     \\
 $u$ & Distance from object to object principal plane     \\
-$u_d$ & Distance from defocused object to object principal plane     \\
-$u_f$ & Far limit of depth of field     \\
-$u_h$ & Hyperfocal distance, for which $u_f = \infty$      \\
-$u_n$ & Near limit of depth of field     \\
+$u_\mathrm{d}$ & Distance from defocused object to object principal plane     \\
+$u_\mathrm{f}$ & Far limit of depth of field     \\
+$u_\mathrm{h}$ & Hyperfocal distance, for which $u_\mathrm{f} = \infty$      \\
+$u_\mathrm{n}$ & Near limit of depth of field     \\
 $v$ & Distance from film plane to image principal plane      \\
-$v_{ap}$ & Approximate image distance for small focus spread     \\
-$v_d$ & Image distance for defocused object at object distance $u_d$      \\
-$v_f$ & Image distance for far limit of depth of field     \\
-$v_h$ & Image distance for hyperfocal distance $_h$     \\
-$v_n$ & Image distance for near limit of depth of field      \\
-$\Dv$ & Focus spread $v_n - v_f$     \\
-$x_d$ & Distance of defocused object from plane of focus      \\
-$x_h$ & Object-to-image hyperfocal distance     \\
+$v_\mathrm{ap}$ & Approximate image distance for small focus spread     \\
+$v_\mathrm{d}$ & Image distance for defocused object at object distance $u_\mathrm{d}$      \\
+$v_\mathrm{f}$ & Image distance for far limit of depth of field     \\
+$v_\mathrm{h}$ & Image distance for hyperfocal distance $_\mathrm{h}$     \\
+$v_\mathrm{n}$ & Image distance for near limit of depth of field      \\
+$\Dv$ & Focus spread $v_\mathrm{n} - v_\mathrm{f}$     \\
+$x_\mathrm{d}$ & Distance of defocused object from plane of focus      \\
+$x_\mathrm{h}$ & Object-to-image hyperfocal distance     \\
 \end{tabular}
 }
 \end{center}
@@ -1471,28 +1587,50 @@ Wheeler, Robert E. 1999. ``Notes on View Camera Geometry.'' Available in PDF at 
 Eq. (44), which gives the magnification of a defocused object, is
 inapplicable to an asymmetrical lens, so Eq. (96), which gives the
 ``relative blur'' of a defocused object with an asymmetrical lens, is incorrect.
-For an asymmetrical lens, the object conjugate $u_p$ is the distance from the object point to the entrance pupil (Ray 2002, 125):
+For an asymmetrical lens, the object conjugate $u_\mathrm{p}$ is the distance from the object point to the entrance pupil (Ray 2002, 125):
 \begin{equation}
-u_p = u + x_{ep}\quad .
+u_\mathrm{p} = u + x_\mathrm{ep}\quad .
 \end{equation}
 
 From Eq. (81),
 \begin{equation}
-x_{ep} =\left(\frac{1}{p}-1\right)f\quad,
+x_\mathrm{ep} =\left(\frac{1}{p}-1\right)f\quad,
 \end{equation}
 so that
 \begin{eqnarray}
-u_p &=&(1+1/m)f+ (1/p - 1)f\\
+u_\mathrm{p} &=&(1+1/m)f+ (1/p - 1)f\\
 & = &\left(\frac{1}{m} + \frac{1}{p}\right)f.
 \end{eqnarray}
 The image conjugate distance is
 \begin{equation}
-v_p = mu_p=\left(1+ \frac{m}{p}\right)f\quad.
+v_\mathrm{p} = mu_\mathrm{p}=\left(1+ \frac{m}{p}\right)f\quad.
 \end{equation}
-The magnification $m_d$ of an object at a distance $u_d$ from the front principal plane is
+The magnification $m_\mathrm{d}$ of an object at a distance $u_\mathrm{d}$ from the front principal plane is
 \begin{equation}
-m_d=\frac{v_p}{u_d + x_{ep}} = \frac{(1+\frac{m}{p})f}{ u_d + x_{ep}} = \frac{(1+\frac{m}{p})f}{u_d +(\frac{1}{p}-1)f} \quad.
+  m_\mathrm{d}=\frac{v_\mathrm{p}}{u_\mathrm{d} + x_\mathrm{ep}} = \frac{(1+\frac{m}{p})f}{ u_\mathrm{d} + x_\mathrm{ep}} = \frac{(1+\frac{m}{p})f}{u_\mathrm{d} +(\frac{1}{p}-1)f} \quad.
 \end{equation}
-From Eq. (95), the diameter of the blur spot for a defocused point object at distance $u_d$ is
-
+From Eq. (95), the diameter of the blur spot for a defocused point
+object at distance $u_\mathrm{d}$ is
+\begin{equation}
+  \label{eq:a6}
+  k = \frac{pfm}N\frac{|u_\mathrm{d}-u|}{u_\mathrm{d}+(u_\mathrm{d}-f)(p-1)}\quad;  
+\end{equation}
+the ``relative blur''  is then
+\begin{equation}
+  \label{eq:a7}
+  k_\mathrm{r} = \frac k{m_\mathrm{d}} = \frac{pfm}N\frac{|u_\mathrm{d}-u|}{u_\mathrm{d}+(u_\mathrm{d}-f)(p-1)}\frac{u_\mathrm{d}p+(1-p)f}{(m+p)f}
+  \quad.
+\end{equation}
+Expanding, rearranging, and factoring the numerator of the third
+fraction gives
+\begin{equation}
+  \label{eq:a8}
+   k_\mathrm{r} = \frac{mp}N\frac{|u_\mathrm{d}-u|}{u_\mathrm{d}+(u_\mathrm{d}-f)(p-1)}\frac{u_\mathrm{d}+(u_\mathrm{d}-f)(p-1)}{m+p}\quad;
+ \end{equation}
+ cancelling terms and rearranging gives
+ \begin{equation}
+   \label{eq:a9}
+   k_\mathrm{r} = \frac m{1+m/p}\frac{|u_\mathrm{d}-u|}N\quad,
+ \end{equation}
+the same as for a symmetrical lens except that the denominator of the first fraction is $1 + m/p$ rather than $1 + m$.
 \end{document}  
