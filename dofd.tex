@@ -479,7 +479,7 @@ It often is claimed that a long-focus lens gives less DoF and more background bl
 
 Van Walree (2002) gives an excellent description and illustration of this behavior in slightly different terms.
 
-\subsection{Different Circles of Confusion for Near and Far Limits of Depth of Field}
+\section{Different Circles of Confusion for Near and Far Limits of Depth of Field}
 
 The conventional approach to DoF is based on distinguishing a point from a blur spot in the image, and uses equal CoCs for the near and far limits. Although the CoC usually is quite small in comparison with the imaged size of near objects, it can be quite large in comparison with the imaged size of distant objects, in some cases so much so that a distant object becomes unrecognizable. Although many undoubtedly would maintain that, under normal viewing conditions, a blur spot either is distinguishable from a point or it is not, others (Merklinger 1992; Englander 1994) maintain that sharpness perception is context dependent, and that greater sharpness is required in distant objects to give an acceptably sharp image. This requirement can be addressed by using a smaller CoC for the far limit of DoF; in some respects, this approach is similar to the concept of “relative blur.”
 %%        md m+1 N
@@ -524,43 +524,87 @@ Englander (1994) suggested, in effect, that when the DoF extends to infinity, $c
 %% v&vf +13Δv,
 and from Eq. (57), the $f$-number would be
 %% N& Δv , 1.5cn
-or approximately 0.83 step greater than would result from equal near and far CoCs. Merklinger (1992) desired greater sharpness in distant objects, and suggested a far-limit CoC of 1⁄150\,mm for 35\,mm film; using 0.025\,mm$^3$ for the near-limit CoC, $c_f \approx 1⁄4 c_n$. From Eq. (54), focus would be set to
+or approximately 0.83 step greater than would result from equal near
+and far CoCs. Merklinger (1992) desired greater sharpness in distant
+objects, and suggested\footnote{Merklinger actually suggested 1⁄30\,mm
+  for the near-limit CoC; 0.025\,mm is used here for consistency with
+  the other examples.} a far-limit CoC of 1⁄150\,mm for 35\,mm film;
+using 0.025\,mm for the near-limit CoC, $c_f \approx 1⁄4 c_n$. From
+Eq. (54), focus would be set to
+\begin{equation}
+  \label{eq:57+++}
+  v=v_f+\frac15\Dv\quad,
+\end{equation}
 %% v&vf +15Δv,
 and from Eq. (57), the $f$-number would be
+\begin{equation}
+  \label{eq:57++++}
+  N=\frac \Dv{1.25c_n}\quad
+\end{equation}
 %% N& Δv , 1.25cn
-or approximately 11⁄3 steps greater than would result from equal near and far CoCs. If the CoC were to be reduced by a factor of four simply by stopping down without refocusing, the $f$-number would need to increase by a factor of four, or four steps. Of course, the latter approach would decrease the CoC for both near and far objects; in some situations, this might be of value, in others it might not.
+or approximately 1\,1⁄3 steps greater than would result from equal near and far CoCs. If the CoC were to be reduced by a factor of four simply by stopping down without refocusing, the $f$-number would need to increase by a factor of four, or four steps. Of course, the latter approach would decrease the CoC for both near and far objects; in some situations, this might be of value, in others it might not.
 
-%% Object-Side Relationships
-%% The object-side equations for distance and $f$-number are obtained by substituting the conjugate relationship
-%% v& uf u−f
-%% into Eqs. (50) and (55), giving
-%% 3 Merklinger actually suggested 1⁄ 3 0\,mm for the near-limit CoC; 0.025\,mm is used here for consistency with the other examples.
+\subsection{Object-Side Relationships}
+\label{sec:object-side-relat}
 
-%% u&(cn +cf )unuf cnun +cfuf
-%% and
-%% (58)
-%% (59)
-%% (60)
-%% (61)
-%% (62)
-%% (63)
-%%  (u −u )f2 N&fn
-%% cnun(uf −f)+cfuf(un−f)
-%% If the near and far distances are large in comparison with the lens focal length,
-%% v& uf u−f
-%% and
-%% uh & f 2 + f , Ncf
-%%  (u −u )f2 N≈fn
-%% (cn +cf )unuf
-%% The near and far limits of DoF are obtained by substituting
-%%   into Eqs. (48) and (49), giving uf 2
-%% un & f 2 + Ncn (u − f ) uf 2
-%%  uf &f2−Ncf(u−f)
-%% Setting the far limit of DoF to infinity and solving for object distance gives
-%%   the hyperfocal distance for different near- and far-limit CoCs. When the object distance is the hyperfocal distance, the near limit of DoF, from Eq. (61), is
-%% u& cf ⎛f2 +f⎞ (64) n c +c ⎜Nc ⎟
-%%   nf⎝f⎠ The Object Field Method
-%% Sometimes the recognizability of objects may be more important than a specified sharpness in the image; this long has been the case in aerial surveillance photography; see Williams (1990) for a discussion of “ground resolution.” The objects of interest in aerial surveillance essentially are at infinity; Merklinger’s Object Field Method applied the same criterion to objects throughout the image.
+
+The object-side equations for distance and $f$-number are obtained by
+substituting the conjugate relationship
+\begin{equation}
+  \label{eq:57+++++}
+  v=\frac{uf}{u-f}
+\end{equation}
+into Eqs. (50) and (55), giving
+\begin{equation}
+  \label{eq:58}
+  u = \frac{(c_n+c_f)u_nu_f}{c_nu_n+c_fu_f}
+\end{equation}
+and
+\begin{equation}
+  \label{eq:59}
+  N=\frac{(u_f-u_n)f^2}{c_nu_n(u_f-f)+c_fu_f(u_n-f)}
+  %  #59
+\end{equation}
+If the near and far distances are large in comparison with the lens
+focal length,
+\begin{equation}
+  \label{eq:1}
+  N\approx\frac{(u_f-u_n)f^2}{(c_n+c_f)u_nu_f}
+\end{equation}
+The near and far limits of DoF are obtained by substituting  into
+Eqs. (48) and (49), giving
+\begin{equation}
+  \label{eq:61}
+  u_n=\frac{uf^2}{f^2+Nc_n(u-f)}
+  % #61
+\end{equation}
+and
+\begin{equation}
+  \label{eq:62}
+  u_f=\frac{uf^2}{f^2-Nc_f(u-f)}\quad.
+  % #61
+\end{equation}
+Setting the far limit of DoF to infinity and solving for object
+distance gives
+\begin{equation}
+  \label{eq:uh}
+  u_h=\frac{f^2}{Nc_f}+f
+  % #63
+\end{equation}
+the hyperfocal distance for different near- and far-limit CoCs. When
+the object distance is the hyperfocal distance, the near limit of DoF,
+from Eq. (61), is
+\begin{equation}
+  \label{eq:un}
+  u_n = \frac{c_f}{c_n+c_f}\left(\frac{f^2}{Nc_f}+f\right)
+  % #64
+\end{equation}
+
+\section{The Object Field Method}
+\label{sec:object-field-method}
+
+
+Sometimes the recognizability of objects may be more important than a specified sharpness in the image; this long has been the case in aerial surveillance photography; see Williams (1990) for a discussion of “ground resolution.” The objects of interest in aerial surveillance essentially are at infinity; Merklinger’s Object Field Method applied the same criterion to objects throughout the image.
 %% Generally, an object is recognizable if key features are reproduced at a size equal to or larger than the size of the blur spot. The expressions on the object side to ensure this reproduction are straightforward; when the same resolution criteria apply at near and far distances, the focus distance is
 
 %% u&un +uf 2
@@ -705,60 +749,90 @@ When recognizability of objects is the most important consideration, as usually 
 
 \subsection{Object Space}
 
-%% Rearranging Eq. (5) to v& uf ,
-%% u−f
-
-
+Rearranging Eq. (5) to
+\begin{equation}
+  \label{eq:5v}
+  v = \frac{uf}{u-f}\quad,
+\end{equation}
+%
 %% Page 23
-%% substituting into Eqs. (84) through (88), and again rearranging, one arrives at the corresponding relations in object space. The near and far limits of DoF are
-%% uf 2 − Ncf (1 p −1)(u − f ) un & f2+Nc(u−f)
-%% uf 2 + Ncf (1 p −1)(u − f ) uf & f2−Nc(u−f)
-When $u_f = \infty$, the focus distance is the hyperfocal distance $u_h$, where $u_h =\frac{ f^2 + f}{Nc}$xs
-the same as for a symmetrical lens. Solving for the near limit of DoF gives
-%% un & Nc
-%% or slightly less than half the hyperfocal distance.
-%% u&2unuf +(un+uf)f(1p−1) (93) un +uf +2f(1p−1)
-%% and
-%% f2 u−u
-%%      f2 +f−f(1p−1)
-%% (89) (90)
-%% (91)
-%% (92)
-%%   ,
-The required focus distance and $f$-number to have the DoF extend from $u_n$ to $u_f$ are
-%%  2
-%%    N&fn (94) c (u −f)x⎡u +f(1p−1)⎤+(u −f)⎡u +f(1p−1)⎤
-%%     n⎣f⎦f⎣n⎦
-For a defocused point object at object distance $u_d$, the diameter of the blur spot is
+substituting into Eqs. (84) through (88), and again rearranging, one
+arrives at the corresponding relations in object space. The near and
+far limits of DoF are
+\begin{eqnarray}
+     u_n & = & \frac{uf^2-Ncf\left(\frac1p-1\right)(u-f)}{f^2 + Nc(u-f)}\label{eq:89}\\
+     u_f & = & \frac{uf^2-Ncf\left(\frac1p-1\right)(u-f)}{f^2 - Nc(u-f)}\label{eq:90}
+\end{eqnarray}
+When $u_f = \infty$, the focus distance is the hyperfocal distance
+$u_h$, where
+\begin{equation}
+  \label{eq:uh2}
+  u_h = \frac{f^2}{Nc} + f
+\end{equation}
+the same as for a symmetrical lens. Solving for the near limit of DoF
+gives
+\begin{equation}
+  \label{eq:3un}
+  u_n = \frac{\frac{f^2}{Nc} + f - f\left(\frac1p-1\right)}2\quad,
+  % #92
+\end{equation}
+or slightly less than half the hyperfocal distance.
+
+The required focus distance and $f$-number to have the DoF extend from
+$u_n$ to $u_f$ are
+\begin{equation}
+  \label{eq:93}
+  u = \frac{2u_nu_f +
+    (u_n+u_f)f\left(\frac1p-1\right)}{u_n+u_f+2f\left(\frac1p-1\right)}
+  % #93
+\end{equation}
+and
+\begin{equation}
+  \label{eq:94}
+  N=\frac{f^2}c\frac{u_f-u_n}{(u_n-f)\left[u_f+f\left(\frac1p-1\right)\right]+(u_f-f)\left[u_n+f\left(\frac1p-1\right)\right]}
+  % #94
+\end{equation}
+For a defocused point object at object distance $u_d$, the diameter of
+the blur spot is
+\begin{equation}
+  \label{eq:95}
+  k  = \frac{pfm}N\frac{|u_d-u|}{u_d+(u_d-f)(p-1)}
+  % #95
+\end{equation}
 %% k & pfm ud −u
 %% N ud+(ud−f)(p−1)
-%% From Eqs. (44) and (95), the “relative blur” is k & k & m p ud ud −u
-%%   (95) ofthisdocumentforthecorrectvalue. (96)
-Note: Eq. (44) is inapplicable to an asymmetrical lens, so Eq. (96) as shown here is incorrect. See the Erratum at the end
-%%      r
-%% For ud 􏰁 f ,
-%% m m+1Nu +(u −f)(p−1) ddd
-%%  k ≈ m xd ,
-%% (97)
-%% (98)
-%%     r
-The DoF in front of the focused object is
-%% m+1 N
+From Eqs. (44)\footnote{Eq. (44) is inapplicable to an asymmetrical lens, so Eq. (96) as
+shown here is incorrect. See the Erratum at the end
+of this document for the correct value.} and (95), the “relative blur”
+is
+\begin{equation}
+  \label{eq:96}
+  k_r=\\frac k {m_d} = \frac m{m+1} \frac p N
+  \frac{u_d|u_d-u|}{u_d+(u_d-f)(p-1)}
+  % #96
+\end{equation}
+For $u_d \gg f$,
+\begin{equation}
+  \label{eq:97}
+  k_r\approx \frac m{m+1} \frac{|x_d|}N\quad,
+  % #97
+\end{equation}
 the same as Eq. (45) for a symmetrical lens.
-%% ⎡Ncf (1p −1)+ Ncu⎤(u − f )
-%%  u−u&⎣ ⎦ n f 2 + Nc(u − f )
 
+The DoF in front of the focused object is
+\begin{equation}
+  \label{eq:98}
+  u-u_n=\frac{\left[Ncf\left(\frac 1p-1\right) + Ncu\right](u-f)}{f^2
+    + Nc(u-f)}
+  % #98
+\end{equation}
 %% Page 24 
 The DoF beyond the focused object is
-
 \begin{equation}
 u_f-u=\frac{\left[Ncf\left(\frac 1 p -1\right) + Ncu\right](u-f)}{f^2-Nc(u-f)}
    %% #(99)
    \label{eq:dofbfo}
 \end{equation}
-
-%% ⎡Ncf (1p −1)+ Ncu⎤(u − f ) u −u&⎣ ⎦
-%%  f f 2 − Nc (u − f )
 The front and rear DoF can be expressed in terms of the magnification by making the substitution
 \begin{equation}
 u-f = \frac f m
@@ -771,19 +845,6 @@ and
 \begin{equation}
 u_f-u = \frac{NC\left(1+ \frac m p\right)}{m^2\left(1-\frac{NC}{fm}\right)}
 \end{equation}
-
-%% ⎜p⎟ u−un& ⎝ ⎠
-%%  (100)
-%% (101)
-%% (102)
-%% (103)
-%% (104) 
-%% u −u ≈2Nc⎛1+1⎞ (105) f n m⎜⎝mp⎟⎠
-%%  m2 ⎛1+ Nc ⎞ ⎜ fm⎟
-%%  and
-%% ⎝⎠ Nc⎛1+ m⎞
-%% ⎜p⎟ uf−u& ⎝ ⎠
-%%   m2 ⎛1− Nc ⎞ ⎜ fm⎟
 The front:rear DoF ratio is 
 \begin{equation}
    \frac{u - u_n}{u_f-u} =  \frac{f^2 - NC(u-f)}{f^2 + NC(u-f)} = \frac{fm - NC}{fm + NC}
@@ -798,14 +859,12 @@ The total DoF is
    % #103
    \label{eq:totdof}
 \end{equation}
-
 or, in terms of the magnification,
 \begin{equation}
    u_f - u_n = \frac{2f\left(\frac 1 m + \frac 1 p\right)}{\frac{fm}{Nc}-\frac{Nc}{fm}}
    % #104
    \label{eq:magdof}
 \end{equation}
-
 At the hyperfocal distance, the two terms in the denominator are equal, and the DoF is
  infinite. When $u\ll u_h$, the second term in the denominator is small, and
 \begin{equation}
