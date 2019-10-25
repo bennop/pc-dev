@@ -112,12 +112,12 @@ Many hand-camera lenses incorporate depth-of-field scales to facilitate setting 
 It might appear that any arbitrary sharpness at the DoF limits can be achieved simply by decreasing the CoC. However, decreasing the CoC eventually encounters two practical problems: motion blur and diffraction. As will be seen, the CoC is inversely related to $f$-number, so that a smaller CoC requires a greater $f$-number, and consequently, a longer exposure time; if significant DoF is required, the exposure may become long enough to allow motion blur. Increasing the $f$-number increases diffraction, softening all parts of the image; eventually the effect of diffraction exceeds the benefit of reducing the CoC, even at the DoF limits. In most cases, motion blur is a problem long before diffraction.
 The $f$-number determined from the CoC is the minimum that will give acceptable sharpness. In some cases, sharpness at the DoF limits can be improved by using a greater $f$-number; this can be useful if it later is decided to make a larger final image. It will be seen that there also is a maximum $f$-number, beyond which DoF-limit sharpness decreases, so that when other considerations permit, the most appropriate $f$-number between the minimum and maximum values can be chosen. This is discussed in detail in the sections Optimum $f$-Number from MTF and Decreasing CoC to Improve DoF-Limit Sharpness.
 
-Depth of Field for a Symmetrical Lens Limits of Depth of Field
 \section{Depth of Field for a Symmetrical Lens }
 \label{sec:depth-field-symm}
 
 \subsection{Limits of Depth of Field}
 \label{sec:limits-depth-field}
+
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
    \includegraphics[width=\linewidth]{figure/fig_dofd_1} 
@@ -128,50 +128,90 @@ Depth of Field for a Symmetrical Lens Limits of Depth of Field
 
 A symmetrical lens is illustrated in Figure~\ref{fig:symlens}. The object at distance $u$ is in focus at image distance $v$. The objects at distances $u_f$ and $u_n$ would be in focus at image distances $v_f$ and $v_n$, respectively; at image distance $v$, they are imaged as blur spots. The depth of field is controlled by the aperture stop diameter $d$. When the blur spot diameter is equal to the acceptable circle of confusion $c$, the near and far limits of DoF are at $u_n$ and $u_f$. From similar triangles,
 \begin{equation}
-  \frac{v_n-v}{v} = \frac c d
-  \label{eq:1}
+  \frac{v_n - v}{v_n} = \frac c d
+  % #1
+  \label{eq:vni}
+\end{equation}
+and
+\begin{equation}
+  \frac{v - v_f}{v_f} = \frac c d
+  % #2
+  \label{eq:vfi}
 \end{equation}
 %% vn −v & c (1) vn d
 %% and
 %% v−vf &c (2)
 %% vf d
-%% It usually is more convenient to work with the lens $f$-number than the aperture diameter; the
-%% $f$-number N is related to the lens focal length f and the aperture diameter d by N&f;
-%% d
-%%      substituting into Eqs. (1) and (2) and rearranging gives
-%% vn& fv (3)
-%%  f − Nc
-%% vf& fv (4)
-%%  f + Nc
-%% The image distance v is related to the object distance u by the thin-lens equation
-%% © 2004, 2006 Jeff Conrad
-%% Depth of Field in Depth
-%% Page 6
+It usually is more convenient to work with the lens $f$-number than the aperture diameter; the
+ $f$-number $N$ is related to the lens focal length $f$ and the aperture diameter $d$ by 
+ \begin{equation}
+   N=\frac f d\quad ;
+   \label{eq:N}
+\end{equation}
+  substituting into Eqs.~\ref{eq:vni} and \ref{eq:vfi} and rearranging gives
+\begin{equation}
+    v_n=\frac{fv}{f -N c}
+   % #3
+  \label{eq:vn}
+\end{equation}
+\begin{equation}
+    v_f=\frac{fv}{f + Nc}
+   % #4
+  \label{eq:vf}
+\end{equation}
+The image distance $v$ is related to the object distance $u$ by the thin-lens equation
+\begin{equation}
+   \frac1u+\frac1v=\frac1f
+   % #5
+   \label{eq:thinlens}
+\end{equation}
 %% 1+1&1 uvf
-%% Rearranging into the form v& uf ,
-%% object space:
-%% un & f 2 + Nc(u − f ) (6)
-%% (5)
-%%     u−f
-%% substituting into Eqs. (3) and (4), and rearranging yields the corresponding relations in
+Rearranging into the form 
+ \begin{equation}
+v=\frac{uf}{u-f}
+\end{equation}
+substituting into Eqs.~\ref{eq:vn} and \ref{eq:vf}, and rearranging yields the corresponding relations in object space:
 %% uf 2 uf 2
-%%  uf &f2−Nc(u−f) (7) Image magnification is given by1
-%% m&v (8) u
-%% Combining with Eq. (5) and rearranging gives
-%% u−f&f m
-%% Using that substitution and rearranging, Eqs. (6) and (7) can be expressed in terms of magnification as
-%% un& u (9) 1+ Nc
-%% fm
-%% and
-%% uf & u (10)
-%% Hyperfocal Distance
-%%       1− Nc fm
-%%  Setting the far limit of DoF in Eq. (7) to infinity and solving for object distance gives
+%%  uf &f2−Nc(u−f) (7) 
+\begin{eqnarray}
+u_n&=&\frac{uf^2}{f^2 + Nc(u-f)}\label{eq:un}\\
+u_f&=&\frac{uf^2}{f^2 - Nc(u-f)}\label{eq:uf}
+   %. # 6,7
+   \label{eq:unf}
+\end{eqnarray}
+
+Image magnification is given by\footnote{Following optical convention, this quantity would be negative to indicate an inverted image. In photography, the sign usually is omitted.}
+\begin{equation}
+      m=\frac v u
+   % # 8
+   \label{eq:mvu}
+\end{equation}
+Combining with Eq.~\ref{eq:thinlens} and rearranging gives
+\begin{equation}
+   u-f = \frac f m
+\end{equation}
+ Using that substitution and rearranging, Eqs.~\ref{eq:un} and \ref{eq:uf} can be expressed in terms of magnification as
+\begin{equation}
+      u_n=\frac u{1+\frac{NC}{fm}}
+   % # 9
+   \label{eq:un2}
+\end{equation}
+and
+\begin{equation}
+      u_f=\frac u{1-\frac{NC}{fm}}
+         % # 10
+   \label{eq:uf2}
+\end{equation}
+
+\subsection{Hyperfocal Distance}
+
+
+Setting the far limit of DoF in Eq. (7) to infinity and solving for object distance gives
 %% uh & f 2 + f (11)
 %%  Nc
-%% The distance uh is called the hyperfocal distance. At the hyperfocal distance, a difference of
-%% one focal length is insignificant, so Eq. (11) often is given simply as
-%% 1 Following optical convention, this quantity would be negative to indicate an inverted image. In photography, the sign usually is omitted.
+The distance $u_h$ is called the hyperfocal distance. At the hyperfocal distance, a difference of
+one focal length is insignificant, so Eq. (11) often is given simply as
+%% 1 
 
 %% f2
 %% uh ≈ Nc (12)
@@ -211,7 +251,8 @@ A symmetrical lens is illustrated in Figure~\ref{fig:symlens}. The object at dis
 %% the DoF is behind it. However, this is true only at one object distance: u&f2+f,
 %% 3Nc
 %% or slightly greater than 1⁄3 the hyperfocal distance. The front:rear DoF ratio is zero at the hyperfocal distance and beyond (the rear DoF is infinite); at high magnification, front and rear DoF are nearly equal.
-%% Total Depth of Field
+\subsection{Total Depth of Field}
+
 %% The total depth of field between the near and far limits is
 %% (21)
 %%    f
@@ -319,26 +360,48 @@ Equations (32) and (39) are well known to many view camera users; the rear stand
 
 If the camera does not include a DoF calculator, measurement of focus spread is much easier if the bed or focusing rail includes a scale, and measurements can be more precise if the focusing knob includes an additional scale. See Hayashi for a description of adding a Sinar-type DoF scale to the focusing knob, and Evens (2003) for a discussion of adding scales to both the rail and the knob.
 
-On a hand camera, the lens DoF scales usually implement these same formulae. With autofocus lenses, however, there may be no easy means of controlling DoF; the distance-scale markings usually are widely spaced, and the DoF scales, if even provided, usually are so small that using them to determine focus and $f$-number is all but impossible. Although the benefits of autofocus are undeniable, an unfortunate consequence is that even the most advanced autofocus 35\,mm cameras cannot perform a task that was easily accomplished with the most basic manual-focus cameras.2
+On a hand camera, the lens DoF scales usually implement these same formulae. With autofocus lenses, however, there may be no easy means of controlling DoF; the distance-scale markings usually are widely spaced, and the DoF scales, if even provided, usually are so small that using them to determine focus and $f$-number is all but impossible. Although the benefits of autofocus are undeniable, an unfortunate consequence is that even the most advanced autofocus 35\,mm cameras cannot perform a task that was easily accomplished with the most basic manual-focus cameras.\footnote{When Canon introduced autofocus cameras, many of the bodies included a feature, Depth-of-Field Automatic Exposure, that functioned in much the same manner as DoF scales on manual-focus lenses. Unfortunately, this feature was eliminated from new models introduced since early 2004.}
 
 If lens DoF scales are not available, and it is impractical to measure image distances, Eqs. (26) and (28) can be used if there is a convenient way to measure object distances. With a suitable external rangefinder, these formulae could provide a means of controlling DoF with autofocus lenses.
 
 Substituting Eq. (5) into Eq. (11) and rearranging gives the image distance $v_h$ corresponding to the hyperfocal distance $u_h$:
-%% vh & f + Nc (41) This image distance will put the DoF between half the hyperfocal distance and infinity, and
-%% can be useful when designing a fixed-focus camera.
-%% Depth of Field and Background Blur vs. Focal Length
-%% Recall that the CoC is the diameter of the blur spot at the near and far limits of DoF; the diameter of the blur spot for a point on a defocused object at an arbitrary distance is obtained by solving Eqs. (6) and (7) for c, and replacing the near and far distances by ud, leading to
-%% 2 When Canon introduced autofocus cameras, many of the bodies included a feature, Depth-of-Field Automatic Exposure, that functioned in much the same manner as DoF scales on manual-focus lenses. Unfortunately, this feature was eliminated from new models introduced since early 2004.
+\begin{equation}
+   v_h = f + Nc
+   % # (41)
+   \label{eq:vh} 
+\end{equation}
+%% 
+This image distance will put the DoF between half the hyperfocal distance and infinity, and
+can be useful when designing a fixed-focus camera.
+\subsection{Depth of Field and Background Blur vs. Focal Length}
 
-%% k & 1 f 2   ud − u & fm ud − u Nu−f ud N ud
-%% Equivalently, for a point at a distance xd from the plane of focus, k&fm xd
-%% N u±xd
-%% (42)
-%% (43)
-%%           The sign in the denominator is negative when the defocused object is in front of the focused object.
-%% For constant magnification of the focused object, the diameter of the blur spot increases with lens focal length; however, the magnification of the defocused object also increases with focal length. The most appropriate measure of “background blur” may be the diameter of the blur spot relative to the image size of the defocused object. Image size is proportional to the magnification; the magnification md of an object at a distance xd from the plane of focus is
-%% md & v &(m+1)f (44) ud ud
-%% If the “relative blur” kr is the ratio of blur spot diameter to magnification, then
+Recall that the CoC is the diameter of the blur spot at the near and far limits of DoF; the diameter of the blur spot for a point on a defocused object at an arbitrary distance is obtained by solving Eqs. (6) and (7) for $c$, and replacing the near and far distances by $u_d$, leading to
+\begin{equation}
+   k = \frac1N \frac{f^2}{u-f}  \frac{|u_d - u|}{u_d} = \frac{fm}N \frac{|u_d - u|}{u_d}
+   % # 42
+   \label{eq:k1}
+\end{equation}
+Equivalently, for a point at a distance $x_d$ from the plane of focus, 
+\begin{equation}
+   k = \frac{fm}N \frac{x_d}{u\pm x_d}
+   % # 43
+   \label{eq:k2}
+\end{equation}
+ The sign in the denominator is negative when the defocused object is in front of the focused object.
+
+ For constant magnification of the focused object, the diameter of the blur spot increases with lens focal length; however, the magnification of the defocused object also increases with focal length. The most appropriate measure of “background blur” may be the diameter of the blur spot relative to the image size of the defocused object. Image size is proportional to the magnification; the magnification $m_d$ of an object at a distance xd from the plane of focus is
+\begin{equation}
+   m_d = \frac v {u_d} = \frac{(m+1)f}{u_d} 
+   % # (44) 
+   \label{eq:md}
+\end{equation}
+%% 
+If the “relative blur” $k_r$ is the ratio of blur spot diameter to magnification, then
+\begin{equation}
+    \frac k{m_d} = \frac m{m+1}\frac{|x_d|}N
+    % #45
+    \label{eq:km}
+\end{equation}
 %% k & m xd (45)
 
 It often is claimed that a long-focus lens gives less DoF and more background blur than a short-focus lens. However, Eq. (25) shows that, when the object distance is small in comparison with the hyperfocal distance, DoF is independent of focal length, and Eq. (45) shows that the “relative blur” is independent of focal length at all distances. However, if the defocused object is sufficiently distant, it may appear so small with a short-focus lens that the blurring is not obvious; in such a case, the long-focus lens may give subjectively greater background blur. The perspective with a long-focus lens will, of course, be different from the perspective with a short-focus lens.
@@ -347,53 +410,55 @@ Van Walree (2002) gives an excellent description and illustration of this behavi
 
 \subsection{Different Circles of Confusion for Near and Far Limits of Depth of Field}
 
-%% The conventional approach to DoF is based on distinguishing a point from a blur spot in the image, and uses equal CoCs for the near and far limits. Although the CoC usually is quite small in comparison with the imaged size of near objects, it can be quite large in comparison with the imaged size of distant objects, in some cases so much so that a distant object becomes unrecognizable. Although many undoubtedly would maintain that, under normal viewing conditions, a blur spot either is distinguishable from a point or it is not, others (Merklinger 1992; Englander 1994) maintain that sharpness perception is context dependent, and that greater sharpness is required in distant objects to give an acceptably sharp image. This requirement can be addressed by using a smaller CoC for the far limit of DoF; in some respects, this approach is similar to the concept of “relative blur.”
+The conventional approach to DoF is based on distinguishing a point from a blur spot in the image, and uses equal CoCs for the near and far limits. Although the CoC usually is quite small in comparison with the imaged size of near objects, it can be quite large in comparison with the imaged size of distant objects, in some cases so much so that a distant object becomes unrecognizable. Although many undoubtedly would maintain that, under normal viewing conditions, a blur spot either is distinguishable from a point or it is not, others (Merklinger 1992; Englander 1994) maintain that sharpness perception is context dependent, and that greater sharpness is required in distant objects to give an acceptably sharp image. This requirement can be addressed by using a smaller CoC for the far limit of DoF; in some respects, this approach is similar to the concept of “relative blur.”
 %%        md m+1 N
 
-%% Image-Side Relationships
-%% Eqs. (1) and (2) assumed identical CoCs for the near and far limits of DoF; using different near and far values cn and cf, we have
+\subsection{Image-Side Relationships}
+
+Eqs. (1) and (2) assumed identical CoCs for the near and far limits of DoF; using different near and far values $c_n$ and $c_f$, we have
 %% vn −v&cn (46) vn d
 %% and
 %% v−vf &cf (47)
 %% vf d
-%% Replacing d with the focal length and $f$-number gives
+Replacing $d$ with the focal length and $f$-number gives
 %% vn −v & Ncn (48) vn f
 %% and
 %% v−vf &Ncf (49)
 %% vf f
-%% Combining Eqs. (48) and (49) and solving for v gives
+combining Eqs. (48) and (49) and solving for $v$ gives
 %% v&(cn +cf )vnvf (50) cnvn +cfvf
-%% Again combining Eqs. (48) and (49), the far:near distribution of the focus spread is
+Again combining Eqs. (48) and (49), the far:near distribution of the focus spread is
 %% v−vf &cfvf (51)
 %% vn −v cnvn
-%% Unless the focus spread is large, we usually can take vf ≈ vn on the right-hand side of
+Unless the focus spread is large, we usually can take $v_f \approx v_n$ on the right-hand side of
 %% Eq. (51), so that
 %% v−vf ≈cf (52)
 %% vn−v cn
-%% Rearranging and solving for v gives
+Rearranging and solving for v gives
 %% v≈cfvn +cnvf (53) cn +cf
 %%               or
 %% v≈vf+cf Δv, (54)
 %%  cn +cf
-%% where Δv is the focus spread vn − vf. Combining Eqs. (48) and (49) and solving for N gives
-%% N & (vn − vf ) f (55) cnvn +cfvf
-%% To within sufficient accuracy for determining N, we usually can take vn ≈ vf ≈ v in the denominator, so that
+where $Δv$ is the focus spread $v_n - v_f$. Combining Eqs. (48) and (49) and solving for $N$ gives
+%% N & (vn - vf ) f (55) cnvn +cfvf
+To within sufficient accuracy for determining $N$, we usually can take $v_n \approx v_f \approx v$ in the denominator, so that
 
 %% N ≈ f vn −vf v cn +cf
-%% Except for closeup work, it usually is acceptable to take v ≈ f, so that Eq. (56) further simplifies to
+Except for closeup work, it usually is acceptable to take $v \approx f$, so that Eq. (56) further simplifies to
 %% (56)
 %%   N≈ Δv (57) cn +cf
-%% Assuming that cf < cn, Eq. (54) gives an image distance closer to the far image distance than does Eq. (32), and Eq. (57) gives a greater $f$-number than does Eq. (39).
-%% Englander (1994) suggested, in effect, that when the DoF extends to infinity, cf should be 1⁄2 cn. From Eq. (54), focus then would be set to
+Assuming that $c_f < c_n$, Eq. (54) gives an image distance closer to the far image distance than does Eq. (32), and Eq. (57) gives a greater $f$-number than does Eq. (39).
+
+Englander (1994) suggested, in effect, that when the DoF extends to infinity, $c_f$ should be $1⁄2 c_n$. From Eq. (54), focus then would be set to
 %% v&vf +13Δv,
-%% and from Eq. (57), the $f$-number would be
+and from Eq. (57), the $f$-number would be
 %% N& Δv , 1.5cn
-%% or approximately 0.83 step greater than would result from equal near and far CoCs. Merklinger (1992) desired greater sharpness in distant objects, and suggested a far-limit
-%% CoC of 1⁄150\,mm for 35\,mm film; using 0.025\,mm3 for the near-limit CoC, cf ≈ 1⁄4 cn. From Eq. (54), focus would be set to
+or approximately 0.83 step greater than would result from equal near and far CoCs. Merklinger (1992) desired greater sharpness in distant objects, and suggested a far-limit CoC of 1⁄150\,mm for 35\,mm film; using 0.025\,mm$^3$ for the near-limit CoC, $c_f \approx 1⁄4 c_n$. From Eq. (54), focus would be set to
 %% v&vf +15Δv,
-%% and from Eq. (57), the $f$-number would be
+and from Eq. (57), the $f$-number would be
 %% N& Δv , 1.25cn
-%% or approximately 11⁄3 steps greater than would result from equal near and far CoCs. If the CoC were to be reduced by a factor of four simply by stopping down without refocusing, the $f$-number would need to increase by a factor of four, or four steps. Of course, the latter approach would decrease the CoC for both near and far objects; in some situations, this might be of value, in others it might not.
+or approximately 11⁄3 steps greater than would result from equal near and far CoCs. If the CoC were to be reduced by a factor of four simply by stopping down without refocusing, the $f$-number would need to increase by a factor of four, or four steps. Of course, the latter approach would decrease the CoC for both near and far objects; in some situations, this might be of value, in others it might not.
+
 %% Object-Side Relationships
 %% The object-side equations for distance and $f$-number are obtained by substituting the conjugate relationship
 %% v& uf u−f
@@ -792,17 +857,16 @@ proportional to the $f$-number, so that the blur spot is inversely proportional 
 %% so that the total blur spot is minimized when the contributions of defocus and diffraction are equal. A combination of defocus and diffraction using Eq. (111) with any value of x leads to the same result as Eq. (114).
 %% Hansma used Kλ & 750\,mm−1, corresponding to the diameter of the Airy disk at
 %% λ & 546 nm, for the size of the diffraction blur spot; however, he based resolving power on the radius of the combined blur spot, using
-%% RP& 2 cT
-%% The resulting resolving power vs. $f$-number at various focus spreads is shown in Figure 5. The curve labeled ‘Diffr’ shows resolving power at the diffraction limit, corresponding to the plane of focus. All curves assume infinity focus so that m & 0.
-%% 60
-%% 50
-%% 40
-%% 30
-%% 20
-%% 10
-%% 0
-%% 0 10 20 30 40 50 60 70 80 90
-%% f -Number
+\begin{equation}
+\mathrm{RP}= \frac2 {cT}
+\end{equation}
+The resulting resolving power vs.\ $f$-number at various focus spreads is shown in Figure 5. The curve labeled ‘\textsf{Diffr}’ shows resolving power at the diffraction limit, corresponding to the plane of focus. All curves assume infinity focus so that $m = 0$.
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=\linewidth]{figure/fig_dofd_5} 
+   \caption{Resolving Power vs.\ $f$-Number at Various Focus Spreads---Hansma}
+   \label{fig:respow}
+\end{figure}
 %% Figure 5. Resolving Power vs. $f$-Number at Various Focus Spreads—Hansma
 The results suggest considerable loss of sharpness when the $f$-number is determined by the conventional method, especially at small focus spreads. The maximum resolving power decreases rapidly with focus spread; considerable improvement results from anything, such as camera movements, that can decrease the focus spread.
 \subsection{Modulation Transfer Function}
@@ -1058,7 +1122,22 @@ If the manufacturer’s CoC is not appropriate for the intended viewing conditio
 \begin{table}[htp]
 \caption{Marked, Minimum, and Maximum $f$-Numbers}
 \begin{center}
-\label{tab:mmmf}\begin{tabular}{ccc}  \hline $N_{0.035}$ & $N_{0.025}$ & $N_\mathrm{max}$\\  \hline 1.4 & 2 & 6.3 \\ 2 & 2.8 & 7.1 \\ 2.8 & 4 & 9.0 \\ 4 & 5.6 & 10 \\ 5.6 & 8 & 13 \\ 8 & 11 & 14 \\ 11 & 16 & 18 \\ 16 & (22) & 20 \\ 22 & (32) & 25 \\ (32) & (45) & 29 \\  \hline
+\label{tab:mmmf}
+\begin{tabular}{ccc}
+  \hline
+ $N_{0.035}$ & $N_{0.025}$ & $N_\mathrm{max}$\\
+  \hline
+ 1.4 & 2 & 6.3 \\ 
+2 & 2.8 & 7.1 \\ 
+2.8 & 4 & 9.0 \\ 
+4 & 5.6 & 10 \\ 
+5.6 & 8 & 13 \\ 
+8 & 11 & 14 \\ 
+11 & 16 & 18 \\ 
+16 & (22) & 20 \\ 
+22 & (32) & 25 \\ 
+(32) & (45) & 29 \\ 
+ \hline
 \end{tabular}
 \end{center}
 \end{table}%
