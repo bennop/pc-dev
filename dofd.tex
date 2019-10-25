@@ -168,7 +168,7 @@ The image distance $v$ is related to the object distance $u$ by the thin-lens eq
 %% 1+1&1 uvf
 Rearranging into the form 
  \begin{equation}
-v=\frac{uf}{u-f}
+v=\frac{uf}{u-f}\quad,
 \end{equation}
 substituting into Eqs.~\ref{eq:vn} and \ref{eq:vf}, and rearranging yields the corresponding relations in object space:
 %% uf 2 uf 2
@@ -212,7 +212,6 @@ Setting the far limit of DoF in Eq. (7) to infinity and solving for object dista
 The distance $u_h$ is called the hyperfocal distance. At the hyperfocal distance, a difference of
 one focal length is insignificant, so Eq. (11) often is given simply as
 %% 1 
-
 %% f2
 %% uh ≈ Nc (12)
 %%  When the object distance is the hyperfocal distance, the near limit of DoF, from Eq. (6), is f2+fu
@@ -253,20 +252,33 @@ one focal length is insignificant, so Eq. (11) often is given simply as
 %% or slightly greater than 1⁄3 the hyperfocal distance. The front:rear DoF ratio is zero at the hyperfocal distance and beyond (the rear DoF is infinite); at high magnification, front and rear DoF are nearly equal.
 \subsection{Total Depth of Field}
 
-%% The total depth of field between the near and far limits is
+The total depth of field between the near and far limits is
 %% (21)
-%%    f
-%%  uf2 ⎡f2 +Nc(u− f)− f2 +Nc(u− f)⎤ 2uNcf2 (u− f)
-%% uf−un& ⎣ ⎦& 2 (22)
-%%   ⎡f2 −Nc(u−f)⎤⎡f2 +Nc(u−f)⎤ f4 −N2c2(u−f) ⎣⎦⎣⎦
-%% Eliminating the terms in u and u − f by noting that u&m+1f ,
+\begin{equation}
+u_f-u_n = \frac{uf^2 \left[f^2 +Nc(u- f)- f^2 +Nc(u-f)\right]}{\left[f^2 -Nc(u-f)\right]\left[f^2 +Nc(u-f)\right]} = \frac{ 2uNcf^2 (u- f)}{f^4 -N^2c^2(u-f)^2}
+%. #22
+\label{eq:uf-n1}
+\end{equation}
+Eliminating the terms in $u$ and $u  f$ by noting that 
+\begin{equation}
+u = \frac{m+1}m f\quad ,
+\end{equation}
 %% m
-%% and u−f&f,
-%% m
-%% total depth of field in terms of magnification then is
+and
+\begin{equation}
+    u-f = \frac f m\quad,
+\end{equation}
+total depth of field in terms of magnification then is
+\begin{equation}
+u_f-u_n = \frac{2f\left(\frac{m+1}m\right)Ncf^2\left(\frac f m\right)}{f^4 -N^2c^2\left(\frac f m\right)^2} = \frac{2f\left(\frac{m+1}m\right)}{\frac{fm}{Nc}-\frac{Nc}{fm}}
+% #23
+\label{eq:uf-n2}
+\end{equation}
+
 %% 2f⎛m+1⎞Ncf2⎛f⎞ 2f⎛m+1⎞ ⎜m⎟ ⎜m⎟ ⎜m⎟ u−u&⎝ ⎠ ⎝⎠&⎝ ⎠
-%% At the hyperfocal distance, the two terms in the denominator are equal, and the DoF is infinite, although only objects at or beyond the near limit of DoF are rendered acceptably sharp. At distances beyond the hyperfocal distance, the calculated DoF is negative, but this has no physical significance. When the DoF is infinite, the only quantity of interest would seem to be the near limit of DoF, which, as can be seen from Eq. (9), is closer with a lens of shorter focal length.
-%% Multiplying the numerator and denominator of Eq. (23) by
+At the hyperfocal distance, the two terms in the denominator are equal, and the DoF is infinite, although only objects at or beyond the near limit of DoF are rendered acceptably sharp. At distances beyond the hyperfocal distance, the calculated DoF is negative, but this has no physical significance. When the DoF is infinite, the only quantity of interest would seem to be the near limit of DoF, which, as can be seen from Eq. (9), is closer with a lens of shorter focal length.
+
+Multiplying the numerator and denominator of Eq. (23) by
 %%        fn 2fmNc
 %% (23)
 %% f4 −N2c2⎛ f ⎞ ⎜m⎟ ⎝⎠
