@@ -290,11 +290,11 @@ gives
    u_f-u_n = \frac{2Nc(m+1)}{m^2-\left(\frac(Nc)f\right)^2}
    % #24
       \label{eq:uf-n3}
-
 \end{equation}
 %% u −u & 2Nc(m+1)
 %% f n ⎛ Nc ⎞2 m2 −⎜ f ⎟
-It can be seen from Eq.~\ref{eq:uf-n3} that a shorter focal length gives a greater DoF. When $u\ll 􏰀 u_h$, the second term in the denominator is small compared with the first, so that
+It can be seen from Eq.~\ref{eq:uf-n3} that a shorter focal length
+gives a greater DoF. When $u \ll u_h$, the second term in the denominator is small compared with the first, so that
 \begin{equation}
    u_f-u_n \approx 2Nc\frac{m+1}{m^2}
    % #25
@@ -306,40 +306,87 @@ Note that for constant DoF in Eq.~\ref{eq:uf-n4}, there is a reciprocal relation
 $c$: using a greater $f$-number is equivalent to specifying a smaller circle of confusion, and vice versa. This can be useful when using lens DoF scales that assume a final-image enlargement different from that actually intended. For example, if the lens DoF scales assume a 5× enlargement, and the image actually requires 7× enlargement, using an $f$-number one step greater (e.\,g., f/8 rather than f/5.6) will effectively reduce the CoC by a factor of $\sqrt 2$ , sufficient to compensate for the greater enlargement.
 \subsection{Focus and Minimum $f$-Number for Given Depth of Field}
 
-If the depth of field is to extend to infinity, the minimum $f$-number is obtained by setting the focus to the hyperfocal distance. Many images, however, do not require that the DoF extend to infinity. To have the DoF between two arbitrary distances un and uf, Eqs. (6) and (7) can be solved for N, combined, and solved for the object distance u to give
+If the depth of field is to extend to infinity, the minimum $f$-number
+is obtained by setting the focus to the hyperfocal distance. Many
+images, however, do not require that the DoF extend to infinity. To
+have the DoF between two arbitrary distances $u_n$ and $u_f$, Eqs. (6)
+and (7) can be solved for $N$, combined, and solved for the object
+distance $u$ to give
+\begin{equation}
+  \label{eq:u}
+  u = \frac{2u_fu_n}{u_f+u_n}
+  % #26
+\end{equation}
 %% u&2ufun , (26) uf +un
-%% the harmonic mean of the near and far distances. Note that the distance is independent of N: if the $f$-number is increased to decrease the effective CoC, there is no need to refocus.
-%% The required $f$-number is obtained by solving Eqs. (6) and (7) for u, combining, and solving for N, giving
+the \emph{harmonic mean} of the near and far distances. Note that the distance is independent of $N$: if the $f$-number is increased to decrease the effective CoC, there is no need to refocus.
+
+The required $f$-number is obtained by solving Eqs. (6) and (7) for
+$u$, combining, and solving for $N$, giving
+\begin{equation}
+  \label{eq:N}
+  N = \frac{f^2}c\frac{u_f - u_n}{u_f(u_n-f)+u_n(u_f-f)}
+\end{equation}
 %% f2 u−u
 %% N& fn (27)
 %% (28)
 %%  (24)
 %%   ⎝⎠
 %%      c uf (un − f ) + un (uf − f )
-%% If the near and far limits of DoF are large in comparison with the lens focal length,
+If the near and far limits of DoF are large in comparison with the lens focal length,
+\begin{equation}
+  \label{eq:Napprox}
+  N\approx \frac{f^2}c\frac{u_f - u_n}{2u_fu_n}
+  % #28
+\end{equation}
 %% f2u−u N≈ f n
 %%   c 2ufun
-%% If the focus is set using Eq. (26), the DoF in front of the focus point is
+If the focus is set using Eq.~(\ref{eq:u}), the DoF in front of the
+focus point is
+\begin{equation}
+  \label{eq:DOFf}
+  u-u_n=\frac{2u_nu_f-u_nu_f-u_n^2}{u_n + u_f} = frac{u_n(u_f - u_n)}{u_n + u_f}
+\end{equation}
 %% u−u &2uu −uu −u2 &u (u −u ) nfnfnnfn
 %% n un +uf un +uf
-
-
-%% and the DoF beyond the focus point is
+and the DoF beyond the focus point is
+\begin{equation}
+  \label{eq:DOFb}
+  u_f - u = \frac{u_f^2 +u_nu_f-2u_nu_f}{u_n + u_f} = frac{u_f(u_f - u_n)}{u_n + u_f}
+\end{equation}
 %% u−u&u2+uu−2uu &u(u−u) fnfnfffn
 %% f un +uf un +uf
-%% The front:rear DoF ratio then is u−un &un
-%% Page 10
-%%   (29) Except when the near and far limits of DoF coincide, the focus point always is closer to the
-%%   uf−u uf
-%% near limit. The near-to-total ratio is 1⁄3 only when uf & 2un.
+The front:rear DoF ratio then is
+\begin{equation}
+  \label{eq:frrat}
+  \frac{u - u_n}{u_f - u} = \frac{u_n}{u_f}
+  % #29
+\end{equation}
+Except when the near and far limits of DoF coincide, the focus point always is closer to the
+near limit. The near-to-total ratio is 1⁄3 only when $u_f = 2u_n$.
 \subsection{Image-Side Relationships}
-Most discussions of depth of field concentrate on the object side of the lens; in practice, however, camera settings usually are determined using image distances, whether directly in the case of a view camera, or by using distance and DoF scales on hand-camera lenses. With a view camera, the image distances are obtained by focusing on objects at the desired near and far limits of DoF, and noting the lens extension in each case. The image distances $v_n$ and $v_f$ correspond to object distances $u_n$ and $u_f$; the difference $v_n-v_f$ between the near and far image distances is the focus spread $\Dv$.
-%% Combining Eqs. (1) and (2) gives the image distance v that will set the DoF between object distances un and uf:
-%% v&2vnvf , (30) vn +vf
-%% the harmonic mean of the near and far image distances. The harmonic mean always is less than the arithmetic mean, but when the focus spread is small, the harmonic mean and arithmetic mean are nearly equal, so that
+Most discussions of depth of field concentrate on the object side of the lens; in practice, however, camera settings usually are determined using image distances, whether directly in the case of a view camera, or by using distance and DoF scales on hand-camera lenses. With a view camera, the image distances are obtained by focusing on objects at the desired near and far limits of DoF, and noting the lens extension in each case. The image distances $v_n$ and $v_f$ correspond to object distances $u_n$ and $u_f$; the difference $v_n-v_f$ between the near and far image distances is the \emph{focus spread} $\Dv$.
+
+Combining Eqs. (1) and (2) gives the image distance $v$ that will set
+the DoF between object distances $u_n$ and $u_f$:
+\begin{equation}
+  \label{eq:v}
+  v =  \frac{2v_nv_f}{v_n+v_f}
+  % #30
+\end{equation}
+the harmonic mean of the near and far image distances. The harmonic mean always is less than the arithmetic mean, but when the focus spread is small, the harmonic mean and arithmetic mean are nearly equal, so that
+\begin{equation}
+  \label{eq:vapprox1}
+  v\approx\frac{v_n+v_f}2
+  % #31
+\end{equation}
 %% v≈vn +vf (31) 2
-%% or
-%% Again combining Eqs. (1) and (2), the far:near distribution of the focus spread is
+or
+\begin{equation}
+  \label{eq:vapprox2}
+  v \approx v_f + \frac \Dv 2
+  % #32
+\end{equation}
+Again combining Eqs. (1) and (2), the far:near distribution of the focus spread is
 %% v−vf &vf (33)
 %% vn−v vn
 %% Using Eq. (5) to substitute for vn and vf, and then rearranging, the focus spread in terms of
@@ -666,7 +713,7 @@ When recognizability of objects is the most important consideration, as usually 
 %% substituting into Eqs. (84) through (88), and again rearranging, one arrives at the corresponding relations in object space. The near and far limits of DoF are
 %% uf 2 − Ncf (1 p −1)(u − f ) un & f2+Nc(u−f)
 %% uf 2 + Ncf (1 p −1)(u − f ) uf & f2−Nc(u−f)
-When $u_f = \infty$, the focus distance is the hyperfocal distance $u_$, where $u_h =\frac{ f^2 + f}{Nc}
+When $u_f = \infty$, the focus distance is the hyperfocal distance $u_h$, where $u_h =\frac{ f^2 + f}{Nc}$xs
 the same as for a symmetrical lens. Solving for the near limit of DoF gives
 %% un & Nc
 %% or slightly less than half the hyperfocal distance.
@@ -678,11 +725,11 @@ the same as for a symmetrical lens. Solving for the near limit of DoF gives
 %% (91)
 %% (92)
 %%   ,
-The required focus distance and $f$-number to have the DoF extend from un to uf are
+The required focus distance and $f$-number to have the DoF extend from $u_n$ to $u_f$ are
 %%  2
-%%    N&fn (94) c (u −f)⎡u +f(1p−1)⎤+(u −f)⎡u +f(1p−1)⎤
+%%    N&fn (94) c (u −f)x⎡u +f(1p−1)⎤+(u −f)⎡u +f(1p−1)⎤
 %%     n⎣f⎦f⎣n⎦
-For a defocused point object at object distance ud, the diameter of the blur spot is
+For a defocused point object at object distance $u_d$, the diameter of the blur spot is
 %% k & pfm ud −u
 %% N ud+(ud−f)(p−1)
 %% From Eqs. (44) and (95), the “relative blur” is k & k & m p ud ud −u
