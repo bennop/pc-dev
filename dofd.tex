@@ -1225,13 +1225,13 @@ s=\lambda v N\propto \frac{l}{l}=1
 %2N ll
 
 
-For example, Fig.~\ref{fig:MTFvsf10} would be similar in appearance to a graph for the 35\,mm format with a focus spread of 0.625\,mm, spatial frequencies of 16, 32, 48, and 64\,lp/mm, and an $f$-number range of 1--22. This is illustrated in Figure 16.
+For example, Fig.~\ref{fig:MTFvsf10} would be similar in appearance to a graph for the 35\,mm format with a focus spread of 0.625\,mm, spatial frequencies of 16, 32, 48, and 64\,lp/mm, and an $f$-number range of 1--22. This is illustrated in Figure~\ref{fig:MTFvsf35}.
 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
-   \includegraphics[width=\linewidth]{figure/fig_dofd_1} 
-   \caption{DoF for Symmetrical Lens}
-   \label{fig:symlens}
+   \includegraphics[width=\linewidth]{figure/fig_dofd_16} 
+   \caption{MTF vs. $f$-Number: 35\,mm, 0.625\,mm Focus Spread}
+   \label{fig:MTFvsf35}
 \end{figure}
 %%% Figure 16. MTF vs. $f$-Number: 35\,mm, 0.625\,mm Focus Spread
 
@@ -1262,11 +1262,10 @@ Close-focusing ``macro" lenses for small-format cameras usually are asymmetrical
 The standard CoCs used in DoF calculations assume certain conditions of image enlargement and viewing. If the actual conditions differ substantially from those assumed, especially if the photographer plans to examine large images at close distances, sharpness may not be as great as desired. To some extent, the CoC can be adjusted to suit the different conditions, but diffraction imposes limits on how much sharpness can be improved by reducing the CoC. When great DoF is required, it simply may not be possible to have everything as sharp as desired.
 
 \section{Definitions of Quantity Symbols}
-
-
 %\begin{table}[htp]
 %\caption{default}
 \begin{center}
+{\small
 \begin{tabular}{r@{~=~}l}
 $delta$ & Lens defocus     \\
 $\lambda$ & Wavelength of light     \\
@@ -1291,8 +1290,8 @@ $k_{diff}$ & Diameter of diffraction blur spot     \\
 $k_{r}$ & “Relative blur” of defocused object     \\
 $L_{max}$ & Maximum luminance of test pattern or its image      \\
 $L_{min}$ & Minimum luminance of test pattern or its image     \\
-l & Camera format characteristic dimension $m$ = Image magnification at
-                                               focused distance     \\
+l & Camera format characteristic dimension\\
+$m$ & Image magnification at  focused distance     \\
 $m_{d}$ & Image magnification of object at distance $x_d$ from plane of
      focus      \\
 $m_{h}$ & Image magnification at hyperfocal distance     \\
@@ -1323,6 +1322,7 @@ $\Dv$ & Focus spread $v_n - v_f$     \\
 $x_d$ & Distance of defocused object from plane of focus      \\
 $x_h$ & Object-to-image hyperfocal distance     \\
 \end{tabular}
+}
 \end{center}
 %\label{default}
 %\end{table}%
