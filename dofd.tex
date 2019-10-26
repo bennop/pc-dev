@@ -32,6 +32,7 @@
 \newunicodechar{≈}{\ensuremath{\approx}}
 %\newunicodechar{≈}{\ensuremath{\approx}}
 
+\newcommand{\f}[1]{\mbox{\raisebox{2pt}{\footnotesize $f$\hspace{-1.2pt}}/\hspace{-0.6pt}\raisebox{-0.6pt}{\small #1}}}
 \begin{document}
 \maketitle
 \section{Introduction}
@@ -252,7 +253,7 @@ The DoF beyond the focused object is
 u_\mathrm{f} - u = \frac{N\!cu(u-f)}{f^2 - N\!c(u-f)}
 \end{equation}
 The front and rear DoF can be expressed in terms of the magnification by making the substitution Eq.~\ref{eq:m-rel1}
-%% u−f&f m
+%% u−f&f m %%% state explicitely???
 into the equations for front and rear DoF and rearranging, the near DoF is
 \begin{equation}
    u-u_\mathrm{n} = \frac{N\!c(1+m)}{m^2\left(1+\frac{N\!c}{fm}\right)}
@@ -316,8 +317,6 @@ gives
    % #24
       \label{eq:uf-n3}
 \end{equation}
-%% u −u & 2N\!c(m+1)
-%% f n ⎛ N\!c ⎞2 m2 −⎜ f ⎟
 It can be seen from Eq.~\ref{eq:uf-n3} that a shorter focal length
 gives a greater DoF. When $u \ll u_\mathrm{h}$, the second term in the denominator is small compared with the first, so that
 \begin{equation}
@@ -328,7 +327,7 @@ gives a greater DoF. When $u \ll u_\mathrm{h}$, the second term in the denominat
 and the DoF is independent of focal length.
 
 Note that for constant DoF in Eq.~\ref{eq:uf-n4}, there is a reciprocal relationship between $N$ and
-$c$: using a greater $f$-number is equivalent to specifying a smaller circle of confusion, and vice versa. This can be useful when using lens DoF scales that assume a final-image enlargement different from that actually intended. For example, if the lens DoF scales assume a 5× enlargement, and the image actually requires 7× enlargement, using an $f$-number one step greater (e.\,g., $f$/8 rather than $f/$5.6) will effectively reduce the CoC by a factor of $\sqrt 2$ , sufficient to compensate for the greater enlargement.
+$c$: using a greater $f$-number is equivalent to specifying a smaller circle of confusion, and vice versa. This can be useful when using lens DoF scales that assume a final-image enlargement different from that actually intended. For example, if the lens DoF scales assume a 5× enlargement, and the image actually requires 7× enlargement, using an $f$-number one step greater (e.\,g., \f 8 rather than \f{5.6}) will effectively reduce the CoC by a factor of $\sqrt 2$ , sufficient to compensate for the greater enlargement.
 \subsection{Focus and Minimum $f$-Number for Given Depth of Field}
 
 If the depth of field is to extend to infinity, the minimum $f$-number
@@ -342,7 +341,6 @@ distance $u$ to give
   u = \frac{2u_\mathrm{f}u_\mathrm{n}}{u_\mathrm{f}+u_\mathrm{n}}
   % #26
 \end{equation}
-%% u&2ufun , (26) uf +un
 the \emph{harmonic mean} of the near and far distances. Note that the distance is independent of $N$: if the $f$-number is increased to decrease the effective CoC, there is no need to refocus.
 
 The required $f$-number is obtained by solving Eqs. (6) and (7) for
@@ -351,35 +349,24 @@ $u$, combining, and solving for $N$, giving
   \label{eq:N}
   N = \frac{f^2}c\frac{u_\mathrm{f} - u_\mathrm{n}}{u_\mathrm{f}(u_\mathrm{n}-f)+u_\mathrm{n}(u_\mathrm{f}-f)}
 \end{equation}
-%% f2 u−u
-%% N& fn (27)
-%% (28)
-%%  (24)
-%%   ⎝⎠
-%%      c uf (un − f ) + un (uf − f )
+
 If the near and far limits of DoF are large in comparison with the lens focal length,
 \begin{equation}
   \label{eq:Napprox}
   N\approx \frac{f^2}c\frac{u_\mathrm{f} - u_\mathrm{n}}{2u_\mathrm{f}u_\mathrm{n}}
   % #28
 \end{equation}
-%% f2u−u N≈ f n
-%%   c 2ufun
 If the focus is set using Eq.~(\ref{eq:u}), the DoF in front of the
 focus point is
 \begin{equation}
   \label{eq:DOFf}
   u-u_\mathrm{n}=\frac{2u_\mathrm{n}u_\mathrm{f}-u_\mathrm{n}u_\mathrm{f}-u_\mathrm{n}^2}{u_\mathrm{n} + u_\mathrm{f}} = \frac{u_\mathrm{n}(u_\mathrm{f} - u_\mathrm{n})}{u_\mathrm{n} + u_\mathrm{f}}
 \end{equation}
-%% u−u &2uu −uu −u2 &u (u −u ) nfnfnnfn
-%% n un +uf un +uf
 and the DoF beyond the focus point is
 \begin{equation}
   \label{eq:DOFb}
   u_\mathrm{f} - u = \frac{u_\mathrm{f}^2 +u_\mathrm{n}u_\mathrm{f}-2u_\mathrm{n}u_\mathrm{f}}{u_\mathrm{n} + u_\mathrm{f}} = \frac{u_\mathrm{f}(u_\mathrm{f} - u_\mathrm{n})}{u_\mathrm{n} + u_\mathrm{f}}
 \end{equation}
-%% u−u&u2+uu−2uu &u(u−u) fnfnfffn
-%% f un +uf un +uf
 The front:rear DoF ratio then is
 \begin{equation}
   \label{eq:frrat}
@@ -405,7 +392,6 @@ the harmonic mean of the near and far image distances. The harmonic mean always 
   v\approx\frac{v_\mathrm{n}+v_\mathrm{f}}2
   % #31
 \end{equation}
-%% v≈vn +vf (31) 2
 or
 \begin{equation}
   \label{eq:vapprox2}
@@ -528,7 +514,6 @@ If the “relative blur” $k_r$ is the ratio of blur spot diameter to magnifica
     % #45
     \label{eq:km}
 \end{equation}
-%% k & m xd (45)
 
 It often is claimed that a long-focus lens gives less DoF and more background blur than a short-focus lens. However, Eq. (25) shows that, when the object distance is small in comparison with the hyperfocal distance, DoF is independent of focal length, and Eq. (45) shows that the “relative blur” is independent of focal length at all distances. However, if the defocused object is sufficiently distant, it may appear so small with a short-focus lens that the blurring is not obvious; in such a case, the long-focus lens may give subjectively greater background blur. The perspective with a long-focus lens will, of course, be different from the perspective with a short-focus lens.
 
@@ -542,25 +527,49 @@ The conventional approach to DoF is based on distinguishing a point from a blur 
 \subsection{Image-Side Relationships}
 
 Eqs. (1) and (2) assumed identical CoCs for the near and far limits of DoF; using different near and far values $c_\mathrm{n}$ and $c_\mathrm{f}$, we have
-%% vn −v&cn (46) vn d
-%% and
-%% v−vf &cf (47)
-%% vf d
+\begin{equation}
+   \frac{v_\mathrm{n} - v}{v_\mathrm{n}} = \frac{c_\mathrm{n}}d
+   \label{eq:46}
+   % #46
+\end{equation}
+and
+\begin{equation}
+   \frac{v - v_\mathrm{f}}{v_\mathrm{f}} = \frac{c_\mathrm{f}}d \quad .
+   \label{eq:47}
+   % #47
+\end{equation}
 Replacing $d$ with the focal length and $f$-number gives
-%% vn −v & N\!cn (48) vn f
-%% and
-%% v−vf &N\!cf (49)
-%% vf f
-combining Eqs. (48) and (49) and solving for $v$ gives
-%% v&(cn +cf )vnvf (50) cnvn +cfvf
+\begin{equation}
+   \frac{v_\mathrm{n} - v}{v_\mathrm{n}} = \frac{N\!c_\mathrm{n}}f
+   \label{eq:48}
+   % #48
+\end{equation}
+and
+\begin{equation}
+   \frac{v - v_\mathrm{f}}{v_\mathrm{f}} = \frac{N\!c_\mathrm{f}}f \quad .
+   \label{eq:49}
+   % #49
+\end{equation}
+Combining Eqs. (48) and (49) and solving for $v$ gives
+\begin{equation}
+v = \frac{(c_\mathrm{n} + c_\mathrm{f}) v_\mathrm{n} v_\mathrm{f}}{c_\mathrm{n}v_\mathrm{v} + c_\mathrm{f}v_\mathrm{f}}
+   \label{eq:50}
+   % #50
+\end{equation}
 Again combining Eqs. (48) and (49), the far:near distribution of the focus spread is
-%% v−vf &cfvf (51)
-%% vn −v cnvn
+\begin{equation}
+   \frac{v - v_\mathrm{f}}{v_\mathrm{n} - v} = \frac{c_\mathrm{f}v_\mathrm{f}}{c_\mathrm{n}v_\mathrm{n}}
+   \label{eq:51}
+   % #51
+\end{equation}
 Unless the focus spread is large, we usually can take $v_\mathrm{f} \approx v_\mathrm{n}$ on the right-hand side of
-%% Eq. (51), so that
-%% v−vf ≈cf (52)
-%% vn−v cn
-Rearranging and solving for v gives
+ Eq. (51), so that
+\begin{equation}
+   \frac{v - v_\mathrm{f}}{v_\mathrm{n} - v} \approx \frac{c_\mathrm{f}}{c_\mathrm{n}}
+   \label{eq:52}
+   % #52
+\end{equation}
+Rearranging and solving for $v$ gives
 \begin{equation}
    v\approx{c_\mathrm{f}v_\mathrm{n}+c_\mathrm{n}v_\mathrm{f}}{c_\mathrm{n}+c_\mathrm{f}}
    \label{eq:53}
@@ -679,29 +688,32 @@ from Eq. (61), is
 
 
 Sometimes the recognizability of objects may be more important than a specified sharpness in the image; this long has been the case in aerial surveillance photography; see Williams (1990) for a discussion of “ground resolution.” The objects of interest in aerial surveillance essentially are at infinity; Merklinger’s Object Field Method applied the same criterion to objects throughout the image.
-%% Generally, an object is recognizable if key features are reproduced at a size equal to or larger than the size of the blur spot. The expressions on the object side to ensure this reproduction are straightforward; when the same resolution criteria apply at near and far distances, the focus distance is
 
+Generally, an object is recognizable if key features are reproduced at a size equal to or larger than the size of the blur spot. The expressions on the object side to ensure this reproduction are straightforward; when the same resolution criteria apply at near and far distances, the focus distance is
 %% u&un +uf 2
-%% and the $f$-number is N&uf−un f,
+and the $f$-number is
+%%  N&uf−un f,
 %% un+uf S
-%% where S is the size of the smallest feature to be resolved.
-%% Eqs. (65) and (66) are simple to apply when an easy means of determining object
+where S is the size of the smallest feature to be resolved.
+
+Eqs. (65) and (66) are simple to apply when an easy means of determining object
 %% (65) (66)
-%%    distance is available, such as with manual-focus hand-camera lenses that have readable distance scales, or perhaps with a laser rangefinder. However, the expressions on the image side are more complex. Merklinger’s resolution criteria derive strictly from consideration of object features, but the effect essentially is equivalent to using different CoCs for near and far objects. This again is similar to the concept of “relative blur.” When the same resolution criteria apply at near and far distances, the near and far CoCs are proportional to their relative magnifications:
+distance is available, such as with manual-focus hand-camera lenses that have readable distance scales, or perhaps with a laser rangefinder. However, the expressions on the image side are more complex. Merklinger’s resolution criteria derive strictly from consideration of object features, but the effect essentially is equivalent to using different CoCs for near and far objects. This again is similar to the concept of “relative blur.” When the same resolution criteria apply at near and far distances, the near and far CoCs are proportional to their relative magnifications:
 %% cf &mf (67) cn mn
-%% Substituting the relationship
+Substituting the relationship
 %% mx & v & v vx − f ux vx f
-%% for the near and far magnifications gives
+for the near and far magnifications gives
 %% cf & vn vf − f (68)
 %% cn vf vn−f
-%% The expressions for focus distance and $f$-number do not lend themselves to easily used simplifications, except when the far limit of DoF extends to infinity: then vf & f, and cf & 0. From Eq. (54), the focus is set to infinity; from Eq. (6), the near limit of DoF then is
+The expressions for focus distance and $f$-number do not lend themselves to easily used simplifications, except when the far limit of DoF extends to infinity: then $v_\mathrm{f} = f$, and $c_\mathrm{f} = 0$. From Eq. (54), the focus is set to infinity; from Eq. (6), the near limit of DoF then is
 %% f2
 %% un & N\!c , (69)
 %% n
-%% essentially the hyperfocal distance. From Eq. (57), the $f$-number is
+essentially the hyperfocal distance. From Eq. (57), the $f$-number is
 %% N ≈ vn − f , (70) cn
-%% or two steps greater than that resulting from the same near distance using equal near and far CoCs. Of course, with the Object Field Method, the absolute value of the CoC derives strictly from object features, so it may not be the same as the CoC determined with the conventional approach to DoF.
-%% Alternatively, the $f$-number can be determined from the near object distance by rearranging Eq. (69):
+or two steps greater than that resulting from the same near distance using equal near and far CoCs. Of course, with the Object Field Method, the absolute value of the CoC derives strictly from object features, so it may not be the same as the CoC determined with the conventional approach to DoF.
+
+Alternatively, the $f$-number can be determined from the near object distance by rearranging Eq. (69):
 %% f2
 %% N&cu (71)
 %% nn
@@ -713,43 +725,61 @@ With a hand camera, it usually is easier to determine the $f$-number using Eq. (
 For a given $f$-number, the Object Field Method gives greater sharpness to distant objects at the expense of slightly less sharpness in near objects; for a given near-limit sharpness, the greater sharpness of distant objects comes at the expense of a greater $f$-number than required with equal near and far CoCs. Although the cost of the greater distant sharpness is substantial, it nonetheless is considerably less than the cost of achieving the same sharpness simply by increasing the $f$-number without refocusing. In practice, the Object Field Method often is easiest to use with infinity focus, especially with a hand camera, for which a slightly closer focus can be difficult to set accurately.
 
 When recognizability of objects is the most important consideration, as usually is the case in surveillance photography, the Object Field Method probably is better than the conventional method, especially if parts of the image are to be examined at high magnification to resolve small details. How much this holds true in general pictorial photography is a matter of personal taste.
-%% Depth of Field and Camera Format
-%% For two different camera formats 1 and 2, with each camera at the same object distance, and the lens focal lengths chosen to give same image framing, the $f$-numbers N1 and N2 required to give the same total depth of field are, from Eq. (25),
-%% N c m +1⎛m ⎞2
-%% 2≈1 1 ⎜2⎟ (72)
-%%     N cm+1m 122⎝1⎠
-%% When the object distance is large in comparison with the lens focal length, magnification is small, and
-%% m1 + 1 ≈ 1 , m2 +1
-%%  so that
-%% N c⎛m⎞2
-%% 2≈1⎜2⎟ (73) N1 c2 ⎝ m1 ⎠
-%%    Image magnification m corresponds to a characteristic dimension l of the camera format, so that
-%% m2 &l2 (74) m1 l1
-%% If the final images are to be the same size, the acceptable circles of confusion c1 and c2 are in proportion to the format size:
-%%   © 2004, 2006 Jeff Conrad
+
+\subsection{Depth of Field and Camera Format}
+
+For two different camera formats 1 and 2, with each camera at the same object distance, and the lens focal lengths chosen to give same image framing, the $f$-numbers $N_1 $ and $N_2$ required to give the same total depth of field are, from Eq. (25),
+\begin{equation}
+\frac{N_2}{N_1}\approx\frac{c_1}{c_2}\frac{m_1+1}{m_2+1}\left(\frac{m_2}{m_1}\right)^2
+   \label{eq:72}
+   % #72
+\end{equation}
+When the object distance is large in comparison with the lens focal length, magnification is small, and
+\begin{equation}
+\frac{m_1+1}{m_2+1} \approx 1\quad,
+\end{equation}
+so that
+\begin{equation}
+\frac{N_2}{N_1}\approx\frac{c_1}{c_2}\left(\frac{m_2}{m_1}\right)^2\quad.
+   \label{eq:73}
+   % #73
+\end{equation}
+Image magnification $m$ corresponds to a characteristic dimension $l$ of the camera format, so that
+\begin{equation}
+\frac{m_1}{m_2} = \frac{l_1}{l_2}
+   \label{eq:74}
+   % #74
+\end{equation}
+If the final images are to be the same size, the acceptable circles of confusion $c_1$ and $c_2$ are in proportion to the format size:
 %% 
-%% Depth of Field in Depth
 %% Page 19
-%% c1 &l1 c2 l2
-%% (75)
-%% (76)
-%% If the characteristic dimension is the short dimension of the format, the ratio of the 4×5 (96\,mm × 120\,mm) and 35\,mm (24\,mm × 36\,mm) formats is 4. If a 35\,mm camera using a 75\,mm lens required f/8 at 1/250 second, a 4×5 camera using a 300\,mm lens and viewing the same object from the same camera position would require f/32 at 1/15 second for the same depth of field. For a stationary subject, such as architecture, either combination probably would be fine, but for a moving subject, such as a field of wildflowers on a windy day, the 1/15 sec. shutter speed might not be sufficient to prevent motion blur. Of course, just the opposite problem can arise when a shallow DoF is desired with a small-format digital sensor—the lens may not allow a sufficiently small $f$-number to give the desired effect.
-%% For a given $f$-number, the ratio of the depths of field of the two camera formats is given by
-%% 21
-%% DoF ≈ l (77)
-%% If a 35\,mm camera using a 75\,mm lens and a 4×5 camera using a 300\,mm lens were set to the same $f$-number, the image from the 35\,mm camera would have 4 times the depth of field of the image from the 4×5.
-%% The rule that “DoF is inversely proportional to format size” is useful for describing practical results obtained with different camera formats, although the approximations used to derive it are valid only for a limited range of object distances. There is no simple expression for the valid range of distances, but in many cases (allowing about a 20% error), it is between about 3 times the focal length of the lens on the smaller format, and about 1⁄2 the hyperfocal distance of the lens on the larger format.
-%% Depth of Field for an Asymmetrical Lens
-%% Most treatments of depth of field assume a symmetrical lens for which the entrance and exit pupils are the same size, and for which the pupils coincide with the object and image principal planes. Although this assumption is reasonable for most large-format lenses of short and medium focal length, it may not be appropriate for telephoto designs. For most
-%% 35\,mm and medium-format single-lens reflex cameras, the only nearly symmetrical lenses are those with focal length approximately equal to the film diagonal; longer-focus lenses usually are telephoto designs, and shorter-focus lenses are retrofocus designs that allow the rear element to clear the reflex mirror.
-%%   and
-%% 2122
-%% N ≈l l2 &l N ll2 l
-%%     1211
-%%   DoF l 12
-%% © 2004, 2006 Jeff Conrad
-%% 
-%% Depth of Field in Depth
+\begin{equation}
+\frac{c_1}{c_2} = \frac{l_1}{l_2}
+   \label{eq:75}
+   % #75
+\end{equation}
+and
+\begin{equation}
+\frac{N_2}{N_1}\approx \frac{l_1}{l_2}  \frac{l_2^2}{l_1^2} =  \frac{l_2}{l_1}\quad.
+   \label{eq:73}
+   % #73
+\end{equation}
+
+If the characteristic dimension is the short dimension of the format, the ratio of the 4×5 (96\,mm × 120\,mm) and 35\,mm (24\,mm × 36\,mm) formats is 4. If a 35\,mm camera using a 75\,mm lens required \f8 at 1/250 second, a 4×5 camera using a 300\,mm lens and viewing the same object from the same camera position would require \f{32} at 1/15 second for the same depth of field. For a stationary subject, such as architecture, either combination probably would be fine, but for a moving subject, such as a field of wildflowers on a windy day, the 1/15\,sec. shutter speed might not be sufficient to prevent motion blur. Of course, just the opposite problem can arise when a shallow DoF is desired with a small-format digital sensor—the lens may not allow a sufficiently small $f$-number to give the desired effect.
+
+For a given $f$-number, the ratio of the depths of field of the two camera formats is given by
+\begin{equation}
+   \frac{\mathrm{DoF}_1}{\mathrm{DoF}_2} \approx \frac{l_1}{l_2}
+   \label{eq:77}
+   % #77
+\end{equation}
+
+If a 35\,mm camera using a 75\,mm lens and a 4×5 camera using a 300\,mm lens were set to the same $f$-number, the image from the 35\,mm camera would have 4 times the depth of field of the image from the 4×5.
+
+The rule that “DoF is inversely proportional to format size” is useful for describing practical results obtained with different camera formats, although the approximations used to derive it are valid only for a limited range of object distances. There is no simple expression for the valid range of distances, but in many cases (allowing about a 20\,\% error), it is between about 3 times the focal length of the lens on the smaller format, and about 1⁄2 the hyperfocal distance of the lens on the larger format.
+
+\subsection{Depth of Field for an Asymmetrical Lens}
+Most treatments of depth of field assume a symmetrical lens for which the entrance and exit pupils are the same size, and for which the pupils coincide with the object and image principal planes. Although this assumption is reasonable for most large-format lenses of short and medium focal length, it may not be appropriate for telephoto designs. For most  35\,mm and medium-format single-lens reflex cameras, the only nearly symmetrical lenses are those with focal length approximately equal to the film diagonal; longer-focus lenses usually are telephoto designs, and shorter-focus lenses are retrofocus designs that allow the rear element to clear the reflex mirror.
 %% Page 20
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
@@ -757,21 +787,19 @@ When recognizability of objects is the most important consideration, as usually 
    \caption{Asymmetrical Lens}
    \label{fig:asymlens}
 \end{figure}
-
 %%         Figure 2. Asymmetrical Lens
-%% The entrance pupil is the image of the aperture stop as seen from the object side of the lens; it is the center of perspective for the lens. The exit pupil is the image of the aperture stop as seen from the image side of the lens; it is the center of projection onto the image plane. The entrance and exit pupils may be regarded as images of each other.
-%% Consider the lens in Figure 2 whose object and image principal planes H and H'are at distances sH and s'H' behind the object and image vertices, and whose entrance and exit pupils are at sep and s'ap behind the same vertices (by convention, left-to-right distances are positive). The entrance pupil then is at a distance xep behind H and the exit pupil is at x'ap behind H'.
+The \emph{entrance pupil} is the image of the aperture stop as seen from the object side of the lens; it is the center of perspective for the lens. The \emph{exit pupil} is the image of the aperture stop as seen from the image side of the lens; it is the center of projection onto the image plane. The entrance and exit pupils may be regarded as images of each other.
+
+Consider the lens in Figure 2 whose object and image principal planes H and H$'$ are at distances $s_\mathrm{H}$ and $s'_\mathrm{H'}$ behind the object and image vertices, and whose entrance and exit pupils are at $s_\mathrm{ep}$ and $s'_\mathrm{ap}$ behind the same vertices (by convention, left-to-right distances are positive). The entrance pupil then is at a distance $x_\mathrm{ep}$ behind H and the exit pupil is at $x'_\mathrm{ap}$ behind H$'$.
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
    \includegraphics[width=\linewidth]{figure/fig_dofd_3} 
    \caption{Asymmetrical Lens—Entrance and Exit Pupils}
    \label{fig:asympup}
 \end{figure}
-
 %% Figure 3. Asymmetrical Lens—Entrance and Exit Pupils
-%%                                                                                                   © 2004, 2006 Jeff Conrad
 %% 
-%%                                                                                                   Depth of Field in Depth Page 21
+%%  Page 21
 The entrance and exit pupil diameters are related by the pupillary magnification
 \begin{equation}
   p = \frac d D
@@ -779,7 +807,7 @@ The entrance and exit pupil diameters are related by the pupillary magnification
   % #78
 \end{equation}
 %% 
-In Figure~\ref{fig:asympup}, at infinity focus, the extension to H' of
+In Figure~\ref{fig:asympup}, at infinity focus, the extension to H$'$ of
 the cone of light from the exit pupil has diameter $D$; from similar
 triangles,
 \begin{equation}
@@ -815,31 +843,48 @@ and
    \label{fig:DOFasymlens}
 \end{figure}
 %% Figure 4. DoF for Asymmetrical Lens
-%% DoF is controlled by the diameter of the lens exit pupil. In Figure 4, the near and far limits of DoF are at object distances un and uf, corresponding to image distances vn and vf; at the focused image distance v, they form circular images of diameter c, the acceptable circle of confusion. From similar triangles,
-%% c &(v −x' )−(v−x' )& v −v &(v−x' )−(v −x' )& v−v (82) n ap ap n ap f ap f
-%% d v −x' v −x' v −x' v −x' n ap n ap f ap f ap
-%% ap ep and
-%% (80)
-%% (81)
-%%                                                                                                                                 vf -x'ap v - x'ap
-%%               un
-%% u vn - x'ap
-%%                                © 2004, 2006 Jeff Conrad
-%% 
-%% Depth of Field in Depth Page 22 It usually is more convenient to work with the lens $f$-number than the exit pupil diameter;
-%% the $f$-number is related to the lens focal length f and the entrance pupil diameter D by N&f;
-%%  D
-%% eliminating D by means of Eq. (78), the lens $f$-number then can be expressed in terms of the
-%% exit pupil diameter as
-%% N & pf d
-%% Making the substitution
-%% d & pf N
-%% into Eq. (82) gives
-%% N\!c& vn −v & v−vf (83)
-%% pf v −x' v −x' n ap f ap
+DoF is controlled by the diameter of the lens exit pupil. In Figure 4, the near and far limits of DoF are at object distances $u_\mathrm{n}$ and $u_\mathrm{f}$, corresponding to image distances $v_\mathrm{n}$ and $v_\mathrm{f}$; at the focused image distance $v$, they form circular images of diameter $c$, the acceptable circle of confusion. From similar triangles,
+\begin{equation}
+\frac c d = \frac{(v_\mathrm{n}-x'_\mathrm{ap}) - (v-x'_\mathrm{ap})}{v_\mathrm{n}-x'_\mathrm{ap}} =
+\frac {v_\mathrm{n} - v}{v_\mathrm{n}-x'_\mathrm{ap}} =
+\frac{(v-x'_\mathrm{ap}) - (v_\mathrm{f}-x'_\mathrm{ap})}{v_\mathrm{f}-x'_\mathrm{ap}} =
+\frac {v - v_\mathrm{f}}{v_\mathrm{f}-x'_\mathrm{ap}}
+\label{eq:82}
+\end{equation}
+
+
+%% Page 22 
+It usually is more convenient to work with the lens $f$-number than the exit pupil diameter;
+the $f$-number is related to the lens focal length $f$ and the entrance pupil diameter $D$ by 
+\begin{equation}
+N = \frac f D
+\end{equation}
+
+eliminating $D$ by means of Eq. (78), the lens $f$-number then can be expressed in terms of the
+exit pupil diameter as
+\begin{equation}
+N = \frac {pf} D
+\end{equation}
+Making the substitution
+\begin{equation}
+d = \frac {pf} N
+\end{equation}
+into Eq. (82) gives
+\begin{equation}
+   \frac {N\!c}{pf} = \frac{v_\mathrm{n} - v}{v_n - x'_\mathrm{ap}} = \frac {v - v_\mathrm{f}
+}{v_\mathrm{f}- x'_\mathrm{ap}}
+   \label{eq:83}
+   % #83
+\end{equation}
+
+
 \subsection{Image Space}
 
-%% Substituting Eq. (80) into Eq. (83) and rearranging, one arrives at several relations in image space. The image distances corresponding to the near and far limits of DoF are
+Substituting Eq. (80) into Eq. (83) and rearranging, one arrives at several relations in image space. The image distances corresponding to the near and far limits of DoF are
+\begin{equation}
+v_\mathrm{n} 
+\end{equation}
+
 %% v & fv−N\!cf(1p−1) (84) n f −N\!c(1p)
 %% v & fv+N\!cf(1p−1) (85) f f +N\!c(1p)
 %% The required focus point and $f$-number to have the DoF extend from un to uf are
