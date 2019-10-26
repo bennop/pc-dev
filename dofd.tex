@@ -88,8 +88,8 @@ Few studies have directly addressed the eye’s ability to distinguish a point f
   agreement.
   
 A related criterion is minimum visible, which measures the ability to detect a disk or line against a contrasting background. This task is less demanding than resolution of two lines or disks, and accordingly, the threshold is smaller. For a disk, the threshold is approximately 0.07\,mm at a 250\,mm viewing distance (Williams 1990). For a line, the threshold is even less, in some cases a fraction of a minute of arc. Detection is an entirely different matter than distinguishing a finite disk from a point, or one line from two lines. For example, a telephone line against a light sky can be detected at a far greater distance than that at which it can be determined whether the line is one cable or several cables separated by short distances.
-
 \end{description}
+
 Common practice in photography has been to assume that the diameter of the smallest disk distinguishable from a point corresponds to the Snellen line-pair recognition criterion of 2 minutes of arc, although the line-resolution criterion arguably is more appropriate. At the normal viewing distance of 250\,mm, the Snellen criterion is equivalent to a blur spot diameter of 0.145\,mm. Visual acuity tests are done using high-contrast targets; under conditions of normal contrast, a more realistic blur spot diameter may be about 0.2\,mm. The value of 0.2\,mm is commonly cited for final-image CoC; in angular terms, this would subtend 2.75 minutes of arc, corresponding to a spatial frequency of approximately 22\,cpd. Of course, some individuals have greater visual acuity than others.
 
 \subsection{Viewing Distance}
@@ -1076,27 +1076,49 @@ proportional to the $f$-number, so that the blur spot is inversely proportional 
 \label{sec:comb-defoc-diffr}
 
 
-The effects of defocus and diffraction combine at all $f$-numbers. There is no simple numerical expression for the combination; however, common empirical rules for combination of resolutions of different components of optical systems have been
-%% R &R +R +...+R T12 n
-%% or sometimes
-%% Rx &Rx +Rx +...+Rx ,
-%% with x usually close to 2. There is little precedent for using these formulae to combine different aspects of the same component, but Hansma (1996) suggested a root-square combination of defocus and diffraction blur spots. The size of the composite blur spot then would be given by
-%% T12 n
-%% (110) (111)
-%%  c & k2 +k2 T def diff
-%% or
-%% where Δv is the focus spread vn − vf and Kλ is a constant related to the effective size of the diffraction blur spot.
-%% Optimum $f$-Number
-At any given focus spread, as $f$-number is increased, the size of the defocus blur spot decreases while the size of the diffraction blur spot increases, suggesting that there may be an optimum $f$-number that minimizes the combined effect of defocus and diffraction, resulting in the sharpest possible image. Hansma determined such a minimum by differentiating Eq. (113) with respect to N and setting the result equal to zero; the result is
-%% Nmin & 1 Kλ Δv (114) 1+m 2
-%% Substitution of Eq. (114) into Eq. (113) and rearranging shows that
-%%  ⎡ Δv ⎤2 ⎡N ⎤2 cT & ⎢2N(1+m)⎥ +⎢K (1+m)⎥
-%% (112)
-%% (113)
-%%  ⎣⎦⎣λ⎦
+The effects of defocus and diffraction combine at all
+$f$-numbers. There is no simple numerical expression for the
+combination; however, common empirical rules for combination of
+resolutions of different components of optical systems have been
+\begin{equation}
+  \label{eq:110}
+  R_\mathrm{T}=r_1 + R_2 + \ldots + R_n
+  % #110
+\end{equation}
+or sometimes
+\begin{equation}
+  \label{eq:111}
+  R^x_\mathrm{T}=R^x_1 + R^x_2 + \ldots + R^x_n
+  % #111
+\end{equation}
+with $x$ usually close to 2. There is little precedent for using these formulae to combine different aspects of the same component, but Hansma (1996) suggested a root-square combination of defocus and diffraction blur spots. The size of the composite blu
+\begin{equation}
+  \label{eq:112}
+  c_\mathrm{T}=\sqrt{k^2_\mathrm{def}+k^2_\mathrm{diff}}
+  % #112
+\end{equation}
+or
+\begin{equation}
+  \label{eq:113}
+  c_\mathrm{T} = \sqrt{ \left[ \frac\Dv{2N(1+m)}\right]^2 + \left[\frac N{K_\lambda}(1+m)\right]^2}
+  % #113
+\end{equation}
+where \Dv is the focus spread $v_\mathrm{n} - v_\mathrm{f}$ and $K_\lambda$ is a constant related to the effective size of the diffraction blur spot.
 
+\subsection{Optimum $f$-Number}
+\label{sec:optimum-f-number}
 
-%% kdef & kdiff & Δv , 2Kλ
+At any given focus spread, as $f$-number is increased, the size of the defocus blur spot decreases while the size of the diffraction blur spot increases, suggesting that there may be an optimum $f$-number that minimizes the combined effect of defocus and diffraction, resulting in the sharpest possible image. Hansma determined such a minimum by differentiating Eq. (113) with respect to $N$ and setting the result equal to zero; the result is
+\begin{equation}
+  \label{eq:114}
+  N_\mathrm{min} = \frac1{1+m}\sqrt{\frac{K_\lambda}2 \Dv}
+  % #114
+\end{equation}
+Substitution of Eq. (114) into Eq. (113) and rearranging shows that
+\begin{equation}
+  \label{eq:114+}
+  k_\mathrm{def} = k_\mathrm{diff} = \sqrt{\frac \Dv{2K_λ}}
+\end{equation}
 so that the total blur spot is minimized when the contributions of defocus and diffraction are equal. A combination of defocus and diffraction using Eq. (111) with any value of $x$ leads to the same result as Eq. (114).
 
 Hansma used $K_λ = 750\,\mathrm{mm}^{-1}$, corresponding to the diameter of the Airy disk at
@@ -1130,7 +1152,7 @@ where $M_\mathrm i$ is the modulation of the image and $M_\mathrm o$ is the modu
 For a diffraction-limited lens with no defocus, 
 MTF is 
 \begin{equation}
-   \mathrm{MTF}(N,v) = 2(\phi - \cos\phi\sin\phi)
+   \mathrm{MTF}(N,v) = \frac2\pi(\phi - \cos\phi\sin\phi)
    % # 115
    \label{eq:MTF2}
 \end{equation}
@@ -1192,7 +1214,7 @@ the results of this setting are shown in Fig.~\ref{fig:MTFvssf25}.
    \label{fig:MTFvssf25}
 \end{figure}
 %% Figure 7. MTF vs. Spatial Frequency, 5\,mm Focus Spread at f/25
-Three curves are shown: the MTF at f/25 with no defocus, using Eq. (115), corresponding to the plane of focus; the MTF for the diffraction with defocus, using Eq. (117), corresponding to the DoF limits; and the MTF for a blur spot of 0.1\,mm, ignoring diffraction, using Eq. (118). The negative values of the MTF indicate spurious resolution arising from phase shift; when the MTF is less than zero, light and dark are inverted. The first zero for a pure defocus blur spot would occur at a spatial frequency of approximately 1.22/$k$; at a spatial frequency equal to 1/$k$, the MTF would be approximately 0.2, so the CoC corresponds to a spatial frequency with an MTF of 0.2. The curve for pure defocus represents a hypothetical situation; although it is possible to have diffraction without defocus, it is not possible to have defocus without diffraction.
+Three curves are shown: the MTF at $f$/25 with no defocus, using Eq. (115), corresponding to the plane of focus; the MTF for the diffraction with defocus, using Eq. (117), corresponding to the DoF limits; and the MTF for a blur spot of 0.1\,mm, ignoring diffraction, using Eq. (118). The negative values of the MTF indicate spurious resolution arising from phase shift; when the MTF is less than zero, light and dark are inverted. The first zero for a pure defocus blur spot would occur at a spatial frequency of approximately 1.22/$k$; at a spatial frequency equal to 1/$k$, the MTF would be approximately 0.2, so the CoC corresponds to a spatial frequency with an MTF of 0.2. The curve for pure defocus represents a hypothetical situation; although it is possible to have diffraction without defocus, it is not possible to have defocus without diffraction.
 
 There is no standard way to relate an MTF to a single value for resolving power, but a reasonable approach might be to use the spatial frequency corresponding to the CoC, which occurs at an MTF of 0.2. In Figure 7, this frequency is approximately 11\,cycles/mm, just meeting the CoC criterion of 10\,lp/mm, as might be expected. The MTF at the DoF limits is dominated by the effect of defocus; the resolving power from the diffraction-limited MTF at the plane of focus is approximately 50\,lp/mm.
 
