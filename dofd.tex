@@ -690,34 +690,56 @@ from Eq. (61), is
 Sometimes the recognizability of objects may be more important than a specified sharpness in the image; this long has been the case in aerial surveillance photography; see Williams (1990) for a discussion of “ground resolution.” The objects of interest in aerial surveillance essentially are at infinity; Merklinger’s Object Field Method applied the same criterion to objects throughout the image.
 
 Generally, an object is recognizable if key features are reproduced at a size equal to or larger than the size of the blur spot. The expressions on the object side to ensure this reproduction are straightforward; when the same resolution criteria apply at near and far distances, the focus distance is
-%% u&un +uf 2
+\begin{equation}
+   u=\frac{u_\mathrm{n}+u_\mathrm{f}}2
+   \label{eq:65}
+   % #65
+\end{equation}
 and the $f$-number is
-%%  N&uf−un f,
-%% un+uf S
-where S is the size of the smallest feature to be resolved.
+\begin{equation}
+   N = \frac{u_\mathrm{f} - u_\mathrm{n}}{u_\mathrm{n}+u_\mathrm{f}}\frac f S
+   \label{eq:66}
+   % #66
+\end{equation}
+where $S$ is the size of the smallest feature to be resolved.
 
 Eqs. (65) and (66) are simple to apply when an easy means of determining object
-%% (65) (66)
 distance is available, such as with manual-focus hand-camera lenses that have readable distance scales, or perhaps with a laser rangefinder. However, the expressions on the image side are more complex. Merklinger’s resolution criteria derive strictly from consideration of object features, but the effect essentially is equivalent to using different CoCs for near and far objects. This again is similar to the concept of “relative blur.” When the same resolution criteria apply at near and far distances, the near and far CoCs are proportional to their relative magnifications:
-%% cf &mf (67) cn mn
-Substituting the relationship
-%% mx & v & v vx − f ux vx f
+\begin{equation}
+   \frac{c_\mathrm{f}}{c_\mathrm{n}}=\frac{m_\mathrm{f}}{m_\mathrm{n}}
+   \label{eq:67}
+   % #67
+\end{equation}
+\begin{equation}
+   m_\mathrm{x} = \frac v {u_\mathrm{x}} = \frac v {v_\mathrm{x}} \frac{v_\mathrm{x} - f}f
+   \label{eq:67+}
+\end{equation}
 for the near and far magnifications gives
-%% cf & vn vf − f (68)
-%% cn vf vn−f
+\begin{equation}
+   \frac{c_\mathrm{f}}{c_\mathrm{n}} = \frac{v_\mathrm{n}}{v_\mathrm{n}} \frac{v_\mathrm{f} - f}{v_\mathrm{n} - f}
+   \label{eq:68}
+   % #68
+\end{equation}
 The expressions for focus distance and $f$-number do not lend themselves to easily used simplifications, except when the far limit of DoF extends to infinity: then $v_\mathrm{f} = f$, and $c_\mathrm{f} = 0$. From Eq. (54), the focus is set to infinity; from Eq. (6), the near limit of DoF then is
-%% f2
-%% un & N\!c , (69)
-%% n
+\begin{equation}
+   u_\mathrm{n} = \frac{f^2}{N\!c_\mathrm{n}}\quad,
+   \label{eq:69}
+   % #69
+\end{equation}
 essentially the hyperfocal distance. From Eq. (57), the $f$-number is
-%% N ≈ vn − f , (70) cn
+\begin{equation}
+   N \approx {\fracv_\mathrm{n} - f}{c_\mathrm{n}}
+   \label{eq:70}
+   % #70
+\end{equation}
 or two steps greater than that resulting from the same near distance using equal near and far CoCs. Of course, with the Object Field Method, the absolute value of the CoC derives strictly from object features, so it may not be the same as the CoC determined with the conventional approach to DoF.
 
 Alternatively, the $f$-number can be determined from the near object distance by rearranging Eq. (69):
-%% f2
-%% N&cu (71)
-%% nn
-
+\begin{equation}
+   N = \frac{f^2}{c_\mathrm{n}u_\mathrm{n}}\quad,
+   \label{eq:71}
+   % #71
+\end{equation}
 Eq. (71) also indicates that the required $f$-number is twice that of the conventional method: the near limit of DoF with the conventional method is half the hyperfocal distance, and halving the distance in Eq. (71) requires doubling the $f$-number.
 
 With a hand camera, it usually is easier to determine the $f$-number using Eq. (71) rather than Eq. (70), although with most autofocus lenses, the distance scale may be essentially unreadable unless the near distance is quite close.
