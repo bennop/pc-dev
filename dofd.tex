@@ -508,7 +508,7 @@ For constant magnification of the focused object, the diameter of the blur spot 
    \label{eq:md}
 \end{equation}
 %% 
-If the “relative blur” $k_\mathrm{r$} is the ratio of blur spot diameter to magnification, then
+If the “relative blur” $k_\mathrm{r}$ is the ratio of blur spot diameter to magnification, then
 \begin{equation}
     \frac{k}{m_\mathrm{d}} = \frac m{m+1}\frac{|x_\mathrm{d}|}N
     % #45
@@ -527,7 +527,7 @@ The conventional approach to DoF is based on distinguishing a point from a blur 
 
 Eqs. (1) and (2) assumed identical CoCs for the near and far limits of DoF; using different near and far values $c_\mathrm{n}$ and $c_\mathrm{f}$, we have
 \begin{equation}
-   \frac{v_\mathrm{n} - v}{v_\mathrm{n}} = \frac{c_\mathrm{n}}d
+   \frac{v_\mathrm{n} - v}{v_\mathrm{n}} = \frac{c_\mathrm{n}}d\hphantom{\quad.}
    \label{eq:46}
    % #46
 \end{equation}
@@ -539,7 +539,7 @@ and
 \end{equation}
 Replacing $d$ with the focal length and $f$-number gives
 \begin{equation}
-   \frac{v_\mathrm{n} - v}{v_\mathrm{n}} = \frac{N\!c_\mathrm{n}}f
+   \frac{v_\mathrm{n} - v}{v_\mathrm{n}} = \frac{N\!c_\mathrm{n}}f\hphantom{\quad.}
    \label{eq:48}
    % #48
 \end{equation}
@@ -604,7 +604,7 @@ Assuming that $c_\mathrm{f} < c_\mathrm{n}$, Eq. (54) gives an image distance cl
 
 Englander (1994) suggested, in effect, that when the DoF extends to infinity, $c_\mathrm{f}$ should be $1⁄2 c_\mathrm{n}$. From Eq. (54), focus then would be set to
 \begin{equation}
-  v = v_f} + \frac 1 3 \Dv\quad,
+  v = v_f + \frac 1 3 \Dv\quad,
   \label{eq:57+}
 \end{equation}
 and from Eq. (57), the $f$-number would be
@@ -644,6 +644,7 @@ into Eqs. (50) and (55), giving
 \begin{equation}
   \label{eq:58}
   u = \frac{(c_\mathrm{n}+c_\mathrm{f})u_\mathrm{n}u_\mathrm{f}}{c_\mathrm{n}u_\mathrm{n}+c_\mathrm{f}u_\mathrm{f}}
+   % #58
 \end{equation}
 and
 \begin{equation}
@@ -661,7 +662,7 @@ The near and far limits of DoF are obtained by substituting  into
 Eqs. (48) and (49), giving
 \begin{equation}
   \label{eq:61}
-  u_\mathrm{n}=\frac{uf^2}{f^2+N\!c_\mathrm{n}(u-f)}
+  u_\mathrm{n}=\frac{uf^2}{f^2+N\!c_\mathrm{n}(u-f)}\hphantom{\quad.}
   % #61
 \end{equation}
 and
@@ -731,7 +732,7 @@ The expressions for focus distance and $f$-number do not lend themselves to easi
 \end{equation}
 essentially the hyperfocal distance. From Eq. (57), the $f$-number is
 \begin{equation}
-   N \approx {\fracv_\mathrm{n} - f}{c_\mathrm{n}}
+   N \approx \frac{v_\mathrm{n} - f}{c_\mathrm{n}}
    \label{eq:70}
    % #70
 \end{equation}
@@ -895,33 +896,48 @@ d = \frac {pf} N
 \end{equation}
 into Eq. (82) gives
 \begin{equation}
-   \frac {N\!c}{pf} = \frac{v_\mathrm{n} - v}{v_n - x'_\mathrm{ap}} = \frac {v - v_\mathrm{f}
-}{v_\mathrm{f}- x'_\mathrm{ap}}
+   \frac {N\!c}{pf} = \frac{v_\mathrm{n} - v}{v_n - x'_\mathrm{ap}} 
+                          = \frac {v - v_\mathrm{f}}{v_\mathrm{f}- x'_\mathrm{ap}}
    \label{eq:83}
    % #83
 \end{equation}
 
 
 \subsection{Image Space}
+\label{sec:imspc}
 
 Substituting Eq. (80) into Eq. (83) and rearranging, one arrives at several relations in image space. The image distances corresponding to the near and far limits of DoF are
 \begin{equation}
-v_\mathrm{n} 
+   v_\mathrm{n} = \frac{fv - N\!cf\left(\frac1p - 1\right)}{f - N\!c\left(\frac1p \right)}
+   \label{eq:84}
+   % #84
+\end{equation}
+\begin{equation}
+   v_\mathrm{f} = \frac{fv + N\!cf\left(\frac1p - 1\right)}{f + N\!c\left(\frac1p \right)}
+   \label{eq:85}
+   % #85
+\end{equation}
+The required focus point and $f$-number to have the DoF extend from $u_\mathrm{n}$ to $u_\mathrm{f}$ are
+\begin{equation}
+   v = \frac{2v_\mathrm{n}v_\mathrm{f} - (v_\mathrm{n} +v_\mathrm{f})f(1-p)}{v_\mathrm{n} +v_\mathrm{f}-2f(1-p)}
+   \label{eq:86}
+   % #86
+\end{equation}
+\begin{equation}
+   N = \frac{pf}c \frac{v_\mathrm{n} - v_\mathrm{f}}{v_\mathrm{n} +v_\mathrm{f}-2f(1-p)}
+   \label{eq:87}
+   % #87
+\end{equation}
+If $v_\mathrm{n}$ or $v_\mathrm{f}$ in Eq. (83) is replaced by an arbitrary distance $v_\mathrm{d}$, corresponding to a defocused
+point object at object distance $u_\mathrm{d}$, the diameter of the resulting blur spot is given by
+\begin{equation}
+   k = \frac{pf}N \frac{|v_\mathrm{d} - v|}{v_\mathrm{d} + f(p-1)}
+   \label{eq:88}
+   % #88
 \end{equation}
 
-%% v & fv−N\!cf(1p−1) (84) n f −N\!c(1p)
-%% v & fv+N\!cf(1p−1) (85) f f +N\!c(1p)
-%% The required focus point and $f$-number to have the DoF extend from un to uf are
-%% v&2vnvf −(vn+vf)f(1−p) (86)
-%% vn +vf −2f(1−p)
-%% N & pf vn −vf (87)
-%% c vn +vf −2f(1−p)
-%% If vn or vf in Eq. (83) is replaced by an arbitrary distance vd, corresponding to a defocused
-%% point object at object distance ud, the diameter of the resulting blur spot is given by
-%% k & pf vd − v (88)
-%%                 N vd + f (p−1)
-
 \subsection{Object Space}
+\label{sec:objspc}
 
 Rearranging Eq. (5) to
 \begin{equation}
@@ -934,8 +950,8 @@ substituting into Eqs. (84) through (88), and again rearranging, one
 arrives at the corresponding relations in object space. The near and
 far limits of DoF are
 \begin{eqnarray}
-     u_\mathrm{n} & = & \frac{uf^2-N\!cf\left(\frac1p-1\right)(u-f)}{f^2 + N\!c(u-f)}\label{eq:89}\\
-     u_\mathrm{f} & = & \frac{uf^2-N\!cf\left(\frac1p-1\right)(u-f)}{f^2 - N\!c(u-f)}\label{eq:90}
+     u_\mathrm{n} & = & \frac{uf^2 -  N\!cf\left(\frac1p-1\right)(u-f)}{f^2 + N\!c(u-f)}\label{eq:89}\\
+     u_\mathrm{f} & = & \frac{uf^2 + N\!cf\left(\frac1p-1\right)(u-f)}{f^2 - N\!c(u-f)}\label{eq:90}
 \end{eqnarray}
 When $u_\mathrm{f} = \infty$, the focus distance is the hyperfocal distance
 $u_\mathrm{h}$, where
@@ -943,11 +959,10 @@ $u_\mathrm{h}$, where
   \label{eq:uh2}
   u_\mathrm{h} = \frac{f^2}{N\!c} + f
 \end{equation}
-the same as for a symmetrical lens. Solving for the near limit of DoF
-gives
+the same as for a symmetrical lens. Solving for the near limit of DoF gives
 \begin{equation}
   \label{eq:3un}
-  u_\mathrm{n} = \frac{\frac{f^2}{N\!c} + f - f\left(\frac1p-1\right)}2\quad,
+  u_\mathrm{n} = \frac12 \left(\frac{f^2}{N\!c} + f - f\left(\frac1p-1\right)\right)\quad,
   % #92
 \end{equation}
 or slightly less than half the hyperfocal distance.
@@ -992,6 +1007,7 @@ For $u_\mathrm{d} \gg f$,
   % #97
 \end{equation}
 the same as Eq. (45) for a symmetrical lens.
+
 
 The DoF in front of the focused object is
 \begin{equation}
@@ -1051,7 +1067,7 @@ At the hyperfocal distance, the two terms in the denominator are equal, and the 
 
 \subsection{Effect of Lens Asymmetry}
 
-The effect of asymmetry is greatest when a lens for which $p$ differs substantially from unity is used at high magnification. Accordingly, large-format photographers usually can neglect the pupillary magnification: most medium- and short-focus large-format lenses have $p$ close to 1, and telephoto large-format lenses seldom are used at high magnification; for example, at $m = 0.1$, a telephoto lens with $p  0.75$ has 3\% greater DoF than a lens with $p = 1$. This is fortunate, because the asymmetrical-lens DoF formulae are sufficiently complex that their use in the field is impractical without a programmable calculator or handheld computer; moreover, the image-side formulae for setting focus and $f$-number require absolute image distances, which can be difficult to measure.
+The effect of asymmetry is greatest when a lens for which $p$ differs substantially from unity is used at high magnification. Accordingly, large-format photographers usually can neglect the pupillary magnification: most medium- and short-focus large-format lenses have $p$ close to 1, and telephoto large-format lenses seldom are used at high magnification; for example, at $m = 0.1$, a telephoto lens with $p  = 0.75$ has 3\% greater DoF than a lens with $p = 1$. This is fortunate, because the asymmetrical-lens DoF formulae are sufficiently complex that their use in the field is impractical without a programmable calculator or handheld computer; moreover, the image-side formulae for setting focus and $f$-number require absolute image distances, which can be difficult to measure.
 
 The effect of asymmetry can be significant for telephoto macro lenses for hand cameras: at $m = 1$, a lens with $p = 0.4$ has 75\% greater DoF than a lens with $p = 1$. Again, the application of the asymmetrical-lens DoF formulae to practical situations can be difficult, albeit for different reasons than with large-format lenses. Distance scales on hand-camera lenses usually indicate object-to-image distance rather than object distance, and the difference is significant at close distances. Conversion between the two distances is not always simple, because many close-focusing hand-camera lenses use internal focusing, so that pupillary magnification as well as focal length change with focus distance. Lens manufacturers have this information readily available; consequently, lens DoF scales or charts provided by the lens manufacturer usually provide the most accurate estimates of DoF. In any event, it is obvious from Eq. (105) that Eq. (25) should not be used to estimate closeup DoF for highly asymmetrical lenses.
 
@@ -1160,7 +1176,7 @@ or sometimes
   R^x_\mathrm{T}=R^x_1 + R^x_2 + \ldots + R^x_n
   % #111
 \end{equation}
-with $x$ usually close to 2. There is little precedent for using these formulae to combine different aspects of the same component, but Hansma (1996) suggested a root-square combination of defocus and diffraction blur spots. The size of the composite blu
+with $x$ usually close to 2. There is little precedent for using these formulae to combine different aspects of the same component, but Hansma (1996) suggested a root-square combination of defocus and diffraction blur spots. The size of the composite blur spot then would be given by
 \begin{equation}
   \label{eq:112}
   c_\mathrm{T}=\sqrt{k^2_\mathrm{def}+k^2_\mathrm{diff}}
@@ -1172,7 +1188,7 @@ or
   c_\mathrm{T} = \sqrt{ \left[ \frac\Dv{2N(1+m)}\right]^2 + \left[\frac N{K_\lambda}(1+m)\right]^2}
   % #113
 \end{equation}
-where \Dv is the focus spread $v_\mathrm{n} - v_\mathrm{f}$ and $K_\lambda$ is a constant related to the effective size of the diffraction blur spot.
+where \Dv\ is the focus spread $v_\mathrm{n} - v_\mathrm{f}$ and $K_\lambda$ is a constant related to the effective size of the diffraction blur spot.
 
 \subsection{Optimum $f$-Number}
 \label{sec:optimum-f-number}
@@ -1193,9 +1209,9 @@ so that the total blur spot is minimized when the contributions of defocus and d
 Hansma used $K_λ = 750\,\mathrm{mm}^{-1}$, corresponding to the diameter of the Airy disk at
 $λ = 546\,\mathrm{nm}$, for the size of the diffraction blur spot; however, he based resolving power on the radius of the combined blur spot, using
 \begin{equation}
-\mathrm{RP}= \frac2 {cT}
+\mathrm{RP}= \frac2 {c_\mathrm{T}}
 \end{equation}
-The resulting resolving power vs.\ $f$-number at various focus spreads is shown in Figure 5. The curve labeled ‘\textsf{Diffr}’ shows resolving power at the diffraction limit, corresponding to the plane of focus. All curves assume infinity focus so that $m = 0$.
+The resulting resolving power vs.\ $f$-number at various focus spreads is shown in Figure 5. The curve labeled ‘\textsf{\small Diffr}’ shows resolving power at the diffraction limit, corresponding to the plane of focus. All curves assume infinity focus so that $m = 0$.
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
    \includegraphics[width=\linewidth]{figure/fig_dofd_5} 
@@ -1245,7 +1261,8 @@ Diffraction acts as a low-pass filter, leading to blurring of fine detail. As th
 \end{equation}
 sometimes called the cutoff spatial frequency because it is the maximum spatial frequency that a lens will transmit. This frequency is the same as that corresponding to the Dawes resolution criterion. For $λ = 546$\,nm, at infinity focus,
 \begin{equation}
-v_0 \approx \frac{1830}N\,\mathrm{lp/mm}\quad.
+   v_0 \approx \frac{1830}N\,\mathrm{lp/mm}\quad.
+   \label{eq:v0num}
 \end{equation}                                
 A method for determining the MTF for a diffraction-limited lens with defocus was developed by Hopkins (1955):
 \begin{equation}
@@ -1259,47 +1276,47 @@ where
 \end{equation}
 and $s$ is the normalized spatial frequency\footnote{Hopkins specified $s = 2λvN(1 + m)$, giving a range of 0--2 rather than 0--1.} given by
 \begin{equation}
-s = v/v_0 = λvN(1+m)
+s = v/v_0 \stackrel{{\tiny (\ref{eq:v0})}}{= }λvN(1+m)
 \end{equation}
 It can be shown (Hopkins 1955; Williams and Becklund 1989) that the result is a converging series of Bessel functions of the first kind; however, for most practical applications, direct numerical integration of Eq. (117) is easier. Eqs. (115), (117), and (118) were described by Jacobson (1992) in his classic lens tutorial.
 
 Diffraction sometimes can be ignored when defocus is sufficiently great or the $f$-number sufficiently small. The MTF for a defocused lens considering only geometrical optics is
 \begin{equation}
-   MTF(k,v)= \frac{2J_1(a)}a\quad,
+   \mathrm{MTF}(k,v)= \frac{2J_1(a)}a\quad,
    % # (118)
 \end{equation}
 where $J_1(\cdot)$ is the first-order Bessel function of the first kind.
 
 For any particular image, the photographer’s requirements establish the required DoF, and consequently, the focus spread. If appropriate camera movements have been employed, the only control available to the photographer is the $f$-number. Consider, for example, a 4×5 image for which the focus spread is 5\,mm. Using the standard CoC of 0.1\,mm, the $f$-number from Eq. (39) is
 \begin{equation}
-N = \frac5{2×0.1} = 25; 
+N = \frac5{2×0.1} = 25\quad; 
 \end{equation}
 %% 
 the results of this setting are shown in Fig.~\ref{fig:MTFvssf25}.
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
    \includegraphics[width=\linewidth]{figure/fig_dofd_7} 
-   \caption{MTF vs. Spatial Frequency, 5\,mm Focus Spread at f/25}
+   \caption{MTF vs. Spatial Frequency, 5\,mm Focus Spread at \f{25}}
    \label{fig:MTFvssf25}
 \end{figure}
 %% Figure 7. MTF vs. Spatial Frequency, 5\,mm Focus Spread at f/25
-Three curves are shown: the MTF at \f{25} with no defocus, using Eq. (115), corresponding to the plane of focus; the MTF for the diffraction with defocus, using Eq. (117), corresponding to the DoF limits; and the MTF for a blur spot of 0.1\,mm, ignoring diffraction, using Eq. (118). The negative values of the MTF indicate spurious resolution arising from phase shift; when the MTF is less than zero, light and dark are inverted. The first zero for a pure defocus blur spot would occur at a spatial frequency of approximately 1.22/$k$; at a spatial frequency equal to 1/$k$, the MTF would be approximately 0.2, so the CoC corresponds to a spatial frequency with an MTF of 0.2. The curve for pure defocus represents a hypothetical situation; although it is possible to have diffraction without defocus, it is not possible to have defocus without diffraction.
+Three curves are shown: the MTF at \f{25} with no defocus, using Eq. (115), corresponding to the plane of focus; the MTF for the diffraction with defocus, using Eq. (117), corresponding to the DoF limits; and the MTF for a blur spot of 0.1\,mm, ignoring diffraction, using Eq. (118). The negative values of the MTF indicate spurious resolution arising from phase shift; when the MTF is less than zero, light and dark are inverted. The first zero for a pure defocus blur spot would occur at a spatial frequency of approximately $1.22/k$; at a spatial frequency equal to $1/k$, the MTF would be approximately 0.2, so the CoC corresponds to a spatial frequency with an MTF of 0.2. The curve for pure defocus represents a hypothetical situation; although it is possible to have diffraction without defocus, it is not possible to have defocus without diffraction.
 
 There is no standard way to relate an MTF to a single value for resolving power, but a reasonable approach might be to use the spatial frequency corresponding to the CoC, which occurs at an MTF of 0.2. In Figure 7, this frequency is approximately 11\,cycles/mm, just meeting the CoC criterion of 10\,lp/mm, as might be expected. The MTF at the DoF limits is dominated by the effect of defocus; the resolving power from the diffraction-limited MTF at the plane of focus is approximately 50\,lp/mm.
 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
    \includegraphics[width=\linewidth]{figure/fig_dofd_8} 
-   \caption{MTF vs. Spatial Frequency, 5\,mm Focus Spread at f/32}
+   \caption{MTF vs. Spatial Frequency, 5\,mm Focus Spread at \f{32}}
    \label{fig:MTFvssf32}
 \end{figure}
 %% Figure 8. MTF vs. Spatial Frequency, 5\,mm Focus Spread at f/32
-Rather than set f/25, a photographer well might round up to f/32; the results of doing so are shown in Figure 8; a change of 1⁄3 step brings noticeable changes. The resolving power at the DoF limits increases to about 16\,lp/mm, while that at the plane of focus decreases to approximately 40\,lp/mm. Additionally, the composite MTF is greater than zero for all spatial frequencies less than the cutoff.
+Rather than set \f{25}, a photographer well might round up to \f{32}; the results of doing so are shown in Figure 8; a change of 1⁄3 step brings noticeable changes. The resolving power at the DoF limits increases to about 16\,lp/mm, while that at the plane of focus decreases to approximately 40\,lp/mm. Additionally, the composite MTF is greater than zero for all spatial frequencies less than the cutoff.
 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
    \includegraphics[width=\linewidth]{figure/fig_dofd_9} 
-   \caption{MTF vs. Spatial Frequency, 5\,mm Focus Spread at f/45}
+   \caption{MTF vs. Spatial Frequency, 5\,mm Focus Spread at \f{45}}
    \label{fig:MTFvssf45}
 \end{figure}
 %% Figure 9. MTF vs. Spatial Frequency, 5\,mm Focus Spread at f/45
@@ -1308,7 +1325,7 @@ Increasing the $f$-number to 45 brings a significant change to the shape of the 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
    \includegraphics[width=\linewidth]{figure/fig_dofd_10} 
-   \caption{MTF vs. Spatial Frequency, 5\,mm Focus Spread at f/64}
+   \caption{MTF vs. Spatial Frequency, 5\,mm Focus Spread at \f{64}}
    \label{fig:MTFvssf64}
 \end{figure}
 %% Figure 10. MTF vs. Spatial Frequency, 5\,mm Focus Spread at f/64
