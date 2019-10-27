@@ -508,7 +508,7 @@ For constant magnification of the focused object, the diameter of the blur spot 
    \label{eq:md}
 \end{equation}
 %% 
-If the “relative blur” $k_r$ is the ratio of blur spot diameter to magnification, then
+If the “relative blur” $k_\mathrm{r$} is the ratio of blur spot diameter to magnification, then
 \begin{equation}
     \frac{k}{m_\mathrm{d}} = \frac m{m+1}\frac{|x_\mathrm{d}|}N
     % #45
@@ -522,7 +522,6 @@ Van Walree (2002) gives an excellent description and illustration of this behavi
 \section{Different Circles of Confusion for Near and Far Limits of Depth of Field}
 
 The conventional approach to DoF is based on distinguishing a point from a blur spot in the image, and uses equal CoCs for the near and far limits. Although the CoC usually is quite small in comparison with the imaged size of near objects, it can be quite large in comparison with the imaged size of distant objects, in some cases so much so that a distant object becomes unrecognizable. Although many undoubtedly would maintain that, under normal viewing conditions, a blur spot either is distinguishable from a point or it is not, others (Merklinger 1992; Englander 1994) maintain that sharpness perception is context dependent, and that greater sharpness is required in distant objects to give an acceptably sharp image. This requirement can be addressed by using a smaller CoC for the far limit of DoF; in some respects, this approach is similar to the concept of “relative blur.”
-%%        md m+1 N
 
 \subsection{Image-Side Relationships}
 
@@ -604,9 +603,15 @@ Except for closeup work, it usually is acceptable to take $v \approx f$, so that
 Assuming that $c_\mathrm{f} < c_\mathrm{n}$, Eq. (54) gives an image distance closer to the far image distance than does Eq. (32), and Eq. (57) gives a greater $f$-number than does Eq. (39).
 
 Englander (1994) suggested, in effect, that when the DoF extends to infinity, $c_\mathrm{f}$ should be $1⁄2 c_\mathrm{n}$. From Eq. (54), focus then would be set to
-%% v&vf +13Δv,
+\begin{equation}
+  v = v_f} + \frac 1 3 \Dv\quad,
+  \label{eq:57+}
+\end{equation}
 and from Eq. (57), the $f$-number would be
-%% N& Δv , 1.5cn
+\begin{equation}
+  N = \frac\Dv{1.5c\mathrm{n}}\quad,
+  \label{eq:57++}
+\end{equation}
 or approximately 0.83 step greater than would result from equal near
 and far CoCs. Merklinger (1992) desired greater sharpness in distant
 objects, and suggested\footnote{Merklinger actually suggested 1⁄30\,mm
@@ -618,13 +623,11 @@ Eq. (54), focus would be set to
   \label{eq:57+++}
   v=v_\mathrm{f}+\frac15\Dv\quad,
 \end{equation}
-%% v&vf +15Δv,
 and from Eq. (57), the $f$-number would be
 \begin{equation}
   \label{eq:57++++}
-  N=\frac \Dv{1.25c_\mathrm{n}}\quad
+  N=\frac \Dv{1.25c_\mathrm{n}}\quad ,
 \end{equation}
-%% N& Δv , 1.25cn
 or approximately 1\,1⁄3 steps greater than would result from equal near and far CoCs. If the CoC were to be reduced by a factor of four simply by stopping down without refocusing, the $f$-number would need to increase by a factor of four, or four steps. Of course, the latter approach would decrease the CoC for both near and far objects; in some situations, this might be of value, in others it might not.
 
 \subsection{Object-Side Relationships}
@@ -881,7 +884,6 @@ the $f$-number is related to the lens focal length $f$ and the entrance pupil di
 \begin{equation}
 N = \frac f D
 \end{equation}
-
 eliminating $D$ by means of Eq. (78), the lens $f$-number then can be expressed in terms of the
 exit pupil diameter as
 \begin{equation}
