@@ -327,14 +327,14 @@ gives a greater DoF. When $u \ll u_\mathrm{h}$, the second term in the denominat
 and the DoF is independent of focal length.
 
 Note that for constant DoF in Eq.~\ref{eq:uf-n4}, there is a reciprocal relationship between $N$ and
-$c$: using a greater $f$-number is equivalent to specifying a smaller circle of confusion, and vice versa. This can be useful when using lens DoF scales that assume a final-image enlargement different from that actually intended. For example, if the lens DoF scales assume a 5× enlargement, and the image actually requires 7× enlargement, using an $f$-number one step greater (e.\,g., \f 8 rather than \f{5.6}) will effectively reduce the CoC by a factor of $\sqrt 2$ , sufficient to compensate for the greater enlargement.
+$c$: using a greater $f$-number is equivalent to specifying a smaller circle of confusion, and vice versa. This can be useful when using lens DoF scales that assume a final-image enlargement different from that actually intended. For example, if the lens DoF scales assume a 5× enlargement, and the image actually requires 7× enlargement, using an $f$-number one step greater (e.\,g., \f8 rather than \f{5.6}) will effectively reduce the CoC by a factor of $\sqrt 2$ , sufficient to compensate for the greater enlargement.
 \subsection{Focus and Minimum $f$-Number for Given Depth of Field}
 
 If the depth of field is to extend to infinity, the minimum $f$-number
 is obtained by setting the focus to the hyperfocal distance. Many
 images, however, do not require that the DoF extend to infinity. To
-have the DoF between two arbitrary distances $u_\mathrm{n}$ and $u_\mathrm{f}$, Eqs. (6)
-and (7) can be solved for $N$, combined, and solved for the object
+have the DoF between two arbitrary distances $u_\mathrm{n}$ and $u_\mathrm{f}$, Eqs.~(\ref{eq:un:os}) 
+and~(\ref{eq:uf:os}) can be solved for $N$, combined, and solved for the object
 distance $u$ to give
 \begin{equation}
   \label{eq:u}
@@ -343,7 +343,8 @@ distance $u$ to give
 \end{equation}
 the \emph{harmonic mean} of the near and far distances. Note that the distance is independent of $N$: if the $f$-number is increased to decrease the effective CoC, there is no need to refocus.
 
-The required $f$-number is obtained by solving Eqs. (6) and (7) for
+The required $f$-number is obtained by solving Eqs.~(\ref{eq:un:os}) 
+and~(\ref{eq:uf:os}) for
 $u$, combining, and solving for $N$, giving
 \begin{equation}
   \label{eq:N}
@@ -379,7 +380,7 @@ near limit. The near-to-total ratio is 1⁄3 only when $u_\mathrm{f} = 2u_\mathr
 \subsection{Image-Side Relationships}
 Most discussions of depth of field concentrate on the object side of the lens; in practice, however, camera settings usually are determined using image distances, whether directly in the case of a view camera, or by using distance and DoF scales on hand-camera lenses. With a view camera, the image distances are obtained by focusing on objects at the desired near and far limits of DoF, and noting the lens extension in each case. The image distances $v_\mathrm{n}$ and $v_\mathrm{f}$ correspond to object distances $u_\mathrm{n}$ and $u_\mathrm{f}$; the difference $v_\mathrm{n}-v_\mathrm{f}$ between the near and far image distances is the \emph{focus spread} $\Dv$.
 
-Combining Eqs. (1) and (2) gives the image distance $v$ that will set
+Combining Eqs.~(\ref{eq:vni}) and~(\ref{eq:vfi}) gives the image distance $v$ that will set
 the DoF between object distances $u_\mathrm{n}$ and $u_\mathrm{f}$:
 \begin{equation}
   \label{eq:v}
@@ -398,13 +399,13 @@ or
   v \approx v_\mathrm{f} + \frac \Dv 2
   % #32
 \end{equation}
-Again combining Eqs. (1) and (2), the far:near distribution of the focus spread is
+Again combining Eqs.~(\ref{eq:vni}) and~(\ref{eq:vfi}), the far:near distribution of the focus spread is
 \begin{equation}
    \frac{v-v_\mathrm{f}}{v_\mathrm{n}-v} = \frac{v_\mathrm{f}}{v_\mathrm{n}}\quad.
    \label{eq:33}
    % #33
 \end{equation}
-Using Eq. (5) to substitute for $v_\mathrm{n}$ and $v_\mathrm{f}$, and then rearranging, the focus spread in terms   the object distances is
+Using Eq.~(\ref{eq:thinlens}) to substitute for $v_\mathrm{n}$ and $v_\mathrm{f}$, and then rearranging, the focus spread in terms   the object distances is
 \begin{equation}
    v_\mathrm{n}-v_\mathrm{f} = \frac{(u_\mathrm{f}-u_\mathrm{n})f^2}{(u_\mathrm{f}-f)(u_\mathrm{n}-f)}
 \end{equation}
@@ -429,7 +430,7 @@ v_\mathrm{ap} - v \leq \frac{(v_\mathrm{n} - v_\mathrm{f})^2}{4f}
 \end{equation}
 This difference always is a positive quantity, so that the image distance determined with the approximate formula always will be slightly greater than that determined with the exact formula, and accordingly, focus will be slightly closer than optimum. Evens (2003) describes this relationship in a slightly different but equivalent form.
 
-With focus set by Eq. (30), the required $f$-number is
+With focus set by Eq.~(\ref{eq:v}), the required $f$-number is
 \begin{equation}
     N = \frac f c\frac{v_\mathrm{n}-v_\mathrm{f}}{v_\mathrm{n}+v_\mathrm{f}}
     \label{eq:36}
@@ -441,18 +442,18 @@ When the focus spread is small, $v_\mathrm{n} + v_\mathrm{f} \approx 2v$, and
    \label{eq:37}
    % #37
 \end{equation}
-It sometimes is more convenient to express Eq. (37) in terms of the magnification; substituting the relation
+It sometimes is more convenient to express Eq.~(\ref{eq:37}) in terms of the magnification; substituting the relation
 \begin{equation}
    v=(1+m)f
 \end{equation}
-into Eq. (37), giving
+into Eq.~(\ref{eq:37}), giving
 \begin{equation}
    N\approx\frac1{1+m}\frac\Dv{2c}
    \label{eq:38}
    % #38
 \end{equation}
 
-Except at close working distances, $m$ is small, and Eq. (38) often can be simplified to 
+Except at close working distances, $m$ is small, and Eq.~(\ref{eq:38}) often can be simplified to 
 \begin{equation}
 N\approx\frac\Dv{2c}
    \label{eq:39}
@@ -465,17 +466,17 @@ When this is done, the ratio of approximate to exact $f$-number is
     %. #40
 \end{equation}
 
-The error increases with image distance, or equivalently, with magnification. Eq. (39) gives a greater $f$-number than actually required, so to use it is to err on the conservative side. If this error is unacceptable, Eq. (37) or (38) can be used for closeup work.
+The error increases with image distance, or equivalently, with magnification. Eq.~(\ref{eq:39}) gives a greater $f$-number than actually required, so to use it is to err on the conservative side. If this error is unacceptable, Eq.~(\ref{eq:37}) or~(\ref{eq:38})can be used for closeup work.
 
-Equations (32) and (39) are well known to many view camera users; the rear standard is set to a position halfway between the points of focus for the near and far objects, and the lens $f$-number is calculated from the focus spread. Although Eqs. (30) and (36) are simple enough, especially if the calculations are done with a programmable calculator or handheld computer, they require the absolute image distances $v_\mathrm{n}$ and $v_\mathrm{f}$, which often are not easy to determine, especially if camera movements are employed. Eqs. (32) and (39) require only the difference between the near and far image distances, which usually is easily measured; consequently, these equations are the ones most commonly used on hand-camera lens DoF scales and on DoF calculators for view cameras. Eqs (37) and (38) require the absolute image distance, but a reasonable estimate of image distance or of the magnification often will suffice. It can be shown that Eqs. (32) and (39) are valid even if swings and tilts are employed.
+Equations~(\ref{eq:vapprox2}) and~(\ref{eq:39}) are well known to many view camera users; the rear standard is set to a position halfway between the points of focus for the near and far objects, and the lens $f$-number is calculated from the focus spread. Although Eqs.~(\ref{eq:v}) and~(\ref{eq:36}) are simple enough, especially if the calculations are done with a programmable calculator or handheld computer, they require the absolute image distances $v_\mathrm{n}$ and $v_\mathrm{f}$, which often are not easy to determine, especially if camera movements are employed. Eqs.~(\ref{eq:vapprox2}) and~(\ref{eq:39}) require only the difference between the near and far image distances, which usually is easily measured; consequently, these equations are the ones most commonly used on hand-camera lens DoF scales and on DoF calculators for view cameras. Eqs.~(\ref{eq:37}) and~(\ref{eq:38}) require the absolute image distance, but a reasonable estimate of image distance or of the magnification often will suffice. It can be shown that Eqs.~(\ref{eq:vapprox2}) and~(\ref{eq:39}) are valid even if swings and tilts are employed.
 
 If the camera does not include a DoF calculator, measurement of focus spread is much easier if the bed or focusing rail includes a scale, and measurements can be more precise if the focusing knob includes an additional scale. See Hayashi for a description of adding a Sinar-type DoF scale to the focusing knob, and Evens (2003) for a discussion of adding scales to both the rail and the knob.
 
 On a hand camera, the lens DoF scales usually implement these same formulae. With autofocus lenses, however, there may be no easy means of controlling DoF; the distance-scale markings usually are widely spaced, and the DoF scales, if even provided, usually are so small that using them to determine focus and $f$-number is all but impossible. Although the benefits of autofocus are undeniable, an unfortunate consequence is that even the most advanced autofocus 35\,mm cameras cannot perform a task that was easily accomplished with the most basic manual-focus cameras.\footnote{When Canon introduced autofocus cameras, many of the bodies included a feature, Depth-of-Field Automatic Exposure, that functioned in much the same manner as DoF scales on manual-focus lenses. Unfortunately, this feature was eliminated from new models introduced since early 2004.}
 
-If lens DoF scales are not available, and it is impractical to measure image distances, Eqs. (26) and (28) can be used if there is a convenient way to measure object distances. With a suitable external rangefinder, these formulae could provide a means of controlling DoF with autofocus lenses.
+If lens DoF scales are not available, and it is impractical to measure image distances, Eqs.~(\ref{eq:u}) and~(\ref{eq:Napprox}) can be used if there is a convenient way to measure object distances. With a suitable external rangefinder, these formulae could provide a means of controlling DoF with autofocus lenses.
 
-Substituting Eq. (5) into Eq. (11) and rearranging gives the image distance $v_\mathrm{h}$ corresponding to the hyperfocal distance $u_\mathrm{h}$:
+Substituting Eq.~(\ref{eq:thinlens}) into Eq.~(\ref{eq:uhx}) and rearranging gives the image distance $v_\mathrm{h}$ corresponding to the hyperfocal distance $u_\mathrm{h}$:
 \begin{equation}
    v_\mathrm{h} = f + N\!c
    % # (41)
