@@ -585,3 +585,191 @@ portraits <- function(lenses = c(50,70,85,90,100, 135),
         cat('@\n\n')
     }
 }
+
+#' viewing angle
+#'
+#' @param f focal length
+#' @param d dimension of sensor
+#' @param cropcrop factor
+#'
+#' @return viewing angle
+#' @export
+#'
+#' @examples
+va <- function(f,d = 43.2, crop = 1){
+    return(2*atan2(d/2/crop, f)*180/pi)
+}
+
+#' modified modulo
+#'
+#' similar to "modulo" (%%) but returns n where `%%` returns 0, useful for indexing with revycled vectors
+#'
+#' @param e1 vector of numbers
+#' @param e2 modulus
+#'
+#' @return
+#' @export
+#'
+#' @examples
+`%mymod%` <- function(e1, e2) {
+    return(((e1-1) %%  e2) + 1)
+}
+
+#' Add diagonal
+#'
+#' given horizontal and vertical dimensions of a sensor, return a vector with thos two plus the length of  the diagonal
+#' @param h horizontal
+#' @param v vertical
+#'
+#' @return c(d, v, h)
+#' @export
+#'
+#' @examples
+#' add.diag(3,4)    # c(5,4,3)
+add.diag <- function(h, v, decreasing = TRUE){
+    return(sort(c(h,
+                  v,
+                  sqrt(h^2+v^2)),
+                decreasing = decreasing))
+}
+
+
+#' axis transformation
+#'
+#' transformation to allow for linear fit below
+#' @param x
+#' @param axis
+#'
+#' @return
+#' @export
+#'
+#' @examples
+ax.trafo <- function(x, axis){
+    if(is.numeric(axis)){
+        axis <-  ifelse(axis %% 2 == 1,
+                        'x',
+                        'y')
+    }
+    if(par(paste0(axis,'log'))){
+        return(log10(x))
+    } else {
+        return(x)
+    }
+}
+
+x.trafo <- function(x) ax.trafo(x, 'x')
+y.trafo <- function(x) ax.trafo(x, 'y')
+
+
+#' View angle plot
+#'
+#' @param d
+#' @param crop
+#' @param fs
+#' @param base.color
+#' @param dot.color
+#' @param fit.color
+#' @param ...
+#'
+#' @return none
+#' @export
+#'
+#' @examples
+#' vaplot(d=add.diag(36,24),crop=c(1,1.6),log='xy')
+vaplot <- function(d = 43.2,
+                   crop = 1,
+                   fs = c(11,15,24,35,50,70,100,200,400,800),
+                   base.color = 'black',
+                   dot.color = 'red',
+                   fit.color = adjustcolor(base.color, 0.5),
+                   ...){
+    n <- length(d)
+    dc <- within(expand.grid(d=d, crop=crop), {
+        d.eff <- d/crop
+        leg.string <- ifelse(crop==1,'', paste0('   (',round(d, 1),':',crop,')'))
+        })
+    f.min <- ifelse(is.null(fs),  10,low  <- 10^floor  (log10(min(fs))))
+    f.max <- ifelse(is.null(fs),1000,high <- 10^ceiling(log10(max(fs))))
+    phi.range <- range(outer(c(f.min, f.max),
+                             range(dc$d.eff),
+                             function(f,d) va(f,d)))
+    curve(va(x, d = dc[1, 'd.eff']),
+          from = f.min,
+          to   = f.max,
+          las  = 1,
+          xlab = 'Focal Length [mm]',
+          ylab = 'Viewing Angle',
+          axes = FALSE,
+          ylim = phi.range,
+          col  = base.color,
+          ...)
+    axis(1)
+    l.angles = c(5, 10, 20, 30, 45, 60, 90, 120)
+    axis(2,
+         at = l.angles,
+         labels = l.angles,
+         las = 1)
+    box()
+    if (!is.null(fs) && nrow(dc)==1){
+        points(fs, va(fs), pch = 16, cex = 0.75, col = 'red')
+    }
+    # linear fit
+    if(par('xlog') && par('ylog')){
+        do.linfit <- TRUE
+        top.fs <- rev(rev(fs)[1:2])
+        fit <- lm(va~f,
+                  data.frame(f  = x.trafo(top.fs),
+                             va = y.trafo(va(top.fs, d = dc$d.eff[1]))))
+        abline(fit, col = adjustcolor(base.color, 0.25))
+        curve(va(x, d = dc[1, 'd.eff']),
+              col = base.color,
+              add = TRUE)
+    } else {
+        do.linfit <- FALSE
+    }
+    #  grid
+    abline(h = l.angles,
+           lty = 3,
+           col = 'lightgrey')
+    abline(v = if(is.null(fs)){
+                    sort(outer(c(1,2,5),10^(low:high)))
+                } else {
+                    fs
+                },
+           lty = 3,
+           col = 'lightgrey')
+    # legend
+    legend('topright',
+           legend = sprintf("%.1f %s",
+                            dc[,'d.eff'],
+                            dc[,'leg.string']),
+           title = 'Sensor size',
+           lty = 1:n,
+           col = ifelse(dc[,2] == 1, 'black', 'grey'))
+    # additional lines
+    if(nrow(dc)>1){
+        for (i in 2:nrow(dc)){
+            line.col <- ifelse(dc[i,2] == 1, base.color, adjustcolor(base.color, 0.5))
+            if(do.linfit){
+                fit <- lm(va~f,
+                          data.frame(f  = x.trafo(top.fs),
+                                     va = y.trafo(va(top.fs, d = dc$d.eff[i]))))
+                abline(fit,
+                       col = adjustcolor(line.col, 0.25),
+                       lty = i %mymod% n)
+            }
+            curve(va(x, d = dc[i, 'd.eff']),
+                  add = TRUE,
+                  col = line.col,
+                  lty = i %mymod% n)
+            # if (!is.null(fs)){
+            #     points(fs,
+            #            va(fs, d = dc[i,1], crop = dc[i,2]),
+            #            pch = 16,
+            #            cex = 0.75,
+            #            col = 'red')
+            # }
+        }
+    }
+}
+
