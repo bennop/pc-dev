@@ -711,10 +711,13 @@ vaplot <- function(d = 43.2,
          las = 1)
     box()
     if (!is.null(fs) && nrow(dc)==1){
-        points(fs, va(fs), pch = 16, cex = 0.75, col = 'red')
+        points(fs, va(fs, d = dc[1, 'd.eff']),
+               pch = 16,
+               cex = 0.75,
+               col = 'red')
     }
     # linear fit
-    if(par('xlog') && par('ylog')){
+    if(loglog <- (par('xlog') && par('ylog'))){
         do.linfit <- TRUE
         top.fs <- rev(rev(fs)[1:2])
         fit <- lm(va~f,
@@ -731,21 +734,25 @@ vaplot <- function(d = 43.2,
     abline(h = l.angles,
            lty = 3,
            col = 'lightgrey')
-    abline(v = if(is.null(fs)){
-                    sort(outer(c(1,2,5),10^(low:high)))
-                } else {
-                    fs
-                },
+    abline(v = if(par('xlog')){
+        if(is.null(fs)){
+            sort(outer(c(1,2,5),10^(low:high)))
+        } else {
+            fs
+        }} else {
+            axTicks(1)
+        },
            lty = 3,
            col = 'lightgrey')
     # legend
-    legend('topright',
+    legend(ifelse(loglog, 'bottomleft', 'topright'),
            legend = sprintf("%.1f %s",
                             dc[,'d.eff'],
                             dc[,'leg.string']),
-           title = 'Sensor size',
-           lty = 1:n,
-           col = ifelse(dc[,2] == 1, 'black', 'grey'))
+           title  = 'Sensor size',
+           cex    = 0.8,
+           lty    = 1:n,
+           col    = ifelse(dc[,2] == 1, 'black', 'grey'))
     # additional lines
     if(nrow(dc)>1){
         for (i in 2:nrow(dc)){
