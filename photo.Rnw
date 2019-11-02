@@ -150,23 +150,67 @@ Phase One P 65+, IQ160, IQ180                                                   
 \label{sec:view-angle}
 The view angle $\varphi$ for a regular (i.\,e., not fisheye) lens of focal length $f$ can be expressed as
 \begin{equation}
-\varphi = 2 \arctan \frac d f
+\varphi = 2 \arctan \frac {d/2} f
+\label{eq:viewangle}
 \end{equation}
 where $d$ is the size of the sensor. It is customary to use the sensor's diagonal (see column ``Diagonal" in Table~\ref{tab:sensor}) when giving the viewing angle for a lens.
 
 This dependency is shown for a full-frame sensor and an APS-C sensor in  Fig.~\ref{fig:viewangle}.
-\begin{equation}
-b=\frac{gf}{g-f}
-\label{eq:b}
-\end{equation}
-<<viewangle, echo = FALSE, fig.cap = 'Viewing angle vs.\ focal length'>>=
+<<viewangle, echo = FALSE, fig.cap = 'Viewing angle vs.\ focal length. In  the left the long side of a full-frame sensor is considered, on the right, both sides as well as the diagonal for full-frame  (black) and APS-C (grey) are shown.',fig.height = 6>>=
 opar <- par(mfrow=c(1,2), mar = c(5,4,3,1) + .1)
-vaplot(d= 43.26)
-vaplot(d=add.diag(36,24),crop=c(1,1.6), log='xy')
+vaplot(d = 36)
+vaplot(d = add.diag(36, 24),
+       crop = c(1,1.6),
+       log  = 'xy')
 par(opar)
 @
 
-As Fig.~\ref{fig:viewangle} is a log-log-plot, it can be seen that the angle is inversely proportional to the focal length $f$ for longer $f$
+As  can be seen from the log-log-plot, the angle is inversely proportional to the focal length $f$ for longer $f$:
+\begin{equation}
+\varphi \propto \frac1f
+\end{equation}
+
+\subsection{Object size vs.\ distance}
+\label{sec:objsize}
+From Eq.~\ref{eq:viewangle} the field of view (FOV) given distance $D$ and focal length $f$ are given by
+\begin{equation}
+\mathrm{FOV} =  \frac D 2 \tan \frac \varphi 2 =  D  \frac d f
+\label{eq:fov}
+\end{equation}
+In  other words, FOV is proportional to $D$ and $d$ and inversely proportional to $f$. These are true proportionalities with only the approximation of assuming a simple lens. This would only affect short  distances and become irrelevant for $D > 1$\,m.
+
+For a given sensor size that means that the FOV of a lens with $f=2f_0$ is half that of a lens with $f=f_0$, or to get the same FOV $D$ needs to be twice as long.
+
+Furthermore, for $f = 35$\,mm, $\frac d f \simeq 1$, which means that for this focal length the long side of a full frame sensor captures a field of view about as wide as the distance to the object. The scaling is shown in Fig.~\ref{fig:fscale}.
+<<fscale, echo = FALSE, fig.cap = 'FOV scale vs.\ focal length. A  value of 1 means the FOV is as wide as the distance to the object, $D$. For the short edge FOV is reduced by 1.5 with respect to the long edge, for APS-C by 1.6 with respect to the full-frame sensor.',fig.height = 6>>=
+#opar <- par(mfrow=c(1,2), mar = c(5,4,3,1) + .1)
+curve(36/x,
+      10,500,
+      xlab = 'Focal length [mm]',
+      ylab = "FOV scale/distance",
+      las = 1,
+      ylim = c(0.03,3.6),
+      log = 'xy')
+curve(24/x,
+      lty = 2,
+      add = TRUE)
+curve(36/1.6/x,
+      col = 'grey',
+      add = TRUE)
+curve(24/1.6/x,
+      lty = 2,
+      col = 'grey',
+      add = TRUE)
+abline(v=axTicks(1), lty = 3, col = 'lightgrey')
+abline(h=axTicks(2), lty = 3, col = 'lightgrey')
+legend('topright',
+       legend = outer(c('long', 'short'),  c('full','APS-C'), function(a,b)paste(b,a, sep = ' / ')),
+       title  = 'Sensor / edge',
+       lty = 1:2,
+       col = rep(c('black','grey'), each = 2))
+#par(opar)
+@
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Focus}
 \label{sec:focus}
