@@ -7,6 +7,7 @@
 								% TeX will automatically convert eps --> pdf in pdflatex		
 \usepackage{amssymb}
 \usepackage{newunicodechar}
+\usepackage{multicol}
 \usepackage{libertine}
 \usepackage{hyperref}
 %SetFonts
@@ -35,6 +36,12 @@
 \newcommand{\f}[1]{\mbox{\raisebox{2pt}{\footnotesize $f$\hspace{-1.2pt}}/\hspace{-0.6pt}\raisebox{-0.6pt}{\small #1}}}
 \begin{document}
 \maketitle
+\vfill
+\begin{multicols}{2}
+\footnotesize
+\tableofcontents
+\end{multicols}
+\newpage
 \section{Introduction}
 %\subsection{}
 
@@ -488,7 +495,11 @@ can be useful when designing a fixed-focus camera.
 
 \subsection{Depth of Field and Background Blur vs. Focal Length}
 
-Recall that the CoC is the diameter of the blur spot at the near and far limits of DoF; the diameter of the blur spot for a point on a defocused object at an arbitrary distance is obtained by solving Eqs. (6) and (7) for $c$, and replacing the near and far distances by $u_\mathrm{d}$, leading to
+Recall that the CoC is the diameter of the blur spot at the near and
+far limits of DoF; the diameter of the blur spot for a point on a
+defocused object at an arbitrary distance is obtained by solving
+Eqs.~\ref{eq:un:os} and \ref{eq:uf:os} %Eqs. (6) and (7)
+for $c$, and replacing the near and far distances by $u_\mathrm{d}$, leading to
 \begin{equation}
    k = \frac1N \frac{f^2}{u-f}  \frac{|u_\mathrm{d} - u|}{u_\mathrm{d}} = \frac{fm}N \frac{|u_\mathrm{d} - u|}{u_\mathrm{d}}
    % # 42
@@ -550,20 +561,20 @@ and
    \label{eq:49}
    % #49
 \end{equation}
-Combining Eqs. (48) and (49) and solving for $v$ gives
+Combining Eqs.~(\ref{eq:48}) and~(\ref{eq:49}) and solving for $v$ gives
 \begin{equation}
 v = \frac{(c_\mathrm{n} + c_\mathrm{f}) v_\mathrm{n} v_\mathrm{f}}{c_\mathrm{n}v_\mathrm{v} + c_\mathrm{f}v_\mathrm{f}}
    \label{eq:50}
    % #50
 \end{equation}
-Again combining Eqs. (48) and (49), the far:near distribution of the focus spread is
+Again combining Eqs.~(\ref{eq:48}) and~(\ref{eq:49}), the far:near distribution of the focus spread is
 \begin{equation}
    \frac{v - v_\mathrm{f}}{v_\mathrm{n} - v} = \frac{c_\mathrm{f}v_\mathrm{f}}{c_\mathrm{n}v_\mathrm{n}}
    \label{eq:51}
    % #51
 \end{equation}
 Unless the focus spread is large, we usually can take $v_\mathrm{f} \approx v_\mathrm{n}$ on the right-hand side of
- Eq. (51), so that
+ Eq.~(\ref{eq:51}), so that
 \begin{equation}
    \frac{v - v_\mathrm{f}}{v_\mathrm{n} - v} \approx \frac{c_\mathrm{f}}{c_\mathrm{n}}
    \label{eq:52}
@@ -581,29 +592,28 @@ or
    \label{eq:54}
    % #54
 \end{equation}
-where $Δv$ is the focus spread $v_\mathrm{n} - v_\mathrm{f}$. Combining Eqs. (48) and (49) and solving for $N$ gives
+where $Δv$ is the focus spread $v_\mathrm{n} - v_\mathrm{f}$. Combining Eqs.~(\ref{eq:48}) and~(\ref{eq:49}) and solving for $N$ gives
 \begin{equation}
    N=\frac{(v_\mathrm{n}-v_\mathrm{f})f}{c_\mathrm{n}v_\mathrm{n}+c_\mathrm{f}v_\mathrm{f}}
    \label{eq:55}
    % #55
 \end{equation}
 
-%% N & (vn - vf ) f (55) cnvn +cfvf
 To within sufficient accuracy for determining $N$, we usually can take $v_\mathrm{n} \approx v_\mathrm{f} \approx v$ in the denominator, so that
 \begin{equation}
    N\approx\frac f v \frac{v_\mathrm{n}-v_\mathrm{f}}{c_\mathrm{n}+c_\mathrm{f}}
    \label{eq:56}
    % #56
 \end{equation}
-Except for closeup work, it usually is acceptable to take $v \approx f$, so that Eq. (56) further simplifies to
+Except for closeup work, it usually is acceptable to take $v \approx f$, so that Eq.~(\ref{eq:56}) further simplifies to
 \begin{equation}
    N\approx\frac \Dv{c_\mathrm{n}+c_\mathrm{f}}
    \label{eq:57}
    % #57
 \end{equation}
-Assuming that $c_\mathrm{f} < c_\mathrm{n}$, Eq. (54) gives an image distance closer to the far image distance than does Eq. (32), and Eq. (57) gives a greater $f$-number than does Eq. (39).
+Assuming that $c_\mathrm{f} < c_\mathrm{n}$, Eq.~(\ref{eq:54}) gives an image distance closer to the far image distance than does Eq.~(\ref{eq:vapprox2}), and Eq.~(\ref{eq:57}) gives a greater $f$-number than does Eq.~(\ref{eq:39}).
 
-Englander (1994) suggested, in effect, that when the DoF extends to infinity, $c_\mathrm{f}$ should be $1⁄2 c_\mathrm{n}$. From Eq. (54), focus then would be set to
+Englander (1994) suggested, in effect, that when the DoF extends to infinity, $c_\mathrm{f}$ should be $1⁄2 c_\mathrm{n}$. From Eq.~(\ref{eq:54}), focus then would be set to
 \begin{equation}
   v = v_f + \frac 1 3 \Dv\quad,
   \label{eq:57+}
@@ -619,12 +629,12 @@ objects, and suggested\footnote{Merklinger actually suggested 1⁄30\,mm
   for the near-limit CoC; 0.025\,mm is used here for consistency with
   the other examples.} a far-limit CoC of 1⁄150\,mm for 35\,mm film;
 using 0.025\,mm for the near-limit CoC, $c_\mathrm{f} \approx 1⁄4 c_\mathrm{n}$. From
-Eq. (54), focus would be set to
+Eq.~(\ref{eq:54}), focus would be set to
 \begin{equation}
   \label{eq:57+++}
   v=v_\mathrm{f}+\frac15\Dv\quad,
 \end{equation}
-and from Eq. (57), the $f$-number would be
+and from Eq.~(\ref{eq:57}), the $f$-number would be
 \begin{equation}
   \label{eq:57++++}
   N=\frac \Dv{1.25c_\mathrm{n}}\quad ,
@@ -660,7 +670,7 @@ focal length,
   N\approx\frac{(u_\mathrm{f}-u_\mathrm{n})f^2}{(c_\mathrm{n}+c_\mathrm{f})u_\mathrm{n}u_\mathrm{f}}
 \end{equation}
 The near and far limits of DoF are obtained by substituting  into
-Eqs. (48) and (49), giving
+Eqs.~(\ref{eq:48}) and~(\ref{eq:49}), giving
 \begin{equation}
   \label{eq:61}
   u_\mathrm{n}=\frac{uf^2}{f^2+N\!c_\mathrm{n}(u-f)}\hphantom{\quad.}
@@ -670,7 +680,7 @@ and
 \begin{equation}
   \label{eq:62}
   u_\mathrm{f}=\frac{uf^2}{f^2-N\!c_\mathrm{f}(u-f)}\quad.
-  % #61
+  % #62
 \end{equation}
 Setting the far limit of DoF to infinity and solving for object
 distance gives
@@ -681,7 +691,7 @@ distance gives
 \end{equation}
 the hyperfocal distance for different near- and far-limit CoCs. When
 the object distance is the hyperfocal distance, the near limit of DoF,
-from Eq. (61), is
+from Eq.~(\ref{eq:61}), is
 \begin{equation}
   \label{eq:un}
   u_\mathrm{n} = \frac{c_\mathrm{f}}{c_\mathrm{n}+c_\mathrm{f}}\left(\frac{f^2}{N\!c_\mathrm{f}}+f\right)
@@ -708,7 +718,7 @@ and the $f$-number is
 \end{equation}
 where $S$ is the size of the smallest feature to be resolved.
 
-Eqs. (65) and (66) are simple to apply when an easy means of determining object
+Eqs.~(\ref{eq:65}) and~(\ref{eq:66}) are simple to apply when an easy means of determining object
 distance is available, such as with manual-focus hand-camera lenses that have readable distance scales, or perhaps with a laser rangefinder. However, the expressions on the image side are more complex. Merklinger’s resolution criteria derive strictly from consideration of object features, but the effect essentially is equivalent to using different CoCs for near and far objects. This again is similar to the concept of “relative blur.” When the same resolution criteria apply at near and far distances, the near and far CoCs are proportional to their relative magnifications:
 \begin{equation}
    \frac{c_\mathrm{f}}{c_\mathrm{n}}=\frac{m_\mathrm{f}}{m_\mathrm{n}}
@@ -725,13 +735,18 @@ for the near and far magnifications gives
    \label{eq:68}
    % #68
 \end{equation}
-The expressions for focus distance and $f$-number do not lend themselves to easily used simplifications, except when the far limit of DoF extends to infinity: then $v_\mathrm{f} = f$, and $c_\mathrm{f} = 0$. From Eq. (54), the focus is set to infinity; from Eq. (6), the near limit of DoF then is
+The expressions for focus distance and $f$-number do not lend
+themselves to easily used simplifications, except when the far limit
+of DoF extends to infinity: then $v_\mathrm{f} = f$, and $c_\mathrm{f}
+= 0$. From Eq.~(\ref{eq:54}), the focus is set to infinity; from
+Eq.~\ref{eq:un:os}, %Eq. (6), %
+the near limit of DoF then is
 \begin{equation}
    u_\mathrm{n} = \frac{f^2}{N\!c_\mathrm{n}}\quad,
    \label{eq:69}
    % #69
 \end{equation}
-essentially the hyperfocal distance. From Eq. (57), the $f$-number is
+essentially the hyperfocal distance. From Eq.~(\ref{eq:57}), the $f$-number is
 \begin{equation}
    N \approx \frac{v_\mathrm{n} - f}{c_\mathrm{n}}
    \label{eq:70}
@@ -739,15 +754,19 @@ essentially the hyperfocal distance. From Eq. (57), the $f$-number is
 \end{equation}
 or two steps greater than that resulting from the same near distance using equal near and far CoCs. Of course, with the Object Field Method, the absolute value of the CoC derives strictly from object features, so it may not be the same as the CoC determined with the conventional approach to DoF.
 
-Alternatively, the $f$-number can be determined from the near object distance by rearranging Eq. (69):
+Alternatively, the $f$-number can be determined from the near object distance by rearranging Eq.~(\ref{eq:69}):
 \begin{equation}
    N = \frac{f^2}{c_\mathrm{n}u_\mathrm{n}}\quad,
    \label{eq:71}
    % #71
 \end{equation}
-Eq. (71) also indicates that the required $f$-number is twice that of the conventional method: the near limit of DoF with the conventional method is half the hyperfocal distance, and halving the distance in Eq. (71) requires doubling the $f$-number.
+Eq.~(\ref{eq:71}) also indicates that the required $f$-number is twice that of
+the conventional method: the near limit of DoF with the conventional
+method is half the hyperfocal distance, and halving the distance in
+Eq.~(\ref{eq:71}) % (71)
+requires doubling the $f$-number.
 
-With a hand camera, it usually is easier to determine the $f$-number using Eq. (71) rather than Eq. (70), although with most autofocus lenses, the distance scale may be essentially unreadable unless the near distance is quite close.
+With a hand camera, it usually is easier to determine the $f$-number using Eq.~(\ref{eq:71}) rather than Eq.~(\ref{eq:70}), although with most autofocus lenses, the distance scale may be essentially unreadable unless the near distance is quite close.
 
 For a given $f$-number, the Object Field Method gives greater sharpness to distant objects at the expense of slightly less sharpness in near objects; for a given near-limit sharpness, the greater sharpness of distant objects comes at the expense of a greater $f$-number than required with equal near and far CoCs. Although the cost of the greater distant sharpness is substantial, it nonetheless is considerably less than the cost of achieving the same sharpness simply by increasing the $f$-number without refocusing. In practice, the Object Field Method often is easiest to use with infinity focus, especially with a hand camera, for which a slightly closer focus can be difficult to set accurately.
 
@@ -817,7 +836,7 @@ Most treatments of depth of field assume a symmetrical lens for which the entran
 %%         Figure 2. Asymmetrical Lens
 The \emph{entrance pupil} is the image of the aperture stop as seen from the object side of the lens; it is the center of perspective for the lens. The \emph{exit pupil} is the image of the aperture stop as seen from the image side of the lens; it is the center of projection onto the image plane. The entrance and exit pupils may be regarded as images of each other.
 
-Consider the lens in Figure 2 whose object and image principal planes H and H$'$ are at distances $s_\mathrm{H}$ and $s'_\mathrm{H'}$ behind the object and image vertices, and whose entrance and exit pupils are at $s_\mathrm{ep}$ and $s'_\mathrm{ap}$ behind the same vertices (by convention, left-to-right distances are positive). The entrance pupil then is at a distance $x_\mathrm{ep}$ behind H and the exit pupil is at $x'_\mathrm{ap}$ behind H$'$.
+Consider the lens in Figure~\ref{fig:asymlens} whose object and image principal planes H and H$'$ are at distances $s_\mathrm{H}$ and $s'_\mathrm{H'}$ behind the object and image vertices, and whose entrance and exit pupils are at $s_\mathrm{ep}$ and $s'_\mathrm{ap}$ behind the same vertices (by convention, left-to-right distances are positive). The entrance pupil then is at a distance $x_\mathrm{ep}$ behind H and the exit pupil is at $x'_\mathrm{ap}$ behind H$'$.
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
    \includegraphics[width=\linewidth]{dofd-figures/fig_dofd_3} 
@@ -870,7 +889,7 @@ and
    \label{fig:DOFasymlens}
 \end{figure}
 %% Figure 4. DoF for Asymmetrical Lens
-DoF is controlled by the diameter of the lens exit pupil. In Figure 4, the near and far limits of DoF are at object distances $u_\mathrm{n}$ and $u_\mathrm{f}$, corresponding to image distances $v_\mathrm{n}$ and $v_\mathrm{f}$; at the focused image distance $v$, they form circular images of diameter $c$, the acceptable circle of confusion. From similar triangles,
+DoF is controlled by the diameter of the lens exit pupil. In Figure~\ref{fig:DOFasymlens}, the near and far limits of DoF are at object distances $u_\mathrm{n}$ and $u_\mathrm{f}$, corresponding to image distances $v_\mathrm{n}$ and $v_\mathrm{f}$; at the focused image distance $v$, they form circular images of diameter $c$, the acceptable circle of confusion. From similar triangles,
 \begin{equation}
 \frac c d = \frac{(v_\mathrm{n}-x'_\mathrm{ap}) - (v-x'_\mathrm{ap})}{v_\mathrm{n}-x'_\mathrm{ap}} =
 \frac {v_\mathrm{n} - v}{v_\mathrm{n}-x'_\mathrm{ap}} =
@@ -886,7 +905,7 @@ the $f$-number is related to the lens focal length $f$ and the entrance pupil di
 \begin{equation}
 N = \frac f D
 \end{equation}
-eliminating $D$ by means of Eq. (78), the lens $f$-number then can be expressed in terms of the
+eliminating $D$ by means of Eq.~(\ref{eq:p}), the lens $f$-number then can be expressed in terms of the
 exit pupil diameter as
 \begin{equation}
 N = \frac {pf} D
@@ -907,7 +926,7 @@ into Eq. (82) gives
 \subsection{Image Space}
 \label{sec:imspc}
 
-Substituting Eq. (80) into Eq. (83) and rearranging, one arrives at several relations in image space. The image distances corresponding to the near and far limits of DoF are
+Substituting Eq.~(\ref{eq:80}) into Eq.~(\ref{eq:83}) and rearranging, one arrives at several relations in image space. The image distances corresponding to the near and far limits of DoF are
 \begin{equation}
    v_\mathrm{n} = \frac{fv - N\!cf\left(\frac1p - 1\right)}{f - N\!c\left(\frac1p \right)}
    \label{eq:84}
@@ -1513,7 +1532,7 @@ c\approx \frac{f^2}{N(x_\mathrm{h}-2f)}
     \label{eq:capprox}
 \end{equation}
 
-\subsubsection{Decreasing CoC to Improve DoF-Limit Sharpness}
+\subsection{Decreasing CoC to Improve DoF-Limit Sharpness}
 
 It is worth noting that the optimum $f$-number given by Eq.~\ref{eq:Nopt} is independent of CoC, suggesting the choice of CoC actually has limited influence on final-image sharpness. The standard assumption for 4×5 is 2× enlargement, from which the standard 0.1\,mm CoC derives. If it were decided that a 4×5 image would be enlarged to 16''×20'' and viewed at the standard 250\,mm, it might seem reasonable to decrease the CoC to 0.05\,mm.
 
