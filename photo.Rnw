@@ -148,14 +148,14 @@ Phase One P 65+, IQ160, IQ180                                                   
 
 \subsection{View angle}
 \label{sec:view-angle}
-The view angle $\varphi$ for a regular (i.\,e., not fisheye) lens of focal length $f$ can be expressed as
+Assuming a simple lens where light  rays through the center are unaffected, the view angle $\varphi$ for a regular (i.\,e., not fisheye) lens of focal length $f$ focussed at $\infty$ can be expressed as
 \begin{equation}
 \varphi = 2 \arctan \frac {d/2} f
 \label{eq:viewangle}
 \end{equation}
-where $d$ is the size of the sensor. It is customary to use the sensor's diagonal (see column ``Diagonal" in Table~\ref{tab:sensor}) when giving the viewing angle for a lens.
+where $d$ is the size of the sensor. It is customary to use the sensor's diagonal (see column ``Diagonal" in Table~\ref{tab:sensor}) when giving the viewing angle for a lens. For practical reasons, using either the long or short edge may be more useful for landscape and portrait orientation, respectively.
 
-This dependency is shown for a full-frame sensor and an APS-C sensor in  Fig.~\ref{fig:viewangle}.
+These dependencies are shown for a full-frame sensor and an APS-C sensor in  Fig.~\ref{fig:viewangle}.
 <<viewangle, echo = FALSE, fig.cap = 'Viewing angle vs.\ focal length. In  the left the long side of a full-frame sensor is considered, on the right, both sides as well as the diagonal for full-frame  (black) and APS-C (grey) are shown.',fig.height = 6>>=
 opar <- par(mfrow=c(1,2), mar = c(5,4,3,1) + .1)
 vaplot(d = 36)
@@ -165,7 +165,7 @@ vaplot(d = add.diag(36, 24),
 par(opar)
 @
 
-As  can be seen from the log-log-plot, the angle is inversely proportional to the focal length $f$ for longer $f$:
+As  can be seen from the log-log-plot, the angle is inversely proportional to the focal length $f$, at least for longer $f$:
 \begin{equation}
 \varphi \propto \frac1f
 \end{equation}
