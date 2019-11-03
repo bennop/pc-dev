@@ -780,3 +780,21 @@ vaplot <- function(d = 43.2,
     }
 }
 
+h.angle.plot <- function(d=36){
+    plot(c(-1,1)*20,c(0,12), ty='n',
+         yaxs = 'i', ylim=c(0,12),
+         xlab = 'Distance from optical axis',
+         ylab = 'Distance from Lens',
+         main = "Full-format, long sensor side",
+         las  = 1)
+    grid()
+    abline(v=0, lty=2, col = 'grey')
+    abline(h=0, lty=2, col = 'grey')
+    fs <- c(11,15,24,35,50,70,100,200,400,800)
+    for  (f in fs){
+        m <- f / (d/2)
+        #cat(m, m*180/pi, "\n")
+        abline(0,  m)
+        abline(0, -m)
+    }
+}
