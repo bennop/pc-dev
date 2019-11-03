@@ -391,7 +391,7 @@ From this consideration a certain distance range will be imaged focussed, the \e
 
 \includegraphics[width=\maxwidth]{lens-dof.pdf}
 
-\subsection{Hyperfocal Distance}
+\subsubsection{Hyperfocal Distance}
 \label{sec:hyperfocal-distance}
 
 Setting $g$ to the so-called \emph{hyperfocal distance} (HFD, simply $H$ in the formulas) the focus of the far limit is at a distance $f$ behind the lens, i.\,e., the far limit is just approaching $\infty$. This results in the largest possible depth of field (DOF): everything between a minimum distance of $\mathrm{HFD}/2$ to $\infty$ is \emph{in focus} (i.\,e., not more blurred than CoC).
@@ -448,7 +448,7 @@ The resulting depth of field (DOF) is given by
   \mathrm{DOF} & = & d_\mathrm{far} - d_\mathrm{near} %\\
 %               & = & Hd \frac{2(d-f)}{H^2 - (d-f)^2}
 \end{eqnarray}
-\subsection{Setting Depth}
+\subsubsection{Setting Depth}
 \label{sec:setting-depth}
 
 To achieve DOF between two distances $d_\mathrm{near}$ and
