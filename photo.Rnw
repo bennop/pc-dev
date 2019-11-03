@@ -452,23 +452,25 @@ The resulting depth of field (DOF) is given by
 \label{sec:setting-depth}
 
 To achieve DOF between two distances $d_\mathrm{near}$ and
-$d_\mathrm{far}$, adjust focussing distance and aperture to the values
+$d_\mathrm{far}$, adjust focussing distance to $d_\mathrm{n:f}$ and the aperture to at least $F_\mathrm{n:f}$, their respective values
 given by
 \begin{eqnarray}
   \label{eq:setdof}
-  d & = & \frac{1}{2}\cdot\frac{1}{\frac{1}{d_\mathrm{near}} +
+  d_\mathrm{n:f} & = & \frac{1}{2}\cdot\frac{1}{\frac{1}{d_\mathrm{near}} +
           \frac{1}{d_\mathrm{far}}}            \\
     & = & \frac{2d_\mathrm{near}d_\mathrm{far}}{d_\mathrm{near}+d_\mathrm{far}}
                                                \\
-  F & = & \frac{f^2}{\COC}\cdot\frac{d_\mathrm{far} -
+  F_\mathrm{n:f} & \geq & \frac{f^2}{\COC}\cdot\frac{d_\mathrm{far} -
           d_\mathrm{near}}{d_\mathrm{far}(d_\mathrm{near} - f) +
           d_\mathrm{near}(d_\mathrm{far} - f)} \\
     & \stackrel{d\gg f}{\approx} & \frac{f^2}{\COC}\cdot\frac{d_\mathrm{far} -
           d_\mathrm{near}}{2d_\mathrm{far}d_\mathrm{near}}
 \end{eqnarray}
-\section{Viewing angle}
-\label{sec:angle}
-The viewing angle is determined by  the folcal length $f$ and
+The focus distance $d_\mathrm{n:f}$ is the harmonic mean of $d_\mathrm{near}$ and
+$d_\mathrm{far}$.
+%\section{Viewing angle}
+%\label{sec:angle}
+%The viewing angle is determined by  the focal length $f$ and
 \cleardoublepage
 \appendix
 \section{DOF plots}
