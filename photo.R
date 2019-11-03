@@ -780,21 +780,50 @@ vaplot <- function(d = 43.2,
     }
 }
 
-h.angle.plot <- function(d=36){
+h.angle.plot <- function(d=36,
+                         fs = c(11,15,24,35,50,70,100,200,400,800),
+                         ...){
+    n <- length(fs)
+    f.colors <- rainbow(n, end = 0.66)
+    names(f.colors) <- fs
     plot(c(-1,1)*20,c(0,12), ty='n',
          yaxs = 'i', ylim=c(0,12),
-         xlab = 'Distance from optical axis',
-         ylab = 'Distance from Lens',
-         main = "Full-format, long sensor side",
-         las  = 1)
+         xlab = 'Distance from optical axis [m]',
+         ylab = 'Distance from Lens [m]',
+         main = ifelse(d %in% (sen.sizes <- c(outer(2:3*12,c(1,1/1.6)), 14.9, 22.3)),
+                       paste0(ifelse(d %in% c(24,36),
+                                     "Full-format",
+                                     "APS-C"),
+                              ", ",
+                              ifelse(portrait <- (d %in% sen.sizes[c(1,3,5)]),
+                                     "short",
+                                     "long"),
+                              " sensor side (",
+                              ifelse(portrait,
+                                     'portrait',
+                                     'landscape'),
+                              ')'),
+                       paste0("Sensor edge: ", d, "mm")),
+         las  = 1,
+         asp  = 1,        # fix aspect ratio to yield proper relations
+         ...)
     grid()
     abline(v=0, lty=2, col = 'grey')
     abline(h=0, lty=2, col = 'grey')
-    fs <- c(11,15,24,35,50,70,100,200,400,800)
+
     for  (f in fs){
         m <- f / (d/2)
         #cat(m, m*180/pi, "\n")
-        abline(0,  m)
-        abline(0, -m)
+        abline(0,  m, col = f.colors[as.character(f)])
+        abline(0, -m, col = f.colors[as.character(f)])
     }
+    legend(par('usr')[2], 0,
+           xjust  = 1,
+           yjust  = 0,
+           legend = fs,
+           cex    = 0.8,
+           lwd    = 1,
+           col    = f.colors,
+           title  = expression(f),
+           bg     = "#FFFFFF80")
 }
