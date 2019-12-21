@@ -105,6 +105,7 @@
 
 <<init, echo = FALSE>>=
 source('photo.R')
+opts_template$set(myfigures = list(echo=FALSE, fig.height=6, fig.width=6,  warning=FALSE, results='hide', fig.pos="htb"))
 @
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -156,7 +157,7 @@ Assuming a simple lens where light  rays through the center are unaffected, the 
 where $d$ is the size of the sensor. It is customary to use the sensor's diagonal (see column ``Diagonal" in Table~\ref{tab:sensor}) when giving the viewing angle for a lens. For practical reasons, using either the long or short edge may be more useful for landscape and portrait orientation, respectively.
 
 These dependencies are shown for a full-frame sensor and an APS-C sensor in  Fig.~\ref{fig:viewangle}.
-<<viewangle, echo = FALSE, fig.cap = 'Viewing angle vs.\ focal length. In  the left the long side of a full-frame sensor is considered, on the right, both sides as well as the diagonal for full-frame  (black) and APS-C (grey) are shown.',fig.height = 6>>=
+<<viewangle, fig.cap = 'Viewing angle vs.\ focal length. In  the left the long side of a full-frame sensor is considered, on the right, both sides as well as the diagonal for full-frame  (black) and APS-C (grey) are shown.', opts.label='myfigures'>>=
 opar <- par(mfrow=c(1,2), mar = c(5,4,3,1) + .1)
 vaplot(d = 36)
 vaplot(d = add.diag(36, 24),
@@ -182,7 +183,7 @@ In  other words, FOV is proportional to $D$ and $d$ and inversely proportional t
 For a given sensor size that means that the FOV of a lens with $f=2f_0$ is half that of a lens with $f=f_0$, or to get the same FOV $D$ needs to be twice as long.
 
 Furthermore, for $f = 35$\,mm, $\frac d f \simeq 1$, which means that for this focal length the long side of a full frame sensor captures a field of view about as wide as the distance to the object. The scaling is shown in Fig.~\ref{fig:fscale}.
-<<fscale, echo = FALSE, fig.cap = 'FOV scale vs.\ focal length. A  value of 1 means the FOV is as wide as the distance to the object, $D$. For the short edge FOV is reduced by 1.5 with respect to the long edge, for APS-C by 1.6 with respect to the full-frame sensor.',fig.height = 6>>=
+<<fscale, opts.label='myfigures', fig.cap = 'FOV scale vs.\ focal length. A  value of 1 means the FOV is as wide as the distance to the object, $D$. For the short edge FOV is reduced by 1.5 with respect to the long edge, for APS-C by 1.6 with respect to the full-frame sensor.'>>=
 #opar <- par(mfrow=c(1,2), mar = c(5,4,3,1) + .1)
 curve(36/x,
       10,500,
@@ -376,11 +377,11 @@ As the object gets \emph{closer}, the imaging plane moves away from the lens. Th
 \includegraphics[width=\maxwidth]{lens-2f.pdf}
 It follows from symmetry that  for this distance the image is as big as the object, the lens operates at a magnification factor of 1 ($\rightarrow$ macro, see Section~\ref{sec:opt-mag}).
 
-Getting the object even closer to the lens will move the image plane further out, but only dedicated macro lenses operate in that regime.
+Moving the object even closer to the lens will push the image plane further out, but only dedicated macro lenses operate in that regime.
 
-At $g=f$ the limit is reached where the image plane is pushed out to infinity, for $g<f$ no image can be formed (a \emph{vitual} image is formed on the object side of the lens.
+At $g=f$ the limit is reached where the image plane is pushed out to infinity, for $g<f$ no image can be formed (i.\,e., no \emph{real image}, a \emph{vitual} image is formed on the object side of the lens).
 
-Most lenses have a minimum focussing distance $g>2f$, given  by constructive constraints to how far the lens can be moved from the imaging plane (film or sensor). Macro lenses allow $2f\le g>f$.
+Most lenses have a minimum focussing distance $g>2f$, given  by constructive constraints as to how far the lens can be moved from the imaging plane (film or sensor). Macro lenses allow $2f\le g>f$.
 
 For an arbitrary object distance $g>2f$ the image distance is given by \Eref{eq:b}:
 
@@ -409,10 +410,10 @@ aperture, and \COC\ to the acceptable circle of confusion.
 For a full format sensor the hyperfocal distances can be read from
 \Fref{fig:HFDfull}, for (Canon) APS-C sensors from
 \Fref{fig:HFDAPS-C}. Both plots use the exact value from \Eref{eq:HFDexact}.
-<<HFDfull, echo = FALSE, fig.cap = 'Full format sensor'>>=
+<<HFDfull, opts.label='myfigures', fig.cap = 'Full format sensor'>>=
 Hyperfocal.plot()
 @
-<<HFDAPS-C, echo = FALSE, fig.cap = 'Canon APS-C sensor'>>=
+<<HFDAPS-C, opts.label='myfigures', fig.cap = 'Canon APS-C sensor'>>=
 Hyperfocal.plot(COC=0.03/1.6)
 @
 \clearpage
@@ -429,7 +430,7 @@ acceptable sharpness) can be calulated by
 where $d$ is the focussing distance in mm (`+' refers to near, `--' to
 far).
 
-<<nearfar85, echo = FALSE, fig.cap = 'Full format sensor',warning=FALSE,results='hide'>>=
+<<nearfar85, opts.label='myfigures', fig.cap = 'Full format sensor'>>=
 full.nf.plot(85,1.2,max=100, log='xy')
 @
 
@@ -438,7 +439,7 @@ focussing distance and aperture in \Fref{fig:nearfar85}. The
 corresponding depth of field ($d_\mathrm{far} - d_\mathrm{near}$) is shown in \Fref{fig:dof85full}.
 
 
-<<dof85full, echo = FALSE, fig.cap = 'Full format sensor',warning=FALSE,results='hide'>>=
+<<dof85full, opts.label='myfigures', fig.cap = 'Full format sensor'>>=
 full.dof.plot(85, 1.2, log='xy',  y.e=15)
 @
 
@@ -471,100 +472,105 @@ $d_\mathrm{far}$.
 %\section{Viewing angle}
 %\label{sec:angle}
 %The viewing angle is determined by  the focal length $f$ and
+%
+% refer back to viewing angle section \ref{sec:view-angle}
+% to compare DOF for different fs at same field of view
+%
+%
 \cleardoublepage
 \appendix
 \section{DOF plots}
 \label{apdx:DOFplots}
 \subsection{DOF full format}
 \subsubsection{24mm}\label{sec:24}
-<<portrait24, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(24,'mm on full format sensor'), warning=FALSE,results='hide'>>=
+<<portrait24, opts.label='myfigures', fig.cap = paste0(24,'mm on full format sensor'),>>=
 full.dof.plot(24, 1.4, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
 \clearpage
 \subsubsection{35mm}\label{sec:35}
-<<portrait35, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(35,'mm on full format sensor'), warning=FALSE,results='hide'>>=
+<<portrait35, opts.label='myfigures', fig.cap = paste0(35,'mm on full format sensor')>>=
 full.dof.plot(35, 1.4, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
 \clearpage
 \subsubsection{50mm}\label{sec:50}
-<<portrait50, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(50,'mm on full format sensor'), warning=FALSE,results='hide'>>=
+<<portrait50, opts.label='myfigures', fig.cap = paste0(50,'mm on full format sensor')>>=
 full.dof.plot(50, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
 \clearpage
 
 \subsubsection{70mm}\label{sec:70}
-<<portrait70, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(70,'mm on full format sensor'), warning=FALSE,results='hide'>>=
+<<portrait70, opts.label='myfigures', fig.cap = paste0(70,'mm on full format sensor')>>=
 full.dof.plot(70, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
 \clearpage
 
 \subsubsection{85mm}\label{sec:85}
-<<portrait85, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(85,'mm on full format sensor'), warning=FALSE,results='hide'>>=
+<<portrait85, opts.label='myfigures', fig.cap = paste0(85,'mm on full format sensor')>>=
 full.dof.plot(85, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
 \clearpage
 \subsubsection{90mm}\label{sec:90}
-<<portrait90, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(90,'mm on full format sensor'), warning=FALSE,results='hide'>>=
+<<portrait90, opts.label='myfigures', fig.cap = paste0(90,'mm on full format sensor')>>=
 full.dof.plot(90, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
 \clearpage
 
 \subsubsection{100mm}\label{sec:100}
-<<portrait100, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(100,'mm on full format sensor'), warning=FALSE,results='hide'>>=
+<<portrait100, opts.label='myfigures', fig.cap = paste0(100,'mm on full format sensor')>>=
 full.dof.plot(100, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
 \clearpage
 
 \subsubsection{135mm}\label{sec:135}
-<<portrait135, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(135,'mm on full format sensor'), warning=FALSE,results='hide'>>=
+<<portrait135, opts.label='myfigures', fig.cap = paste0(135,'mm on full format sensor')>>=
 full.dof.plot(135, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15)
 @
 \clearpage
 \subsection{DOF APS-C}
 \subsubsection{24mm APS-C}\label{secAPS-C24}
-<<APS-Cportrait24, echo=FALSE, fig.height=7, fig.width=6, fig.cap = paste0(24,'mm on APS-C format sensor'), warning=FALSE,results='hide'>>=
+<<APS-Cportrait24, opts.label='myfigures', fig.cap = paste0(24,'mm on APS-C format sensor')>>=
 full.dof.plot(24, 1.4, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15, COC=0.018596)
 @
 \clearpage
 
 \subsubsection{35mm APS-C}\label{secAPS-C35}
-<<APS-Cportrait35, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(35,'mm on APS-C format sensor'), warning=FALSE,results='hide'>>=
+<<APS-Cportrait35, opts.label='myfigures', fig.cap = paste0(35,'mm on APS-C format sensor')>>=
 full.dof.plot(35, 1.4, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15, COC=0.018596)
 @
 \clearpage
 
 \subsubsection{50mm APS-C}\label{secAPS-C50}
-<<APS-Cportrait50, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(50,'mm on APS-C format sensor'), warning=FALSE,results='hide'>>=
+<<APS-Cportrait50, opts.label='myfigures', fig.cap = paste0(50,'mm on APS-C format sensor')>>=
 full.dof.plot(50, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15, COC=0.018596)
 @
 \clearpage
 
 \subsubsection{70mm APS-C}\label{secAPS-C70}
-<<APS-Cportrait70, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(70,'mm on APS-C format sensor'), warning=FALSE,results='hide'>>=
+<<APS-Cportrait70, opts.label='myfigures', fig.cap = paste0(70,'mm on APS-C format sensor')>>=
 full.dof.plot(70, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15, COC=0.018596)
 @
 \clearpage
 
 \subsubsection{85mm APS-C}\label{secAPS-C85}
-<<APS-Cportrait85, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(85,'mm on APS-C format sensor'), warning=FALSE,results='hide'>>=
+<<APS-Cportrait85, opts.label='myfigures', fig.cap = paste0(85,'mm on APS-C format sensor')>>=
 full.dof.plot(85, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15, COC=0.018596)
 @
 \clearpage
 
 \subsubsection{90mm APS-C}\label{secAPS-C90}
-<<APS-Cportrait90, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(90,'mm on APS-C format sensor'), warning=FALSE,results='hide'>>=
+<<APS-Cportrait90, opts.label='myfigures', fig.cap = paste0(90,'mm on APS-C format sensor')>>=
 full.dof.plot(90, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15, COC=0.018596)
 @
 \clearpage
 
 \subsubsection{100mm APS-C}\label{secAPS-C100}
-<<APS-Cportrait100, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(100,'mm on APS-C format sensor'), warning=FALSE,results='hide'>>=
+<<APS-Cportrait100, opts.label='myfigures', fig.cap = paste0(100,'mm on APS-C format sensor')>>=
 full.dof.plot(100, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15, COC=0.018596)
 @
 \clearpage
 
 \subsubsection{135mm APS-C}\label{secAPS-C135}
-<<APS-Cportrait135, echo=FALSE, fig.height=6, fig.width=6, fig.cap = paste0(135,'mm on APS-C format sensor'), warning=FALSE,results='hide'>>=
+<<APS-Cportrait135, opts.label='myfigures', fig.cap = paste0(135,'mm on APS-C format sensor')>>=
 full.dof.plot(135, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15, COC=0.018596)
 @
 \cleardoublepage
