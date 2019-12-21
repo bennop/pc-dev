@@ -1,27 +1,131 @@
-COC <- function(x,d,f,F,...){
+# Confucion circles
+
+#' Geometric circle of confusion
+#'
+#' Calculate the diameter of the circle of confusion (COC)
+#' as a function of distance given the parameters focus distance,
+#' focal length, and aperture derived from geometric considerations.
+#'
+#' Diffraction is ignored, see \code{\link{COC.comb}} for a combined treatment.
+#'
+#' @param x distance parameter
+#' @param d focus distance
+#' @param f focal length of lens
+#' @param F aperture
+#' @param ... ignored
+#'
+#' @return Diameter of geometric COC
+#' @export
+#'
+#' @examples
+COC.geom <- function(x,d,f,F,...){
   return(f^2/F*abs(d-x)/(x*(d-f)))
 }
 
-d.diff <- function(F, lambda = 500, ...){
+#' Confusion caused by diffraction
+#'
+#' Returns the diameter of the Airy disc (first minimum) for the given aperture
+#'
+#' @param lambda wavelength
+#' @param ... ignored
+#'
+#' @return
+#' @export
+#'
+#' @examples
+COC.diff <- function(F, lambda = 500, ...){
   # lambda in nm (= 1e-6 mm)
   return(2.44*(lambda*1e-6)*F)
 }
 
-# curve(cwdiff(x,1000,50,16),700,1400,  col='R', add = TRUE)
+# curve(COC.comb(x,1000,50,16),700,1400,  col='R', add = TRUE)
 
-cwdiff <- function(x, d, f, F, ...){
-  #return(1/sqrt(COC(x, d, f, F)^(-2) + d.diff(F)^(-2)))
-  return(sqrt(COC(x, d, f, F)^2 + d.diff(F)^2))
+#' Combined Circle of Confusion
+#'
+#' Consider the combined effects of geometry (from \code{\link{COC.geom}})
+#' and diffraction (from \code{\link{COC.diff}}) on the blurring of an
+#' acquired image
+#'
+#' @param x distance
+#' @param d focus distance
+#' @param f focal length
+#' @param F aperture
+#' @param ... passed to \code{\link{COC.diff}}
+#'
+#' @return diameter of the effective COC
+#' @export
+#'
+#' @examples
+COC.comb <- function(x, d, f, F, ...){
+  #return(1/sqrt(COC.geom(x, d, f, F)^(-2) + COC.diff(F)^(-2)))
+  return(sqrt(COC.geom(x, d, f, F)^2 + COC.diff(F, ...)^2))
 }
 
-near.ok <- function(d, f, F, coc = 0.03){
-  uniroot(function(x)cwdiff(x, d, f, F) - coc, interval = c(f, d))$root
+#' Near distance within focus
+#'
+#' Return minimum distance considered within focus
+#' (i.e., where the resulting COC does not exceed the desired target \code{coc})
+#' given the parameters focus distance, focal length, aperture, and target COC.
+#'
+#' CAVEAT: If the blurring by diffraction exceeds the target COC
+#' the desired focussing goal cannot be achieved and \code{NA} is returned.
+#'
+#' @param d focus distance
+#' @param f focal length
+#' @param F aperture
+#' @param coc target COC
+#' @param ... passed to \code{\link{COC.diff}}
+#'
+#' @return minimum distance in focus [mm]
+#' @export
+#'
+#' @examples
+near.ok <- function(d, f, F, coc = 0.03, ...){
+    return(ifelse(coc < COC.diff(F, ...),
+                  uniroot(function(x)COC.comb(x, d, f, F, ...) - coc, interval = c(f, d))$root,
+                  NA))
 }
 
-far.ok <- function(d, f, F, coc = 0.03){
-  uniroot(function(x)cwdiff(x, d, f, F) - coc, interval = c(d, 100*d))$root
+#' Far distance within focus
+#'
+#' Return maximum distance considered within focus
+#' (i.e., where the resulting COC does not exceed the desired target \code{coc})
+#' given the parameters focus distance, focal length, aperture, and target COC.
+#'
+#' CAVEAT: If the blurring by diffraction exceeds the target COC
+#' the desired focussing goal cannot be achieved and \code{NA} is returned.
+#'
+#' @param d focus distance
+#' @param f focal length
+#' @param F aperture
+#' @param coc target COC
+#' @param ... passed to \code{\link{COC.diff}}
+#'
+#' @return maximum distance in focus [mm]
+#' @export
+#'
+#' @examples
+far.ok <- function(d, f, F, coc = 0.03, ...){
+    return(ifelse(coc < COC.diff(F, ...),
+                  uniroot(function(x)COC.comb(x, d, f, F, ...) - coc, interval = c(d, 100*d))$root,
+                  NA))
 }
 
+#' Depth of Field (DoF)
+#'
+#' Calculatwe the effective depth of field given the parameters
+#'  focus distance, focal length, aperture, and target COC.
+#'
+#' @param d focus distance
+#' @param f focal length
+#' @param F aperture
+#' @param coc target COC
+#' @param ... passed to \code{\link{COC.diff}}
+#'
+#' @return DOF im mm
+#' @export
+#'
+#' @examples
 dof <- function(d, f, F, coc = 0.03){
   far.ok(d, f, F, coc) - near.ok(d, f, F, coc)
 }
@@ -32,9 +136,9 @@ DOF.plot <- function(d, f, F,
                      coc  = 0.03,
                      cmax = NULL,
                      ...){
-  dd <- d.diff(F, ...)
+  dd <- COC.diff(F, ...)
   coc.near <- ifelse(is.null(cmax),
-                     COC(near, d, f, F) + d.diff(F, ...),
+                     COC.geom(near, d, f, F) + COC.diff(F, ...),
                      cmax)
   if(dd<=coc){
     nr <- near.ok(d,f,F,coc)
@@ -57,7 +161,7 @@ DOF.plot <- function(d, f, F,
         yaxs = 'i',
         las  = 1)
   abline(h=coc, col = 'orange', lty = 2)
-  curve(cwdiff(x,d,f,F),
+  curve(COC.comb(x,d,f,F),
         near,
         far,
         n   = 301,
@@ -107,7 +211,7 @@ frac.lines <-  function(max.F = 32){
     # Rot	            620–780
     lambdas <- c(750, 700, 660,630,600, 580,540, 500, 460, 420, 380)
     suppressWarnings(for (i in seq_along(lambdas)){
-        curve(d.diff(x, lambdas[i]),
+        curve(COC.diff(x, lambdas[i]),
               1,
               max.F,
               col  = w2rgb(lambdas[i]),
