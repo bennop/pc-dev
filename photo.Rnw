@@ -91,6 +91,7 @@
 %%% BEGIN DOCUMENT ==============================================================
 
 \begin{document}
+%\SweaveOpts{concordance=TRUE}
 \pagestyle{scrheadings}
 \clearscrheadfoot
 \ifoot{\tiny{Benno Pütz}}
@@ -105,6 +106,7 @@
 
 <<init, echo = FALSE>>=
 source('photo.R')
+source('diffraction.R')
 opts_template$set(myfigures = list(echo=FALSE, fig.height=6, fig.width=6,  warning=FALSE, results='hide', fig.pos="htb"))
 @
 
@@ -221,10 +223,16 @@ legend('topright',
 \subsection{Circle of Confusion}
 \label{sec:coc}
 (see \cite{cocwiki})
-The CoC describes the blurring of a point source on the sensor. How
+The CoC describes the blurring of a point source on the sensor. There are two main factors contributing to blurring in the image acquisition, both related to the aperture of the lens:
+\begin{itemize}
+\item geometry for being out of focus (bokeh)
+\item diffraction of light waves on an aperture (ideally circular)
+\end{itemize}
+
+How
 big a CoC is acceptable depends on the desired resolution, not
-necessarily on the sensor but the resulting picture. For standard
-viewing distances approx.\ 30\,$\mu$m is assumed for full-format
+necessarily on the sensor but regarding the resulting picture. For standard
+viewing distances approx.\ 30\,$\mu$m is assumed acceptable  for full-format
 sensors, and appropriately scaled 18.6\,$\mu$m for an APS-C-sized
 sensor.
 
@@ -259,7 +267,7 @@ Model & \mctc{Sensor size [mm]} & \mctc{Pixels} & \mctc{Pix size [$\mu$m]} & COC
 \label{tab:coc}
 \end{table}%
 
-\subsection{Imaging equation}
+\subsection{Geometry: Imaging equation}
 \label{sec:im-eq}
 The basic equation underlying the imaging with an ideal lens states
 \begin{equation}
@@ -573,6 +581,37 @@ full.dof.plot(100, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15, COC=0
 <<APS-Cportrait135, opts.label='myfigures', fig.cap = paste0(135,'mm on APS-C format sensor')>>=
 full.dof.plot(135, 1.2, xlim=c(1,3), ylim = c(0.01,10), log="xy",  y.e=15, COC=0.018596)
 @
+\section{Derivation}
+For an effective lens aperture of $D$, focal length $f$ we find for
+the circle of confusion $c$
+\begin{equation}
+  \label{eq:deriv.start}
+  \frac c D =
+  \left\{\begin{array}{cc}\frac{v-v'}v\qquad\begin{array}{c}v>v'\\d<d'\end{array}\\
+                         \frac{v'-v}v\qquad\begin{array}{c}v<v'\\d>d'\end{array}\end{array}\right.
+\end{equation}
+where $v$ and $v'$ refer to image side distances, $d$ and $d'$ to
+object side distances. The primes indicated focus distances.
+\begin{equation}
+  \label{eq:d2F}
+  D = \frac f F
+\end{equation}
+\begin{equation}
+  \label{eq:v2d}
+  v \stackrel {\mathrm{Eq.}~\ref{eq:im-eq}}= \frac {df}{d-f}
+\end{equation}
+
+\begin{eqnarray}
+  \label{eq:c.deriv}
+  c &=& \frac fF  \frac{|v-v'|}v \\
+    &\stackrel {\mathrm{Eq.}~\ref{eq:v2d}}=& \frac Ff \frac{|\frac{df}{d-f} -
+                               \frac{d'f}{d'-f}|}{\frac {df}{d-f}}\\
+    &=& \frac fF \frac{|\frac{d}{d-f} -
+                               \frac{d'}{d'-f}|}{\frac {d}{d-f}}\\
+    &=& \frac fF \frac{|\frac{d(d'-f) - d'(d-f)}{d'-f}|}{d} \qquad d-f
+  > 0\\
+    &=& \frac {f^2}{dF} \frac{|d'-d|}{d'-f}
+ \end{eqnarray}
 \cleardoublepage
 %\bibliography{photo}
 %\bibliographystyle{plain}
