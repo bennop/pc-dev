@@ -33,7 +33,7 @@ COC.geom <- function(x,d,f,F,...){
 #' @export
 #'
 #' @examples
-COC.diff <- function(F, lambda = 500, ...){
+COC.diff <- function(F, lambda = 460, ...){
   # lambda in nm (= 1e-6 mm)
   return(2.44*(lambda*1e-6)*F)
 }
@@ -81,9 +81,10 @@ COC.comb <- function(x, d, f, F, ...){
 #'
 #' @examples
 near.ok <- function(d, f, F, coc = 0.03, ...){
-    return(ifelse(coc < COC.diff(F, ...),
-                  uniroot(function(x)COC.comb(x, d, f, F, ...) - coc, interval = c(f, d))$root,
+    nok <- sapply(F, function(myF)ifelse(coc > COC.diff(myF, ...),
+                  uniroot(function(x)COC.comb(x, d, f, myF, ...) - coc, interval = c(f, d))$root,
                   NA))
+    return(nok)
 }
 
 #' Far distance within focus
@@ -95,10 +96,11 @@ near.ok <- function(d, f, F, coc = 0.03, ...){
 #' CAVEAT: If the blurring by diffraction exceeds the target COC
 #' the desired focussing goal cannot be achieved and \code{NA} is returned.
 #'
-#' @param d focus distance
-#' @param f focal length
+#' All distances are assumed in mm.
+#' @param d focus distance [mm]
+#' @param f focal length [mm]
 #' @param F aperture
-#' @param coc target COC
+#' @param coc target COC [mm]
 #' @param ... passed to \code{\link{COC.diff}}
 #'
 #' @return maximum distance in focus [mm]
@@ -106,9 +108,19 @@ near.ok <- function(d, f, F, coc = 0.03, ...){
 #'
 #' @examples
 far.ok <- function(d, f, F, coc = 0.03, ...){
-    return(ifelse(coc < COC.diff(F, ...),
-                  uniroot(function(x)COC.comb(x, d, f, F, ...) - coc, interval = c(d, 100*d))$root,
-                  NA))
+    almost.inf <- 1e9
+    browser()
+    possible <- COC.diff(F, ...) < coc
+    reach.inf <- COC.comb(almost.inf, d, f, F) < coc
+    finite <- possible & !reach.inf
+    fok <- rep(Inf, length(F))
+    fok[!possible] <- NA
+    fok[finite] <- sapply(F[finite],
+                              function(myF)ifelse(coc > COC.diff(myF, ...),
+                                                  uniroot(function(x)COC.comb(x, d, f, myF, ...) - coc,
+                                                          interval = c(d, almost.inf))$root,
+                                                  Inf))
+    return(fok)
 }
 
 #' Depth of Field (DoF)
@@ -127,7 +139,7 @@ far.ok <- function(d, f, F, coc = 0.03, ...){
 #'
 #' @examples
 dof <- function(d, f, F, coc = 0.03){
-  far.ok(d, f, F, coc) - near.ok(d, f, F, coc)
+  return(far.ok(d, f, F, coc) - near.ok(d, f, F, coc))
 }
 
 DOF.plot <- function(d, f, F,
@@ -233,6 +245,17 @@ frac.lines <-  function(max.F = 32){
     abline(h=c(4.3, 5.4, 18.6, 30)/1000, col = 'orange', lty = 3:2)
 }
 
+#' Wavelength to RGB
+#'
+#' @param w wavelength [nm]
+#' @param gamma gamma
+#' @param components return as components
+#' @param version which version of conversion to use (1..3)
+#'
+#' @return RGB color (unless \code{components} is TRUE, in which case a vector [r,g,b] is returned)
+#' @export
+#'
+#' @examples
 w2rgb <- function(w,
                   gamma      = 0.8,
                   components = FALSE,
