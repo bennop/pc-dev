@@ -132,7 +132,7 @@ Sensor Type                                                                     
 1/2.3" Type  {\small (Canon PowerShot SX280HS, \ldots)}                                                                        & 7.66          & 6.17        & 4.56        & 28.07                               & 31                                       & 5.6                                     \\
 1/1.7"  {\small (Canon PowerShot S95, \ldots)}                                                                                  & 9.30          & 7.44        & 5.58        & 41.51                               & 21                                       & 4.7                                     \\
 1/1.7"  {\small (Pentax Q7)}                                                                                                               & 9.50          & 7.60        & 5.70        & 43.30                               & 20                                       & 4.6                                     \\
-2/3"  {\small (Nokia Lumia 1020 w/ 41 MP; Fujifilm X-S1, \ldots)}                                                    & 11.00         & 8.80        & 6.60        & 58.10                               & 15                                       & 3.9                                     \\
+2/3"  {\small (Nokia Lumia 1020 w/ 41\,MP; Fujifilm X-S1, \ldots)}                                                    & 11.00         & 8.80        & 6.60        & 58.10                               & 15                                       & 3.9                                     \\
 Standard 16\,mm Film Frame                                                                                                         & 12.7          & 10.26       & 7.49        & 76.85                               & 11                                       & 3.4                                     \\
 1" Type  {\small (Sony RX100 \& RX10, Nikon CX, Panasonic ZS100, \ldots)} & 15.86         & 13.20       & 8.80        & 116                                 & 7.4                                      & 2.7                                     \\
 Micro Four Thirds, 4/3"                                                                                                           & 21.60         & 17.30       & 13          & 225                                 & 3.8                                      & 2.0                                     \\
@@ -168,7 +168,7 @@ vaplot(d = add.diag(36, 24),
 par(opar)
 @
 
-As  can be seen from the log-log-plot, the angle is inversely proportional to the focal length $f$, at least for longer $f$:
+As  can be seen from the log-log-plot, the angle is inversely proportional to the focal length $f$ for sufficiently large $f$ ($\gtrsim50$\,mm):
 \begin{equation}
 \varphi \propto \frac1f
 \end{equation}
