@@ -12,10 +12,14 @@
 ##' @title go
 ##' @return none
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
+##'
 ##' @param n number of LaTeX runs
 ##' @param bib run BibTeX?                 (not yet implemented)
 ##' @param index create index?             (not yet implemented)
 ##' @param indexcmd command to create index file
+##' @param latexcmd command to invoke LaTeX
+##' @param bibcmd   command to create bib file
+##' @param ltx.opts other options to LaTeX
 ##' @param base basename of project files
 go <- function(n        = 1,
                bib      = FALSE,
@@ -56,7 +60,8 @@ go <- function(n        = 1,
 #
 ##' Standard F stops
 ##'
-##' F-stops in steps of 1/3, setting \code{by} to 3 or 6 gives steps of 1 (i.e., half the light) or 2 (one quarter per step).
+##' F-stops in steps of 1/3, setting \code{by} to 3 or 6 gives steps 
+##' of 1 (i.e., half the light) or 1/2 (one quarter per step).
 ##'
 ##' Starting and final aperture are inserted if they are not part of the requested series.
 ##' ##' @title f.values
@@ -66,6 +71,10 @@ go <- function(n        = 1,
 ##' @param ... not used
 ##' @return vector of F-stops
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
+#'
+#' @examples
+#' f.values()
+#' f.values(2.8, 11, by = 6)
 f.values <- function(from = 1.0,
                      to   = 22,
                      by   =  1,
@@ -84,6 +93,20 @@ f.values <- function(from = 1.0,
     return(fss[fss >= from & fss <= to])
 }
 
+#' unique-sort
+#'
+#' Return a sorted vector of the unique values in the input vector
+#' @param vector a vector or something that can be coerced to a vector
+#' @param ... passed to \code{sort}
+#'
+#' @return sorted vector of the unique values in the input vector
+#' @export
+#'
+#' @examples
+#' u.s(c(1:3, 8:3, 6:9))
+u.s <- function(vector, ...){
+    return(unique(sort(as.vector(vector), ...)))
+}
 
 ##' Depth of Field (DOF)
 ##'
@@ -96,6 +119,10 @@ f.values <- function(from = 1.0,
 ##' @param verbose if set print near-depth-far
 ##' @return two-element vector with near and far focussing limits [m]
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
+#'
+#' @examples
+#' dof(1)           # 85mm @ F/1.2
+#' dof(3, 16, 11)
 dof <- function(d,
                 f   = 85,
                 F   = 1.2,
@@ -146,6 +173,7 @@ b <- function(g, f, ...){
 #'
 #' @examples
 mag <- function(g, f, ...){
+    # internally all im [mm]
     return(f/(g*1000-f))
 }
 
@@ -171,9 +199,18 @@ get.nf <- function(f,
                    max   = 100,
                    COC   = 0.03,
                    quiet = FALSE,
+                   verbose = getOption('verbose'),
                    ...){
     H <- HFD(f, F, COC)
-    x <- if(min==max) min else unique(c(min,ceiling(min):ceiling(max)))
+    x <- if(min==max) {
+        min 
+    } else {
+        full.x <- u.s(c(min,
+                        seq(.5, 19.5, by = 1),
+                        seq(.25, 9.75, by = 0.5),
+                        ceiling(min):ceiling(max)))
+        full.x[full.x >= min & full.x <= ceiling(max)]
+    }
     nf <- data.frame(x,
                      t(sapply(x,
                               FUN = dof,
@@ -181,7 +218,10 @@ get.nf <- function(f,
                               F   = F,
                               COC = COC)))
     if(max>H){
-        cat(sprintf("HFD(%dmm,%2g): %.2fm\n",f, F, H))
+        # adjust output ?
+        if(verbose){
+            cat(sprintf("HFD(%dmm,%2g): %.2fm\n",f, F, H))
+        }
     }
     dimnames(nf) <- list(x,
                          c('dist', 'near', 'far'))
@@ -193,6 +233,7 @@ get.nf <- function(f,
                      range  <- far - near
                  }
                  )
+    attr(nf, 'aperture') <- F
     return(nf)
 }
 
@@ -233,7 +274,8 @@ get.all.nf <- function(f, F0, Fn = 22, ...){
 plot.nf <- function(nf, f=NULL, add = FALSE, ...){
     if (!add){
         plot(c(min(nf[,1]), max(nf[,1])),
-             c(min(nf[,3]), min(max(nf[,3]), 4*max(nf[,1]) )),
+             c(min(nf[,3]), min(  max(nf[,3]), 
+                                4*max(nf[,1]) )),
              type = 'n',
              xlab = 'Focus Distance',
              ylab = 'Focus Range',
@@ -284,6 +326,10 @@ full.nf.plot <- function(f, F0, Fn=22, ..., maxfr=NULL){
                 side     = 3,
                 col      = cols[i],
                 lwd      = 1)
+            abline(v   = H,
+                   col = adjustcolor(cols[i], 
+                                     alpha.f = 0.4,
+                                     lty = 3))
         }
     }
     legend('topleft',
@@ -295,6 +341,17 @@ full.nf.plot <- function(f, F0, Fn=22, ..., maxfr=NULL){
     return(invisible(all.nf))
 }
 
+#' Title
+#'
+#' @param nf 
+#' @param add add to existing plot?
+#' @param max.d maximum distance [max(xlim)]
+#' @param ... pass to \code{lines}
+#'
+#' @return
+#' @export
+#'
+#' @examples
 cb.plot <- function(nf, add = FALSE, max.d = 1e4, ...){
     if(!add){
         plot(0:1, 0:1,
@@ -306,7 +363,7 @@ cb.plot <- function(nf, add = FALSE, max.d = 1e4, ...){
              xlab = 'Distance  [m]',
              ylab = ' Focus spread [m]')
         lines(range(nf[, 'dist']),
-              rep(0,2),
+              rep(0, 2),
               lty = 3,
               col = 'lightgrey')
     }
@@ -326,7 +383,7 @@ ratio.plot <- function(nf, add = FALSE,  ...){
              xlab = 'Distance  [m]',
              ylab = 'Ratio',
              las  = 1)
-        abline(h=0:10/10,
+        abline(h = 0:10/10,
               lty = 3,
               col = 'lightgrey')
     }
@@ -342,16 +399,22 @@ ratio.plot <- function(nf, add = FALSE,  ...){
 ##'
 ##' .. content for \details{} ..
 ##' @title Single
-##' @param nf
+##' @param nf near.far
 ##' @param f focal length of  lens [mm]
 ##' @param add add to  existing plot? Otherwise  set  up plot
 ##' @param y.ext
 ##' @param ...
-##' @return
+##' @return none
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
-dof.plot <- function(nf, f, add = FALSE, y.ext = 1, ...){
+dof.plot <- function(nf, f, 
+                     col = 'red', 
+                     add = FALSE, 
+                     y.ext = 1,
+                     ...){
     if (!add){
-        plot(c(min(nf[,1]), max(nf[,1])),
+        plot(c(min(nf[,1]), 
+               min(max(nf[,1]),
+                   HFD(f, attr(nf, 'aperture')))),
              c(min(nf[,4]), min(max(nf[,4])* y.ext, 4* max(nf[,1]))),
              type = 'n',
              xlab = 'Focus Distance [m]',
@@ -359,7 +422,7 @@ dof.plot <- function(nf, f, add = FALSE, y.ext = 1, ...){
              main = sprintf('Depth of Field [f=%dmm]', f),
              las  = 1,
              ...)
-
+        grid()
     }
     lines(nf[,1], nf[,4], ...)
     pu <- par('usr')
@@ -416,6 +479,10 @@ full.dof.plot <- function(f,
             side     = 3,
             col      = cols[i],
             lwd      = 1)
+        abline(v   = H,
+               col = adjustcolor(cols[i], 
+                                 alpha.f = 0.4,
+                                 lty = 3))
         #}
     }
     legend('topleft',
