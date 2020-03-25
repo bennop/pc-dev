@@ -186,13 +186,16 @@ mag <- function(g, f, ...){
 ##' @title get near and far limits
 ##' @param f focal length of  lens [mm]
 ##' @param F aperture
-##' @param min minimum distance
-##' @param max maximum distance
-##' @param COC circle of confusion
+##' @param min minimum distance [m]
+##' @param max maximum distance [m]
+##' @param COC circle of confusion [mm]
 ##' @param ... not used
 ##' @return dataframe with columns
 ##'                    distance, near, far, range, close, behind, ratio
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
+##' 
+##' @examples 
+##' get.nf(50, 1.4)
 get.nf <- function(f,
                    F,
                    min   = 1,
@@ -233,7 +236,9 @@ get.nf <- function(f,
                      range  <- far - near
                  }
                  )
+    attr(nf, 'focal length') <- f
     attr(nf, 'aperture') <- F
+    attr(nf, 'coc') <- COC
     return(nf)
 }
 
@@ -247,11 +252,14 @@ get.nf <- function(f,
 ##' @param ... pass to \code{\link{get.all.nf}}x
 ##' @return array with slices for aperture and columns distance, near, far, range for each
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
+##' 
+##' @examples 
+##' get.all.nf(50, 1.4, 16)
 get.all.nf <- function(f, F0, Fn = 22, ...){
     Fs <- f.values(F0, Fn, by = 3)
     sq <- seq_along(Fs)
-    cols <- rainbow(length(sq), end = 0.6)
-    nf1 <- get.nf(f, F, ...)
+    ## cols <- rainbow(length(sq), end = 0.6)
+    ## nf1 <- get.nf(f, F, ...)
     all.nf <- sapply(Fs,
                      function(F) as.matrix(get.nf(f, F, ...)),
                      simplify = 'array')
@@ -261,7 +269,7 @@ get.all.nf <- function(f, F0, Fn = 22, ...){
     return(all.nf)
 }
 
-##' Plot near and far limits vs. focussing distance for a single aperture
+##' Plot near and far limits vs. focussing distance for a single aperture and given focal length
 ##'
 ##' .. content for \details{} ..
 ##' @title Near/far plot
@@ -282,10 +290,10 @@ plot.nf <- function(nf, f=NULL, add = FALSE, ...){
              main = sprintf('Near and far focusing limits [f=%dmm]', f),
              las  = 1,
              ...)
-        lines(nf[,1], nf[,1], lty = 2, col  = 'lightgray')
+        lines(nf[,1], nf[,1], lty = 2, col  = 'lightgray')    # "diagonal"
     }
-    lines(nf[,1], nf[,2], ...)
-    lines(nf[,1], nf[,3], ...)
+    lines(nf[,1], nf[,2], ...)     # near
+    lines(nf[,1], nf[,3], ...)     # far
 }
 
 ##' Plot near and far limits vs. focussing distance for a set of apertures
@@ -374,6 +382,16 @@ cb.plot <- function(nf, add = FALSE, max.d = 1e4, ...){
 
 }
 
+#' Ratio plot
+#'
+#' @param nf 
+#' @param add 
+#' @param ... 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 ratio.plot <- function(nf, add = FALSE,  ...){
     if(!add){
         plot(0:1, 0:1,
@@ -406,6 +424,8 @@ ratio.plot <- function(nf, add = FALSE,  ...){
 ##' @param ...
 ##' @return none
 ##' @author Benno Pütz \email{puetz@@psych/mpg.de}
+##' 
+##' @examples 
 dof.plot <- function(nf, f, 
                      col = 'red', 
                      add = FALSE, 
