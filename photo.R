@@ -11,7 +11,7 @@
 ##' CAVEAT: if there is a problem in runnning \code{latexcmd}, it is necessary to kill the command from an external shell to regain control on the Console command line.
 ##' @title go
 ##' @return none
-##' @author Benno Pütz \email{puetz@@psych/mpg.de}
+##' @author Benno Pütz \email{puetz@@psych.mpg.de}
 ##'
 ##' @param n number of LaTeX runs
 ##' @param bib run BibTeX?                 (not yet implemented)
@@ -70,7 +70,7 @@ go <- function(n        = 1,
 ##' @param by stride  in sequence to return, see details
 ##' @param ... not used
 ##' @return vector of F-stops
-##' @author Benno Pütz \email{puetz@@psych/mpg.de}
+##' @author Benno Pütz \email{puetz@@psych.mpg.de}
 #'
 #' @examples
 #' f.values()
@@ -97,7 +97,7 @@ f.values <- function(from = 1.0,
 
 ##' Depth of Field (DOF)
 ##'
-##' CoC-based calculation of depth of field
+##' CoC-based calculation of depth of field (diffraction ignored)
 ##' @title Depth of field
 ##' @param d focussing distance    [m]
 ##' @param f focal length of  lens [mm]
@@ -105,11 +105,11 @@ f.values <- function(from = 1.0,
 ##' @param COC circle of confusion [mm]
 ##' @param verbose if set print near-depth-far
 ##' @return two-element vector with near and far focussing limits [m]
-##' @author Benno Pütz \email{puetz@@psych/mpg.de}
+##' @author Benno Pütz \email{puetz@@psych.mpg.de}
 #'
 #' @examples
-#' dof(1)           # 85mm @ F/1.2
-#' dof(3, 16, 11)
+#' dof(1)           # 85mm w/ F/1.2 @ 1m
+#' dof(3, 16, 11)   # 16mm w/ F/11  @ 3m
 dof <- function(d,
                 f   = 85,
                 F   = 1.2,
@@ -166,50 +166,67 @@ mag <- function(g, f, ...){
 
 #' Vector of default distances for \code{\link{get.nf}}
 #'
-##' @param min minimum distance       [m]  [[   1]]
-##' @param max maximum distance       [m]  [[ 100]]
-##' @param n number of points to calculate [[ 500]]
+#' @param min minimum distance       [m]  [[   1]]
+#' @param max maximum distance       [m]  [[ 100]]
+#' @param n number of points to calculate [[ 500]]
+#' @param ... ig
 #'
-#' @return vecor of distance values
-#' @export
+#' @return vector of distance values
+#' @author Benno Pütz \email{puetz@@psych.mpg.de}
 #'
 #' @examples
-dist.defaults <- function(min =   1,
-                          max = 100,
-                          n   = 501){
-    return(u.s(c(min,
-                 seq(.5, 19.5, by = 1),
-                 seq(.25, 9.75, by = 0.5),
-                 seq(ceiling(min),
-                     ceiling(max),
-                     length.out = n))))
+#' dist.defaults()
+dist.defaults <- function(min  =   1,
+                          max  = 100,
+                          step = NULL,
+                          n    = 500,
+                          ...){
+    if(is.null(step)){
+        step.options  <- outer(1/c(1,2,4,5), 10^(0:(-2)))
+        rng <- max - min
+        step <- step.options[which.min((rng/n - step.options)^2)]
+    }
+    return(unique(c(min,
+                    seq(min + step - min %% step,
+                        max,
+                        by = step),
+                    max)))
 }
 
 # near/far focus
 #
 ##' Get near and far limits for a single aperture (given focal length and CoC)
 ##'
-##' Thhe limits are calculated for distances between \code{min} and \code{max}
+##' The limits are calculated for distances between \code{min} and \code{max}
 ##' and returned with range, before, after, and before/after ratio
+##'
+##' The near and far limits indicate object distances where the blurring of
+##' point sources reaches \code{COC}
 ##' @title get near and far limits
 ##' @param f focal length of lens     [mm]
 ##' @param F aperture
 ##' @param min minimum distance       [m]  [[   1]]
-##' @param max maximum distance       [m]  [[ 100]]
+##' @param max force maximum distance [m]  [[    ]]
 ##' @param COC circle of confusion    [mm] [[0.03]]
 ##' @param n number of points to calculate [[ 500]]
 ##' @param x.vec predefined vector for x
 ##' @param ... not used
 ##' @return dataframe with columns
-##'                    distance, near, far, range, close, behind, ratio
-##' @author Benno Pütz \email{puetz@@psych/mpg.de}
+##' \item{distance}{focus distance (d)}
+##' \item{near}{near limit}
+##' \item{far}{far limit}
+##' \item{range}{distance between near and far (far-near), i.e., depth of field (DOF)}
+##' \item{close}{DOF range in front of focus distance (d-near)}
+##' \item{behind}{DOF range behind focus distance (far-d)}
+##' \item{ratio}{ratio behind/close}
+##' @author Benno Pütz \email{puetz@@psych.mpg.de}
 ##'
 ##' @examples
 ##' get.nf(50, 1.4)
 get.nf <- function(f,
                    F,
                    min   = 0.5,
-                   max   = 100,
+                   max   = NULL,
                    COC   = 0.03,
                    n     = 500,
                    x.vec = NULL,
@@ -217,7 +234,7 @@ get.nf <- function(f,
                    verbose = getOption('verbose'),
                    ...){
     H <- HFD(f, F, COC)
-    max<- min(max, max(H))
+    if(is.null(max)) max <- max(H)
     x <- if(is.null(x.vec)){
         if(min==max) {
             min
@@ -258,24 +275,44 @@ get.nf <- function(f,
 
 ##' Get near and far limits for a set of apertures (given focal length and CoC)
 ##'
-##' .. content for \details{} ..
+##' Extended version of \code{\link{get.nf}} to handle multiple apertures.
+##'
 ##' @title  Get near and far limits
 ##' @param f focal length of  lens [mm]
 ##' @param F0 starting (maximum) aperture (smallest F number)
 ##' @param Fn final (minimum) aperture (largest F number)
-##' @param ... pass to \code{\link{get.all.nf}}x
-##' @return array with slices for aperture and columns distance, near, far, range for each
-##' @author Benno Pütz \email{puetz@@psych/mpg.de}
+##' @param all.nf provide precomputed value
+##' @param ... pass to \code{\link{get.all.nf}}
+##' @return array with \code{nf}-type slices for
+##' each aperture. The slice columns are (see \code{\link{get.nf}})
+##' \item{distance}{focus distance (d)}
+##' \item{near}{near limit}
+##' \item{far}{far limit}
+##' \item{range}{distance between near and far (far-near), i.e., depth of field (DOF)}
+##' \item{close}{DOF range in front of focus distance (d-near)}
+##' \item{behind}{DOF range behind focus distance (far-d)}
+##' \item{ratio}{ratio behind/close}
+##' @author Benno Pütz \email{puetz@@psych.mpg.de}
 ##'
 ##' @examples
 ##' get.all.nf(50, 1.4, 16)
-get.all.nf <- function(f, F0, Fn = 22, ...){
+get.all.nf <- function(f,
+                       F0,
+                       Fn = 22,
+                       max = NULL,
+                       ...){
     Fs <- f.values(F0, Fn, by = 3)
     sq <- seq_along(Fs)
-    ## cols <- rainbow(length(sq), end = 0.6)
-    max.hfd <- HFD(f, max(Fs), ...)
-    dist.vec <- dist.defaults(...)
+
+    max.hfd <- HFD(f, min(Fs), ...)   # largest HFD for minmum aperture value
+
+    dist.vec <- dist.defaults(max = ifelse(is.null(max),
+                                           max.hfd,
+                                           max),
+                              ...)
+
     nf1 <- get.nf(f, F, ..., x.vec = dist.vec) # needed for dimnames below
+
     all.nf <- sapply(Fs,
                      function(F) as.matrix(get.nf(f, F, ..., x.vec = dist.vec)),
                      simplify = 'array')
@@ -298,7 +335,7 @@ get.all.nf <- function(f, F0, Fn = 22, ...){
 ##' @param ...
 ##'
 ##' @return
-##' @author Benno Pütz \email{puetz@@psych/mpg.de}
+##' @author Benno Pütz \email{puetz@@psych.mpg.de}
 ##'
 ##' @examples
 ##' nf <- get.nf(50, 1.4)
@@ -309,6 +346,7 @@ plot.nf <- function(nf,
                      col = 'red',
                      add = FALSE,
                      y.ext = 1,
+                     log = '',
                      ...){
     need <- ''
     if(is.null(f)){
@@ -316,7 +354,7 @@ plot.nf <- function(nf,
         if(is.null(f)) need <- c(need, "f")
     }
     if(is.null(F)){
-        F <- attr(nf, 'focal length')
+        F <- attr(nf, 'aperture')
         if(is.null(F)) need <- c(need, "F")
 
     }
@@ -326,24 +364,125 @@ plot.nf <- function(nf,
     hfd <- HFD(f, F)
     if (!add){
         plot(1,
-             type = 'n',        # empty plot
-             xlim = c(0,
+             type = 'n',                                  # empty plot to start with
+             xlim = c(ifelse(grepl('x', log), min(nf[,1]),  0),
                       min(max.finite(nf[,1]),
                           max.finite(hfd))),    # na.rm = TRUE does not remove Inf values
-             ylim = c(0,
-                      min(max.finite(nf[,4])* y.ext,
+             ylim = c(ifelse(grepl('y', log), min(nf[,2:3]),  0),
+                      min(max.finite(unlist(nf[,2:3])) * y.ext,
                           max.finite(hfd),
-                          4* max.finite(nf[,1]))),
-             xlab = 'Focus Distance',
+                          4 * max.finite(nf[,1]))),
+             xlab = 'Focus Distance [m]',
              ylab = 'Focus Range',
              main = sprintf('Near and far focusing limits [f=%dmm]', f),
              las  = 1,
+             log  = log,
              ...)
         lines(nf[,1], nf[,1], lty = 2, col  = 'lightgray')    # "diagonal"
     }
     lines(nf[,1], nf[,2], col = col, ...)     # near
     lines(nf[,1], nf[,3], col = col, ...)     # far
 }
+
+##' Common basis for plots off the near-far (\code{nf}) dataframe obtained
+##' through \code{\link{get.nf}}
+##'
+##' One or more columns of \code{nf} are plotted over the focus distance
+##' (first column).
+##'
+##' Usually, i.\,e. when obtaining \code{nf} from  \code{\link{get.nf}},
+##' focal length and aperture are included as attributes. In cases of other
+##' origin, e.g., as a slice of  \code{\link{get.all.nf}}, these values should
+##' be provided via the corresponding parameters. Otherwise the function aborts
+##' with an error.
+##' @title
+##' @param nf from \code{\link{get.nf}}
+##' @param plot.columns which columns of \code{nf} do plot
+##' @param f focal length (needed when not provided as attrbiute to \code{nf})
+##' @param F aperture     (likewise, see description)
+##' @param col color
+##' @param add whether to add to existing plot
+##' @param y.ext
+##' @param log log axes?
+##' @param main pass to plot
+##' @param ylab pass to plot
+##' @param ...
+##' @return none
+##' @author Benno Pütz \email{puetz@@psych.mpg.de}
+nf.plot.base <- function(nf,
+                         plot.columns = 4,
+                         f   = NULL,
+                         F   = NULL,
+                         col = 'red',
+                         add = FALSE,
+                         y.ext = 1,
+                         log = '',
+                         main = paste(names(nf)[plot.columns],
+                                     collapse=' '),
+                         ylab = NULL,
+                         diag = TRUE,
+                         hfd  = TRUE,
+                         ...){
+    need <- ''
+    if(is.null(f)){
+        f <- attr(nf, 'focal length')
+        if(is.null(f)) need <- c(need, "f")
+    }
+    if(is.null(F)){
+        F <- attr(nf, 'aperture')
+        if(is.null(F)) need <- c(need, "F")
+
+    }
+    if(length(need)>1){
+        stop("Please provide ", paste(need[-1], collapse = " and "), ".")
+    }
+    hfd <- HFD(f, F)
+    if (!add){
+        plot(1,
+             type = 'n',                                  # empty plot to start with
+             xlim = c(ifelse(grepl('x', log), min(nf[,1]),  0),
+                      min(max.finite(nf[,1]),
+                          max.finite(hfd))),    # na.rm = TRUE does not remove Inf values
+             ylim = c(ifelse(grepl('y', log), min(nf[, plot.columns]),  0),
+                      min(max.finite(unlist(nf[, plot.columns])) * y.ext,
+                          4 * max.finite(nf[,1]))),
+             xlab = 'Focus Distance [m]',
+             ylab = ylab,
+             main = main,
+             las  = 1,
+             log  = log,
+             ...)
+        if(diag)
+            lines(nf[,1], nf[,1], lty = 2, col  = 'lightgray')    # "diagonal"
+    }
+    for (i in plot.columns){
+        lines(nf[,1], nf[,i], col = col, ...)
+    }
+    if(hfd)
+        show.HFD(HFD(f, F), col = col, ...)
+}
+
+dof2.plot <- function(nf,
+                      f = NULL,
+                      ...){
+    nf.plot.base(nf,
+                 ...,
+                 plot.columns = 4,
+                 ylab = 'Depth [m]',
+                 main = 'Depth of Field',
+                 diag = FALSE)
+}
+
+nf2.plot <-  function(nf,
+                      f = NULL,
+                      ...){
+    nf.plot.base(nf,
+                 ...,
+                 plot.columns = 2:3,
+                 ylab = 'Focus Range',
+                 main = 'Near and far focusing limit')
+}
+
 
 ##' Plot near and far limits vs. focussing distance for a set of apertures
 ##'
@@ -355,7 +494,7 @@ plot.nf <- function(nf,
 ##' @param ...
 ##' @param maxfr not used
 ##' @return \code{all.nf} (invisibly)
-##' @author Benno Pütz \email{puetz@@psych/mpg.de}
+##' @author Benno Pütz \email{puetz@@psych.mpg.de}
 full.nf.plot <- function(...){
     full.plot.base(plot.nf, ...)
     ## Fs <- f.values(F0, Fn, by=3)
@@ -430,7 +569,11 @@ full.plot.base <- function(plot.fun,
     all.nf <- get.all.nf(f, F0, Fn=Fn, ...)
 
     new <- TRUE
-    for (i in sq){   # start with max aperture?
+
+    ## set up plot with full axis ranges
+    x.range <-
+
+    for (i in rev(sq)){   # start with max aperture?
 
         plot.fun(all.nf[,,i],
                  f   = f,
@@ -483,7 +626,7 @@ full.plot.base <- function(plot.fun,
 #'
 #' @return
 #' @export
-#' @author Benno Pütz \email{puetz@@psych/mpg.de}
+#' @author Benno Pütz \email{puetz@@psych.mpg.de}
 #'
 #' @examples
 cb.plot <- function(nf, add = FALSE, max.d = 1e4, ...){
@@ -517,7 +660,7 @@ cb.plot <- function(nf, add = FALSE, max.d = 1e4, ...){
 #'
 #' @return none
 #' @export
-#' @author Benno Pütz \email{puetz@@psych/mpg.de}
+#' @author Benno Pütz \email{puetz@@psych.mpg.de}
 #'
 #' @examples
 ratio.plot <- function(nf, add = FALSE,  ...){
@@ -551,7 +694,7 @@ ratio.plot <- function(nf, add = FALSE,  ...){
 ##' @param y.ext y extension
 ##' @param ... passed to \code{plot} and \code{\link{HFD}}
 ##' @return none
-##' @author Benno Pütz \email{puetz@@psych/mpg.de}
+##' @author Benno Pütz \email{puetz@@psych.mpg.de}
 ##'
 ##' @examples
 ##' dof.plot(get.nf(50, 1.4)
@@ -561,6 +704,7 @@ dof.plot <- function(nf,
                      col = 'red',
                      add = FALSE,
                      y.ext = 1,
+                     log = '',
                      ...){
     need <- ''
     if(is.null(f)){
@@ -581,27 +725,22 @@ dof.plot <- function(nf,
     if (!add){
         plot(1,
              type = 'n',        # empty plot
-             xlim = c(0,
-                      min(max.finite(nf[,1]),
-                          max.finite(hfd))),    # na.rm = TRUE does not remove Inf values
-             ylim = c(0,
-                      min(max.finite(nf[,4])* y.ext,
-                          max.finite(hfd),
-                          4* max.finite(nf[,1]))),
+             xlim = c(ifelse(grepl('x', log), min(nf[,1]),  0),
+                      min(max(nf[,1]),
+                          hfd)),
+             ylim = c(ifelse(grepl('y', log), min(nf[,2:3]),  0),
+                      min(max.finite(unlist(nf[,2:3])) * y.ext,
+                          max.finite(hfd),  # na.rm = TRUE does not remove Inf values
+                          4 * max.finite(nf[,1]))),
              xlab = 'Focus Distance [m]',
              ylab = 'Depth [m]',
              main = sprintf('Depth of Field [f=%dmm]', f),
              las  = 1,
+             log  = log,
              ...)
         grid()
     }
     lines(nf[,1], nf[,4], col = col, ...)
-    pu <- par('usr')
-    text(10^pu[2], 10^(pu[3]+(pu[4]-pu[3])/200),
-         "Benno Pütz, bpfoto@online.de ",
-         adj = c(1, 0),
-         cex = 0.6,
-         col = grey(0.95))
 }
 
 ##' DOF plot for all f stops
@@ -615,7 +754,7 @@ dof.plot <- function(nf,
 ##' @param y.ext
 ##' @param ...  pass to \code{\link{all.nf}}, \code{\link{HFD}}, \code{\link{dof.plot}}
 ##' @return invisibly return \code{nf} array (see \code{\link{get.all.nf}})
-##' @author Benno Pütz \email{puetz@@psych/mpg.de}
+##' @author Benno Pütz \email{puetz@@psych.mpg.de}
 full.dof.plot <- function(#f,
                           #F0,
                           #n    = 22,
@@ -680,7 +819,7 @@ full.dof.plot <- function(#f,
 #' @param lty type for vertical lines
 #' @param alpha transparency for vertical lines
 #' @param ticksize length of rug lines
-#' @param ...
+#' @param ... ignored
 #'
 #' @return none
 #'
@@ -732,7 +871,7 @@ show.HFD <- function(hfd,
 ##' @param COC  acceptable circle of confusion   [mm]
 ##' @param ...
 ##' @return HFD in [m]
-##' @author Benno Pütz \email{puetz@@psych/mpg.de}
+##' @author Benno Pütz \email{puetz@@psych.mpg.de}
 ##'
 ##' @examples
 ##' HFD(50, 8)
@@ -745,7 +884,8 @@ HFD <- function(f,
                 ...){
     if (length(f)>1 && length(F)>1){
         ### hfd <- outer(f, F, HFD)   # bad recursion
-        hfd <- sapply(f, function(fl) HFD(fl, F=F, COC=COC))
+        hfd <- sapply(f,
+                      function(fl) HFD(fl, F=F, COC=COC))
         dimnames(hfd) <- list(aperture     = F,
                               focal.length = f)
 
@@ -762,7 +902,7 @@ HFD <- function(f,
 ##' @param f focal length of  lens [mm]
 ##' @param ... pass to \code{\link{f.values}}, \code{\link{points}}, \code{\link{plot}}
 ##' @return none
-##' @author Benno Pütz \email{puetz@@psych/mpg.de}
+##' @author Benno Pütz \email{puetz@@psych.mpg.de}
 HFD.plot <- function(f,           # [mm]
                      F0  = 1,
                      COC = 0.03,  # [mm]
@@ -830,7 +970,7 @@ HFD.plot <- function(f,           # [mm]
 ##' @title Hyperfocal plot
 ##' @param ... passed to \code{\link{HFD.plot}}
 ##' @return none
-##' @author Benno Pütz \email{puetz@@psych/mpg.de}
+##' @author Benno Pütz \email{puetz@@psych.mpg.de}
 Hyperfocal.plot <- function(...){
     ## list of focal lengths (f) and corresponding maximum apertures (F)
     ## for some interesting lenses (zoom lenses are treated as two
