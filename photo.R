@@ -136,14 +136,18 @@ dof <- function(d,
 
 #' image distance
 #'
+#' Distance of focus plane (sensor/film) behind lens
+#'
 #' @param g object distance [m]
 #' @param f focal length [mm]
 #' @param ... not used
 #'
 #' @return image distance [mm]
 #' @export
-#'
+#' @author Benno Pütz \email{puetz@@psych.mpg.de}
+##'
 #' @examples
+#'
 b <- function(g, f, ...){
     gmm <- g*1000
     return(gmm*f/(gmm-f))
@@ -157,7 +161,8 @@ b <- function(g, f, ...){
 #'
 #' @return image distance [mm]
 #' @export
-#'
+#' @author Benno Pütz \email{puetz@@psych.mpg.de}
+##'
 #' @examples
 mag <- function(g, f, ...){
     # internally all im [mm]
@@ -169,28 +174,33 @@ mag <- function(g, f, ...){
 #' @param min minimum distance       [m]  [[   1]]
 #' @param max maximum distance       [m]  [[ 100]]
 #' @param n number of points to calculate [[ 500]]
-#' @param ... ig
+#' @param step desired step size (overrides \code{n} if provided)
+#' @param ... ignored
 #'
 #' @return vector of distance values
 #' @author Benno Pütz \email{puetz@@psych.mpg.de}
 #'
 #' @examples
 #' dist.defaults()
-dist.defaults <- function(min  =   1,
+dist.defaults <- function(min  =  0.25,
                           max  = 100,
-                          step = NULL,
                           n    = 500,
+                          step = NULL,
+                          verbose = getOption('verbose'),
                           ...){
     if(is.null(step)){
         step.options  <- outer(1/c(1,2,4,5), 10^(0:(-2)))
         rng <- max - min
         step <- step.options[which.min((rng/n - step.options)^2)]
     }
-    return(unique(c(min,
-                    seq(min + step - min %% step,
-                        max,
-                        by = step),
-                    max)))
+    #if (verbose)
+        message(sprintf("%f:%f by %f\n", min, max, step))
+    return(unique(round(c(min,
+                          seq(min + step - min %% step,
+                              max,
+                              by = step),
+                          max),
+                        3)))
 }
 
 # near/far focus
@@ -202,6 +212,9 @@ dist.defaults <- function(min  =   1,
 ##'
 ##' The near and far limits indicate object distances where the blurring of
 ##' point sources reaches \code{COC}
+##'
+##' CAVEAT: \code{f} and \code{F} are expected to be scalar (1-element vectors),
+##' only their respective first element is used.
 ##' @title get near and far limits
 ##' @param f focal length of lens     [mm]
 ##' @param F aperture
@@ -233,13 +246,13 @@ get.nf <- function(f,
                    quiet = FALSE,
                    verbose = getOption('verbose'),
                    ...){
-    H <- HFD(f, F, COC)
+    H <- HFD(f[1], F[1], COC)
     if(is.null(max)) max <- max(H)
     x <- if(is.null(x.vec)){
         if(min==max) {
             min
         } else {
-            full.x <- dist.defaults(min, max, n)
+            full.x <- dist.defaults(min, max, n = n)
             full.x[full.x >= min & full.x <= ceiling(max)]
         }
     } else {
@@ -311,7 +324,7 @@ get.all.nf <- function(f,
                                            max),
                               ...)
 
-    nf1 <- get.nf(f, F, ..., x.vec = dist.vec) # needed for dimnames below
+    nf1 <- get.nf(f, F, ..., x.vec = dist.vec)      # needed for dimnames below
 
     all.nf <- sapply(Fs,
                      function(F) as.matrix(get.nf(f, F, ..., x.vec = dist.vec)),
@@ -436,16 +449,16 @@ nf.plot.base <- function(nf,
     if(length(need)>1){
         stop("Please provide ", paste(need[-1], collapse = " and "), ".")
     }
-    hfd <- HFD(f, F)
+    HFD <- HFD(f, F)
     if (!add){
         plot(1,
              type = 'n',                                  # empty plot to start with
              xlim = c(ifelse(grepl('x', log), min(nf[,1]),  0),
-                      min(max.finite(nf[,1]),
-                          max.finite(hfd))),    # na.rm = TRUE does not remove Inf values
+                      min(max.finite(nf[,1]),   # na.rm = TRUE does not remove Inf values
+                          HFD)),
              ylim = c(ifelse(grepl('y', log), min(nf[, plot.columns]),  0),
-                      min(max.finite(unlist(nf[, plot.columns])) * y.ext,
-                          4 * max.finite(nf[,1]))),
+                      min(max.finite(unlist(nf[, plot.columns])),
+                          4 * max.finite(nf[,1])) * y.ext),
              xlab = 'Focus Distance [m]',
              ylab = ylab,
              main = main,
@@ -459,13 +472,25 @@ nf.plot.base <- function(nf,
         lines(nf[,1], nf[,i], col = col, ...)
     }
     if(hfd)
-        show.HFD(HFD(f, F), col = col, ...)
+        show.HFD(HFD,
+                 col = col,
+                 ...)
 }
 
+##' DOF-wrapper for \code{\link{nf.plot.base}}
+##'
+##' .. content for \details{} ..
+##' @title
+##' @param nf
+##' @param f
+##' @param ...
+##' @return
+##' @author Benno Pütz \email{puetz@@psych.mpg.de}
 dof2.plot <- function(nf,
                       f = NULL,
                       ...){
     nf.plot.base(nf,
+                 f = f,
                  ...,
                  plot.columns = 4,
                  ylab = 'Depth [m]',
@@ -473,13 +498,23 @@ dof2.plot <- function(nf,
                  diag = FALSE)
 }
 
+##' Near/Far-wrapper for \code{\link{nf.plot.base}}
+##'
+##' .. content for \details{} ..
+##' @title
+##' @param nf
+##' @param f
+##' @param ...
+##' @return
+##' @author Benno Pütz \email{puetz@@psych.mpg.de}
 nf2.plot <-  function(nf,
                       f = NULL,
                       ...){
     nf.plot.base(nf,
+                 f = f,
                  ...,
                  plot.columns = 2:3,
-                 ylab = 'Focus Range',
+                 ylab = 'Focus Range [m]',
                  main = 'Near and far focusing limit')
 }
 
@@ -496,7 +531,10 @@ nf2.plot <-  function(nf,
 ##' @return \code{all.nf} (invisibly)
 ##' @author Benno Pütz \email{puetz@@psych.mpg.de}
 full.nf.plot <- function(...){
-    full.plot.base(plot.nf, ...)
+    ##    full.plot.base(plot.nf, ...)
+    full.plot.base(nf2.plot,
+                   plot.columns = 2:3,
+                   ...)
     ## Fs <- f.values(F0, Fn, by=3)
     ## sq <- seq_along(Fs)
     ## cols <- rainbow(length(sq),
@@ -560,8 +598,20 @@ full.plot.base <- function(plot.fun,
                            f,
                            F0,
                            Fn = 22,
+                           log = '',
+                           plot.columns = 1, # dummy = identity plot
+                           y.ext = 1,
+                           ylab = '',
+                           main = 'Depth of Field',
                            ...,
                            maxfr = NULL){
+    if(length(F0) == 2){ # Interpret as vector (F0, Fn)
+        if(hasArg(Fn)){
+            warning("Fn provided twice")
+        }
+        Fn <- F0[2]
+        F0 <- F0[1]
+    }
     Fs <- f.values(F0, Fn, by=3)
     sq <- seq_along(Fs)
     cols <- rainbow(length(sq),
@@ -570,10 +620,31 @@ full.plot.base <- function(plot.fun,
 
     new <- TRUE
 
+    cat(sprintf(">%s<\n", log))
     ## set up plot with full axis ranges
-    x.range <-
-
-    for (i in rev(sq)){   # start with max aperture?
+    if(!hasArg(log)) {
+        warning('no log param!\n')
+        log  <- ""
+    } else {
+        print(str(log))
+    }
+    plot(1,
+         type = 'n',                                  # empty plot to start with
+         xlim = c(ifelse(grepl('x', log), all.nf[1],  0),
+                  min(max(all.nf[,1,1]),   # na.rm = TRUE does not remove Inf values
+                      HFD(f, F0, ...))),
+         ylim = c(ifelse(grepl('y', log),
+                         min(all.nf[, plot.columns, 1]),
+                         0),
+                  min(max.finite(unlist(all.nf[, plot.columns, 1])),
+                      4 * max.finite(all.nf[,1,1])) * y.ext),
+         xlab = 'Focus Distance [m]',
+         ylab = ifelse(hasArg('ylab'), ylab, ""),
+         main = main,
+         las  = 1,
+         ##log  = log,
+         ...)
+    for (i in sq){   # start with smallest aperture (= largest HFD)
 
         plot.fun(all.nf[,,i],
                  f   = f,
@@ -587,7 +658,7 @@ full.plot.base <- function(plot.fun,
             pu <- par('usr')
             new <- FALSE
         }
-        H <- HFD(f, Fs[i], ...)
+        ## H <- HFD(f, Fs[i], ...)
         ## if(max(all.nf[,4,i])>ifelse(par('ylog'),10^pu[4], pu4[4])){
 
         ## if(H < pu[2]){
@@ -761,7 +832,9 @@ full.dof.plot <- function(#f,
                           #maxfr = NULL,
                           #y.ext = 1,
                           ...){
-    full.plot.base(dof.plot, ...)
+    full.plot.base(dof.plot,
+                   plot.columns = 4,
+                   ...)
 
     # Fs <- f.values(F0, Fn, by = 3)      # in full stops
     # sq <- seq_along(Fs)
