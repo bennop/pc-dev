@@ -230,29 +230,39 @@ frac.lines <-  function(max.F = 32){
               log  = 'x',
               xlab = 'F',
               ylab = 'Diameter Airy Disk [mm]',
-              main = "Diffraction",
+              main = "Diffraction vs. Wavelength (color)",
               axes = FALSE,
               add  = i>1)
     })
     rug(f2, ticksize = -0.02, col = "grey")
-    axis(1, at = f1, labels = f1, col = "grey", col.axis= "grey")
+    axis(1, at = f1, labels = f1, col = "grey", col.axis= "grey", cex.axis = 0.9)
     axis(1, at = f0, labels = f0)
     axis(2, las = 1)
+    half.f <- setdiff(f2,f1)
+    mtext(half.f, at = half.f, line = 0.25, cex = 0.65, col = 'lightgrey', side = 1)
     box()
     abline(v=f2, col = 'lightgrey', lty = 3)
     abline(v=f1, col = 'darkgrey', lty = 2)
 
     abline(h=c(4.3, 5.4, 18.6, 30)/1000, col = 'orange', lty = 3:2)
+    legend('topleft', legend = lambdas,
+           lty = 1,
+           lwd = 1,
+           col = sapply(lambdas, w2rgb),
+           title = expression(paste(lambda,' [nm]')))
 }
 
 #' Wavelength to RGB
 #'
-#' @param w wavelength [nm]
+#' Convert wavelength to color, currently offering three conversion schemes.
+#' The schemes differ in the end regions of the visible spectrum (UV and IR).
+#' @param w wavelength [nm] as scalar
 #' @param gamma gamma
 #' @param components return as components
 #' @param version which version of conversion to use (1..3)
 #'
-#' @return RGB color (unless \code{components} is TRUE, in which case a vector [r,g,b] is returned)
+#' @return RGB color (unless \code{components} is TRUE, in which case a vector
+#' \code{[r,g,b]} is returned)
 #' @export
 #'
 #' @examples
@@ -402,6 +412,16 @@ w2rgb <- function(w,
     return(rgb(R,G,B))
 }
 
+#' plot spectrum
+#'
+#' @param yr y-range
+#' @param new start new plot
+#' @param ... pass to \code{\link{w2rgb}
+#'
+#' @return
+#' @export
+#'
+#' @examples
 plot.spectrum <- function(yr = 0:1,
                           new = TRUE,
                           ...){
@@ -421,6 +441,17 @@ plot.spectrum <- function(yr = 0:1,
     }
 }
 
+#' plot spectra
+#'
+#' compare wavelength to color conversion schemes as defined in \code{\link{w2rgb}}
+#'
+#' @param version \code{version} parameter in  \code{\link{w2rgb}
+#'
+#' @return none
+#' @export
+#'
+#' @examples
+#' plot.spectra()
 plot.spectra <- function(version = 1:3){
     n <- length(version)
     for (i in seq_along(version)){
