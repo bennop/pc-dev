@@ -1,5 +1,17 @@
 # Confucion circles
 
+#' Convert meter to millimeter
+#'
+#' @param distance Value in meter
+#'
+#' @return equivalent in millimeters
+#' @export
+#'
+#' @examples
+m2mm <- function(distance){
+  return(1000*m)
+}
+
 #' Geometric circle of confusion
 #'
 #' Calculate the diameter of the circle of confusion (COC)
@@ -8,37 +20,39 @@
 #'
 #' Diffraction is ignored, see \code{\link{COC.comb}} for a combined treatment.
 #'
-#' @param x distance parameter
-#' @param d focus distance
-#' @param f focal length of lens
+#' @param x distance parameter       [ m]
+#' @param d focus distance           [ m]
+#' @param f focal length of lens     [mm]
 #' @param F aperture
 #' @param ... ignored
 #'
-#' @return Diameter of geometric COC
+#' @return Diameter of geometric COC [mm]
 #' @export
 #'
 #' @examples
 COC.geom <- function(x,d,f,F,...){
-  return(f^2/F*abs(d-x)/(x*(d-f)))
+  dmm <- d*1000
+  xmm <- x*1000
+  return(f^2/F*abs(dmm-xmm)/(xmm*(dmm-f)))
 }
 
 #' Confusion caused by diffraction
 #'
 #' Returns the diameter of the Airy disc (first minimum) for the given aperture
 #'
-#' @param lambda wavelength
+#' @param lambda wavelength [nm]
 #' @param ... ignored
 #'
-#' @return
+#' @return diameter im mm
 #' @export
 #'
 #' @examples
 COC.diff <- function(F, lambda = 460, ...){
   # lambda in nm (= 1e-6 mm)
-  return(2.44*(lambda*1e-6)*F)
+  return(2.44 * (lambda * 1e-6) * F)
 }
 
-# curve(COC.comb(x,1000,50,16),700,1400,  col='R', add = TRUE)
+# curve(COC.comb(x,1000,50,16),700,1400,  col='red', add = TRUE)
 
 #' Combined Circle of Confusion
 #'
@@ -46,18 +60,19 @@ COC.diff <- function(F, lambda = 460, ...){
 #' and diffraction (from \code{\link{COC.diff}}) on the blurring of an
 #' acquired image
 #'
-#' @param x distance
-#' @param d focus distance
-#' @param f focal length
+#' @param x distance              [ m]
+#' @param d focus distance        [ m]
+#' @param f focal length          [mm]
 #' @param F aperture
 #' @param ... passed to \code{\link{COC.diff}}
 #'
-#' @return diameter of the effective COC
+#' @return diameter of the effective COC [mm]
 #' @export
 #'
 #' @examples
 COC.comb <- function(x, d, f, F, ...){
   #return(1/sqrt(COC.geom(x, d, f, F)^(-2) + COC.diff(F)^(-2)))
+  ## conversion to mm takes place in COC.geom()
   return(sqrt(COC.geom(x, d, f, F)^2 + COC.diff(F, ...)^2))
 }
 
@@ -80,9 +95,12 @@ COC.comb <- function(x, d, f, F, ...){
 #' @export
 #'
 #' @examples
-near.ok <- function(d, f, F, coc = 0.03, ...){
+near.ok <- function(d, f, F,
+                    coc = 0.03,
+                    ...){
     nok <- sapply(F, function(myF)ifelse(coc > COC.diff(myF, ...),
-                  uniroot(function(x)COC.comb(x, d, f, myF, ...) - coc, interval = c(f, d))$root,
+                  uniroot(function(x)COC.comb(x, d, f, myF, ...) - coc,
+                          interval = c(f/1000, d))$root,
                   NA))
     return(nok)
 }
@@ -97,19 +115,21 @@ near.ok <- function(d, f, F, coc = 0.03, ...){
 #' the desired focussing goal cannot be achieved and \code{NA} is returned.
 #'
 #' All distances are assumed in mm.
-#' @param d focus distance [mm]
-#' @param f focal length [mm]
+#' @param d focus distance [ m]
+#' @param f focal length   [mm]
 #' @param F aperture
-#' @param coc target COC [mm]
+#' @param coc target COC   [mm]
 #' @param ... passed to \code{\link{COC.diff}}
 #'
-#' @return maximum distance in focus [mm]
+#' @return maximum distance in focus [m]
 #' @export
 #'
 #' @examples
-far.ok <- function(d, f, F, coc = 0.03, ...){
+far.ok <- function(d, f, F,
+                   coc = 0.03,
+                   ...){
     almost.inf <- 1e9
-    browser()
+    #browser()
     possible <- COC.diff(F, ...) < coc
     reach.inf <- COC.comb(almost.inf, d, f, F) < coc
     finite <- possible & !reach.inf
@@ -125,11 +145,11 @@ far.ok <- function(d, f, F, coc = 0.03, ...){
 
 #' Depth of Field (DoF)
 #'
-#' Calculatwe the effective depth of field given the parameters
+#' Calculate the effective depth of field given the parameters
 #'  focus distance, focal length, aperture, and target COC.
 #'
-#' @param d focus distance
-#' @param f focal length
+#' @param d focus distance [mm]
+#' @param f focal length   [mm]
 #' @param F aperture
 #' @param coc target COC
 #' @param ... passed to \code{\link{COC.diff}}
@@ -138,23 +158,43 @@ far.ok <- function(d, f, F, coc = 0.03, ...){
 #' @export
 #'
 #' @examples
-dof <- function(d, f, F, coc = 0.03){
-  return(far.ok(d, f, F, coc) - near.ok(d, f, F, coc))
+dof.diff <- function(d, f, F, coc = 0.03){
+  dof.rng <- far.ok(d, f, F, coc) - near.ok(d, f, F, coc)
+  return(dof.rng)
 }
 
-DOF.plot <- function(d, f, F,
-                     near = d/2,
-                     far  = 2*d,
-                     coc  = 0.03,
-                     cmax = NULL,
-                     ...){
+#' Depth-of-field plot based on CoC calculation with diffraction
+#'
+#' @param d focus distance [mm]
+#' @param f focal length   [mm]
+#' @param F aperture
+#' @param near near plotting limit
+#' @param far far plotting limit
+#' @param coc accepted CoC (sensor [mm])
+#' @param cmax
+#' @param ...
+#'
+#' @return
+#' @export
+#'
+#' @examples
+DOFcoc.plot <- function(d, f, F,
+                        near = d/2,
+                        far  = 2*d,
+                        coc  = 0.03,
+                        cmax = NULL,
+                        geom = TRUE,
+                        col.comb = 'red',
+                        col.geom = 'blue',
+                        col.coc  = 'orange',
+                        ...){
   dd <- COC.diff(F, ...)
   coc.near <- ifelse(is.null(cmax),
                      COC.geom(near, d, f, F) + COC.diff(F, ...),
                      cmax)
   if(dd<=coc){
-    nr <- near.ok(d,f,F,coc)
-    fr <- far.ok(d,f,F,coc)
+    nr <- near.ok(d*1000,f,F,coc)
+    fr <- far.ok(d*1000,f,F,coc)
     range <- c(nr,fr)
     if(!is.null(cmax)){
       near <- d - 2*(d-nr)
@@ -164,20 +204,30 @@ DOF.plot <- function(d, f, F,
   } else {
     range <- NA
   }
-  curve(coc(x,d,f,F),
-        near,
-        far,
-        col  = 'blue',
-        n    = 301,
-        ylim = c(0, coc.near),
-        yaxs = 'i',
-        las  = 1)
-  abline(h=coc, col = 'orange', lty = 2)
+  comb <- curve(COC.comb(x,d,f,F),
+                near,
+                far,
+                col  = col.geom,
+                n    = 301,
+                ylim = c(0, coc.near),
+                yaxs = 'i',
+                las  = 1,
+                type = 'n',
+                ...)
+  abline(h = coc, col = col.coc, lty = 2)
+  if(geom){
+    curve(COC.geom(x,d,f,F),
+          near,
+          far,
+          n   = 301,
+          col = 'blue',
+          add = TRUE)
+  }
   curve(COC.comb(x,d,f,F),
         near,
         far,
         n   = 301,
-        col = 'red',
+        col = col.comb,
         add = TRUE)
   abline(v   = range,
          col = 'darkgrey',
