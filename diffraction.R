@@ -117,7 +117,7 @@ near.ok <- function(d, f, F,
 #' All distances are assumed in mm.
 #' @param d focus distance [ m]
 #' @param f focal length   [mm]
-#' @param F aperture
+#' @param F aperture may be a vector
 #' @param coc target COC   [mm]
 #' @param ... passed to \code{\link{COC.diff}}
 #'
@@ -129,18 +129,22 @@ far.ok <- function(d, f, F,
                    coc = 0.03,
                    ...){
     almost.inf <- 1e9
-    #browser()
+
     possible <- COC.diff(F, ...) < coc
     reach.inf <- COC.comb(almost.inf, d, f, F) < coc
     finite <- possible & !reach.inf
     fok <- rep(Inf, length(F))
     fok[!possible] <- NA
-    fok[finite] <- sapply(F[finite],
-                              function(myF)ifelse(coc > COC.diff(myF, ...),
-                                                  uniroot(function(x)COC.comb(x, d, f, myF, ...) - coc,
-                                                          interval = c(d, almost.inf))$root,
-                                                  Inf))
-    return(fok)
+    if(any(finite)){   # don't go in here if there are no finite cases
+      fok[finite] <- sapply(F[finite],
+                            function(myF)uniroot(function(x)COC.comb(x, d, f, myF, ...) - coc,
+                                                 interval = c(d, almost.inf))$root)
+      #    function(myF)ifelse(coc > COC.diff(myF, ...),
+      #                        uniroot(function(x)COC.comb(x, d, f, myF, ...) - coc,
+      #                                interval = c(d, almost.inf))$root,
+      #                        Inf))
+    }
+return(fok)
 }
 
 #' Depth of Field (DoF)
@@ -150,7 +154,7 @@ far.ok <- function(d, f, F,
 #'
 #' @param d focus distance [mm]
 #' @param f focal length   [mm]
-#' @param F aperture
+#' @param F aperture (may be vector)
 #' @param coc target COC
 #' @param ... passed to \code{\link{COC.diff}}
 #'
@@ -159,8 +163,62 @@ far.ok <- function(d, f, F,
 #'
 #' @examples
 dof.diff <- function(d, f, F, coc = 0.03){
-  dof.rng <- far.ok(d, f, F, coc) - near.ok(d, f, F, coc)
-  return(dof.rng)
+  return(far.ok(d, f, F, coc) - near.ok(d, f, F, coc))
+
+}
+
+#' Plot DoF with Diffraction vs. Aperture
+#'
+#' @param d focus distance [ m]
+#' @param f focal length   [mm]
+#' @param F aperture - should be a vector
+#' @param coc sensor's COC [mm] 
+#'
+#' @return none
+#' @export
+#'
+#' @examples
+ddvF.plot <- function(d, f, F = f.values(),  coc = 0.03){
+  dofs <- sapply(F,
+                 function(myF){return(dof.diff(d,f, myF, coc = coc))})
+  
+  ## calculate much finer grid for better plotting
+  F.fine <- seq(min(F), max(F), length.out = 1000)
+  dofs.fine <- sapply(F.fine,
+                      function(myF){return(dof.diff(d,f, myF, coc = coc))})
+  
+  ## browser()
+  
+  ## good <- is.finite(dofs)
+  ## plot(smooth.spline(F[good], dofs[good]),
+  plot(F.fine, dofs.fine,
+       col  = 'red',
+       log  = 'x',
+       type = 'l',
+       xlim = range(F),
+       ylim = c(0, min (100, max(dofs, na.rm = TRUE))),
+       main = 'Depth of field vs Aperture',
+       xlab = 'Aperture',
+       ylab = 'DOF [m]')
+  points(F, dofs, pch = '+', cex = 0.65, col = 'darkred')
+  grid()
+  if(HFD(f,max(F),coc) < d){
+    limitF <- uniroot(function(x)HFD(f, x, COC = coc) - d,
+                      interval = range(F))$root
+    message("Hfd < ", d, "m @ F", limitF, "\n")
+    abline(v = limitF, lty = 2, col = 'red')
+  } else {
+    # HFD beyond d
+  }
+  
+  ## browser()
+  
+  if (any(is.na(dofs))){     # diffraction limited
+    pu <- par('usr')
+    rect(F[which.max(is.na(dofs))], pu[3], 10^pu[2], pu[4],
+         col = grey(0.920), border = NA)
+  }
+
 }
 
 #' Depth-of-field plot based on CoC calculation with diffraction
@@ -187,14 +245,15 @@ DOFcoc.plot <- function(d, f, F,
                         col.comb = 'red',
                         col.geom = 'blue',
                         col.coc  = 'orange',
+                        ymax = NULL,
                         ...){
   dd <- COC.diff(F, ...)
   coc.near <- ifelse(is.null(cmax),
                      COC.geom(near, d, f, F) + COC.diff(F, ...),
                      cmax)
   if(dd<=coc){
-    nr <- near.ok(d*1000,f,F,coc)
-    fr <- far.ok(d*1000,f,F,coc)
+    nr <- near.ok(d,f,F,coc)
+    fr <- far.ok(d,f,F,coc)
     range <- c(nr,fr)
     if(!is.null(cmax)){
       near <- d - 2*(d-nr)
@@ -204,17 +263,30 @@ DOFcoc.plot <- function(d, f, F,
   } else {
     range <- NA
   }
-  comb <- curve(COC.comb(x,d,f,F),
-                near,
-                far,
-                col  = col.geom,
-                n    = 301,
-                ylim = c(0, coc.near),
-                yaxs = 'i',
-                las  = 1,
-                type = 'n',
-                ...)
-  abline(h = coc, col = col.coc, lty = 2)
+  if(!hasArg(add)){
+    comb <- curve(COC.comb(x,d,f,F),
+                  near,
+                  far,
+                  col  = col.geom,
+                  n    = 301,
+                  ylim = c(0,
+                           ifelse(is.null(ymax),
+                                  coc.near,
+                                  ymax)),
+                  yaxs = 'i',
+                  las  = 1,
+                  type = 'n',
+                  xlab = 'Distance [m]',
+                  ylab = 'Circle of Confusion [mm]',
+                  main = 'Focus Bluring',
+                  ...)
+    pu <- par('usr')
+    rect(pu[1], pu[3], min(range), pu[4],
+         col = grey(0.980), border = NA)
+    rect(max(range), pu[3], pu[2], pu[4],
+         col = grey(0.980), border = NA)
+    abline(h = coc, col = col.coc, lty = 2)
+  }
   if(geom){
     curve(COC.geom(x,d,f,F),
           near,
@@ -233,6 +305,15 @@ DOFcoc.plot <- function(d, f, F,
          col = 'darkgrey',
          lty = 3)
   rug(range)
+  sel <- 1:2
+  if(!geom) sel <- 1
+  legend('topright',
+         c("with diffraction","geometric only")[sel],
+         lwd = 1,
+         lty = 1, 
+         col = c(col.comb,col.geom)[sel],
+         bty = 'n',
+         inset = 0.01)
   return(range)
 }
 
@@ -292,13 +373,22 @@ frac.lines <-  function(max.F = 32){
     mtext(half.f, at = half.f, line = 0.25, cex = 0.65, col = 'lightgrey', side = 1)
     box()
     abline(v=f2, col = 'lightgrey', lty = 3)
-    abline(v=f1, col = 'darkgrey', lty = 2)
+    abline(v=f1, col = 'darkgrey', lty = 3)
 
     abline(h=c(4.3, 5.4, 18.6, 30)/1000, col = 'orange', lty = 3:2)
-    legend('topleft', legend = lambdas,
+    mtext(c('Pixel size', 'CoC'), side = 4, at = c(4.85, 24.3)/1000, col = 'orange', cex = 0.7)
+    legend('bottomright',
+           c("Full frame", "APS-C"), cex = 0.7, text.col = 'grey',
+           lty = 2:3, lwd = 1, col = "orange",
+           bty = 'n', horiz = TRUE)
+    legend('topleft',
+           legend = lambdas,
+           cex = 0.8,
            lty = 1,
            lwd = 1,
            col = sapply(lambdas, w2rgb),
+           box.col = 'darkgrey',
+           inset = 0.02,
            title = expression(paste(lambda,' [nm]')))
 }
 
