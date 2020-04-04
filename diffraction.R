@@ -329,7 +329,7 @@ f3 <- sort(c(f1, c(1.1,1.2, 1.6,1.8, 2.2,2.5, 3.2,3.5,    # thirds
 
 #' Diffraction related to aperture and color
 #'
-#' @param max.F
+#' @param max.F maximm aperture to consider
 #'
 #' @return
 #' @export
@@ -353,7 +353,8 @@ frac.lines <-  function(max.F = 32){
     # Rötlich-Orange	595–620
     # Rot	            620–780
     lambdas <- c(750, 700, 660,630,600, 580,540, 500, 460, 420, 380)
-    suppressWarnings(for (i in seq_along(lambdas)){
+    suppressWarnings(    # would complain about axes
+      for (i in seq_along(lambdas)){
         curve(COC.diff(x, lambdas[i]),
               1,
               max.F,
@@ -361,10 +362,11 @@ frac.lines <-  function(max.F = 32){
               log  = 'x',
               xlab = 'F',
               ylab = 'Diameter Airy Disk [mm]',
-              main = "Diffraction vs. Wavelength (color)",
+              main = "Diffraction vs. Aperture by Wavelength (Color)",
               axes = FALSE,
               add  = i>1)
-    })
+      }
+    )
     rug(f2, ticksize = -0.02, col = "grey")
     axis(1, at = f1, labels = f1, col = "grey", col.axis= "grey", cex.axis = 0.9)
     axis(1, at = f0, labels = f0)
@@ -382,14 +384,14 @@ frac.lines <-  function(max.F = 32){
            lty = 2:3, lwd = 1, col = "orange",
            bty = 'n', horiz = TRUE)
     legend('topleft',
-           legend = lambdas,
-           cex = 0.8,
-           lty = 1,
-           lwd = 1,
-           col = sapply(lambdas, w2rgb),
+           legend  = lambdas,
+           cex     = 0.8,
+           lty     = 1,
+           lwd     = 1,
+           col     = sapply(lambdas, w2rgb),
            box.col = 'darkgrey',
-           inset = 0.02,
-           title = expression(paste(lambda,' [nm]')))
+           inset   = 0.02,
+           title   = expression(paste(lambda,' [nm]')))
 }
 
 #' Wavelength to RGB
