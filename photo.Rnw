@@ -387,9 +387,9 @@ It follows from symmetry that  for this distance the image is as big as the obje
 
 Moving the object even closer to the lens will push the image plane further out, but only dedicated macro lenses operate in that regime.
 
-At $g=f$ the limit is reached where the image plane is pushed out to infinity, for $g<f$ no image can be formed (i.\,e., no \emph{real image}, a \emph{vitual} image is formed on the object side of the lens).
+At $g=f$ the limit is reached where the image plane is pushed out to infinity, for $g<f$ no image can be formed (i.\,e., no \emph{real image}, a \emph{virtual} image is formed on the object side of the lens).
 
-Most lenses have a minimum focussing distance $g>2f$, given  by constructive constraints as to how far the lens can be moved from the imaging plane (film or sensor). Macro lenses allow $2f\le g>f$.
+Most lenses have a minimum focussing distance $g>2f$, given  by constructive constraints as to how far the lens can be moved from the imaging plane (film or sensor). Macro lenses allow $2f\le g>f$, distance rings and bellows achieve the same effect.
 
 For an arbitrary object distance $g>2f$ the image distance is given by \Eref{eq:b}:
 
