@@ -84,7 +84,9 @@ viewangle.plot <- function(f = NULL,
                   )
 
 
-            slope <- ifelse(dir.v, d[long.short] / f[fi], f[fi] / d[long.short])
+            slope <- ifelse(dir.v,
+                            d[long.short] / f[fi]/crop,
+                            f[fi] / d[long.short]*crop)
 
             message("𝜑: ", phi[long.short] ,' -> ' ,phi.deg[long.short])
             if(!is.na(phi[1])){
