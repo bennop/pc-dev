@@ -1,4 +1,4 @@
-## f: focal length of lens        [mm]
+ ## f: focal length of lens        [mm]
 ## F: F-stop
 ## d: distance (set on lens)      [m]
 ## COC: circle of confusion       [mm]
@@ -78,7 +78,11 @@ go <- function(n        = 1,
 f.values <- function(from = 1.0,
                      to   = 22,
                      by   =  1,
-                     ...){
+                     ...){   
+    if(length(from)==2){
+        to <- max(from)
+        from <- min(from)
+    }
     Fseq <- c( 1.0,  1.1,  1.2,  1.4,  1.6,  1.8,
                2.0,  2.2,  2.5,  2.8,  3.2,  3.5,
                4.0,  4.5,  5.0,  5.6,  6.3,  7.1,
