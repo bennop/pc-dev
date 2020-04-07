@@ -40,6 +40,7 @@ COC.geom <- function(x,d,f,F,...){
 #'
 #' Returns the diameter of the Airy disc (first minimum) for the given aperture
 #'
+#' @param F aperture
 #' @param lambda wavelength [nm]
 #' @param ... ignored
 #'
@@ -603,4 +604,318 @@ plot.spectra <- function(version = 1:3){
     }
     axis(2, at = 1:n/n - 1/(2*n), version, las = 1)
     title(ylab = "w2rgb version")
+}
+
+bessel <- function(r, center = 0, lambda = 550, F = 11){
+  k <- 2*pi/lambda
+  (2*besselJ(r, 1)/r)^2
+  
+}
+
+#' rotate vector
+#'
+#' positive \code[i] rotates left (element i+1 becomes first)
+#' For \code{i}=0, the original vector is returned
+#' @param v vector
+#' @param i rotate by this many elements
+#'
+#' @return rotated vector
+#' @export
+#'
+#' @examples
+#' rot(1:5, 2)   #  3 4 5 1 2
+#'rot(1:5, -2)   #  4 5 1 2 3
+rot <- function(v, i){
+  if(i==0) return (v)
+  ## i>0: rotate left
+  n <- length(v)
+  if (i>0){
+    c(v[(1+i):n], v[1:i])
+  } else {
+    #browser()
+    c(v[(n+1+i):n], v[1:(n+i)])
+  }
+}
+
+#' shift vector with zero-fill
+#'
+#' positive \code[i] shifts left (element i+1 becomes first)
+#' For \code{i}=0, the original vector is returned
+#' @param v vector
+#' @param i shift by this many elements
+#'
+#' @return shiftd vector
+#' @export
+#'
+#' @examples
+#' rot(1:5, 2)   #  3 4 5 1 2
+#'rot(1:5, -2)   #  4 5 1 2 3
+shift <- function(v, i){
+  if(i==0) return (v)
+  ## i>0: shift left
+  n <- length(v)
+  if (i>0){
+    c(v[(1+i):n], rep(0, i))
+  } else {
+    #browser()
+    c(rep(0,-i), v[1:(n+i)])
+  }
+  
+}
+
+
+#' calculate lineshape for extended image 
+#'
+#' approximate by summing point sources 0.01µm apart in [-w/2, w/2]
+#' corresponding to a rectangular source profile
+#' 
+#' The \code{window} parameter is interpreted twice, once as plot window width 
+#' ([-window, window]) and to calculate the lineshape 
+#' in the interval [-2*window, 2*window].
+#' 
+#' The source profile is assumed to be 1 in {[-rect/2, rect/2]}, 0 otherwise.
+#' 
+#' The lineshape is calculated by adding pointwise lineshapes going 
+#' from \code{+rect/2} to \code{-rect/2} in steps of \code{-step} and 
+#' normalizing the result to have a maximum of 1.
+#' 
+#' The special case \code{rect==0} returns the pointwise lineshape.
+#' 
+#' @param F aperture
+#' @param lambda wavelength         [nm]
+#' @param rect width of rectangle   [µm]
+#' @param window extend of image    [µm]
+#' @param step discretization steps [µm]
+#' @param verbose when set (1), plot lineshape (extended and pointwise),
+#' when >1, also show approach
+#' @param ... unused
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' ls <- lineshape(F=8, lambda=633, rect = 5.4, window = 5)
+lineshape <- function(F       = 11,
+                      lambda  = 550, 
+                      rect    = 2,
+                      window  = 10,
+                      step    = 0.01,
+                      verbose = getOption('verbose'),
+                      ...){
+  x <- seq(-2*window, 2*window, by = step)
+  i0 <- bessel2(x, F = F, lambda = lambda, center = rect/2)
+  
+  if(verbose){
+    plot(c(-window, window), 0:1, type = 'n')
+    rect(-rect/2, 0, rect/2, 1, col = grey(0.9), border = NA)
+  }
+  if(verbose>1)
+    lines(x, i0, col ='red')
+  i <- i0
+  n <- rect/step
+  if(n>1){
+    for (shift in 1:n){
+      i <- i + shift(i0, shift)
+      if(verbose > 1)
+        lines(x, i/(shift+1), col = '#20202010')
+    }
+  }
+  i <- i/max(i)
+  if(verbose){
+    grid()
+    lines(x, i00 <- bessel2(x, F=F, lambda = lambda), col = 'cyan')
+    lines(x, i, col = 'red', lwd = 2)
+    rug(c(-1,1)*(m1 <- first.min(x, i)), col = 'red')
+    rug(c(-1,1)*(m0 <- first.min(x, shift(i0, rect/2/step))), col = 'cyan')
+  }  
+  return(invisible(data.frame(x = x, y = i)))
+}
+
+#' First minimum of lineshape
+#'
+#' @param lineshape either result of \code{\link{lineshape}} or equivqlent x-vector
+#' @param y y-vector when \code{lineshape} is given as vector
+#' @param ... unused
+#'
+#' @return (positive) coordinate of first minimum
+#' @export
+#'
+#' @examples
+first.min <- function(lineshape,
+                      y = NULL,
+                      verbose = getOption('verbose'),
+                      ...){
+  xy <- xy.coords(lineshape, y)
+  use <- xy$x>=0
+  diffs <- diff(xy$y[use])
+  min <- (xy$x[use])[i <- which.max(diffs>0)]
+  if(verbose)
+    cat(sprintf("%d: %f\n", i, min))
+  return(min)
+}
+
+#' Title
+#'
+#' @param x x-coord  [µm]
+#' @param F
+#' @param lambda     [nm]
+#' @param center     [µm]
+#' @param ... 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+bessel2 <- function(x,
+                    F = 11,
+                    lambda = 550, 
+                    center = 0,
+                    ...){
+  ## removed factor 2 to make it consistent with values from COC.diff
+  r <- pi/(lambda*1e-3 * F)*(x-center) 
+  #cat(r,'\n')
+  ifelse(r==0, 1, (2*besselJ(abs(r), 1)/r)^2)
+  
+}
+
+#' Title
+#'
+#' @param F aperture
+#' @param lambda wavelength
+#' @param pixel pixel size
+#' @param ... 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+plot.airy <- function(F=11, lambda = 550, pixel = 5.4, ...){
+  intensity <- curve(bessel, 0, 8, 
+                     axes = FALSE,
+                     xlab = "r [µm]",
+                     ylab = 'relative intensity')
+  xv <- lambda * 1e-9 * F / 2 /pi * 0:8
+  mu <- 2*pi*1e-6/F/(lambda* 1e-9)
+  n.tick <- (8%/%mu)
+  ticks <- 0:n.tick
+  axis(1, at = ticks*mu, lab = ticks)
+  axis(2, las = 1)
+  abline(v = ticks*mu, col = "lightgray", lty = "dotted")
+  grid()
+  box()
+  return(invisible(intensity))
+}
+  
+
+#' Show Overlap of two Airy disks
+#'
+#' Assuming two objects whose images are separated by one pixel on the sensor,
+#' show how the the corresponding Airy disks overlap
+#' In order to estimate the achievable resolution it is assumed that in the image
+#' two bright pixels are separated by one dark pixel. This corresponds to something 
+#' like a Nyquist distance on the sensor.  
+#' For \code{src==0} two point sources are assumed for which the
+#' ideal image points lie in the center of the two "bright' pixels, for \code{src==1}, 
+#' a rectangular input profile is assumed for which the ideal image would align perfectly
+#' to the pixels.
+#' 
+#' Links:
+#' - www.cambridgeincolour.com/tutorials/diffraction-photography.htm
+#' - spie.org/publications/fg01_p88_airy_disk
+#' @param lambda wavelength
+#' @param pixel pixel dimension on camera (5D 5.4, 6D: 6.5, 7D: 4.3)
+#' @param type point[0]/rectangular[1] source
+#' @param col color for Airy functions
+#' @param col.rel color for relative intensities
+#' @param d separation of source centers
+#' @param xr 
+#' @param n 
+#' @param ... 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+airy2 <- function(F       = 11,
+                  lambda  = 550,
+                  pixel   = 5.4, 
+                  type    = 0, #c('point', 'rectangular'),
+                  col     = w2rgb(lambda),
+                  col.rel = adjustcolor(col, 1, 0.75,0.75,0.75),
+                  d       = 2*pixel, 
+                  xr      = 2*pixel,
+                  res     = 0.01, 
+                  add     = FALSE,
+                  ...){
+  ##xs <- seq(0, xr, length.out = n)
+  ## i1 <- bessel2(xs, F, lambda, center = 0)
+  ## i2 <- bessel2(xs, F, lambda, center = d)
+  i1 <- lineshape(F       = F, 
+                  lambda  = lambda,
+                  rect    = pixel*type, 
+                  window  = xr, 
+                  src     = type)
+  i2 <- i1
+  i2$y <- shift(i2$y, -2*pixel/res)
+  isum <-  i1$y+i2$y
+  if (!add){
+    plot(i1$x, isum, 
+         col = col, 
+         type = 'l',
+         xlim = c(0, xr),
+         ylim = c(0, max(isum)),
+         xlab = "r [µm]",
+         ylab = 'relative intensity')
+  } else{
+    lines(i1$x, isum, col = col)
+  }
+  lines(i1, 
+        col = adjustcolor(col, 0.5), 
+        lty = 2, 
+        lwd = 2)
+  lines(i2, 
+        col = adjustcolor(col, 0.5), 
+        lty = 3, 
+        lwd = 2)
+ 
+ 
+  ph <- pixel/2
+  if(d==2*pixel && xr>pixel){
+    parts <- i1$x%/%ph
+    mxp <- max(parts)
+    abline(v=c(1, 3)*ph, lty = 3, col = 'lightgrey')
+    rel.intens <- tapply(isum, parts, sum)[c('0', '1', '2', '3')]
+    rel.intens <- (rel.intens + rev(rel.intens))/2
+    ri <- rel.intens/rel.intens[1] 
+    ri2 <- ri * tapply(isum, parts, mean)['0']
+    
+    segments(0:3*ph, ri2[1:4], 1:4*ph, ri2[1:4], col = col.rel)
+    axis(4,at = ri2[2], labels = sprintf("%.1f%%", 100*ri[2]),
+         cex.axis = 0.5, las = 1, mgp = c(3,.5,0), tick = FALSE)
+    rug( ri2[1:2], -0.01, 4)
+  }
+  #browser()
+  return(invisible(cbind(i1, i2$y, isum)))
+  
+}
+
+#' Spectral Airy2 plot
+#'
+#' @param F aperture
+#' @param lambda wavelengths (vector)
+#' @param pixel pixel dimension
+#' @param src o for point, 1 for rectangular source profile
+#' @param ... 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+airy2.spectrum <- function(F = 11, 
+                          lambda = c(750, 700, 660,630,600, 580,540, 500, 460, 420, 380),
+                          pixel = 5.4,
+                         ...){
+  for(li in seq_along(lambda)){
+    airy2(F=F, lambda = lambda[li], add = li > 1, pixel = pixel, ...)
+  }
 }
